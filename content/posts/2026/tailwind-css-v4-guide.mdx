@@ -1,0 +1,74 @@
+---
+title: "Tailwind CSS v4: A Complete Guide to New Features"
+description: "A summary of major changes and new features in Tailwind CSS v4, including CSS-first configuration and new utilities."
+date: "2026-02-15"
+category: "web-dev"
+tags: ["tailwindcss", "CSS", "frontend"]
+---
+
+## What Changed in Tailwind CSS v4
+
+Tailwind CSS v4 introduces a fundamental architecture change. The biggest shift is **CSS-first configuration**.
+
+## CSS-First Configuration
+
+Instead of the traditional `tailwind.config.js`, you configure directly in your CSS file:
+
+```css title="app.css"
+@import "tailwindcss";
+
+@theme {
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --font-sans: "Inter", sans-serif;
+}
+```
+
+<Callout type="warning">
+When migrating from v3, you'll need to convert your existing config file to CSS variables.
+</Callout>
+
+## New Utilities
+
+### Container Queries
+
+```html
+<div class="@container">
+  <div class="@sm:flex @lg:grid @lg:grid-cols-2">
+    <!-- Layout that responds to container size -->
+  </div>
+</div>
+```
+
+### Improved Dark Mode
+
+You can define custom variants directly in CSS:
+
+```css
+@custom-variant dark (&:is(.dark *));
+```
+
+### Plugin Loading
+
+```css
+@plugin "@tailwindcss/typography";
+```
+
+## Performance Improvements
+
+v4 uses a new engine written in Rust:
+
+- **Build Speed**: Up to 10x faster
+- **Bundle Size**: Smaller CSS output
+- **HMR**: Near-instant updates
+
+## Migration Checklist
+
+1. Move `tailwind.config.js` → CSS `@theme` block
+2. Review `@apply` usage (some changes)
+3. Switch plugins to `@plugin` directive
+4. Update PostCSS config (`@tailwindcss/postcss`)
+
+## Conclusion
+
+Tailwind CSS v4 is faster, more intuitive, and closer to CSS standards. We highly recommend using v4 for new projects.

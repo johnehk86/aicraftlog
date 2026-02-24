@@ -1,0 +1,146 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: #2b6cee;
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #d9e6ff;
+  --color-primary-200: #bbcfff;
+  --color-primary-300: #8bb0ff;
+  --color-primary-400: #5488ff;
+  --color-primary-500: #2b6cee;
+  --color-primary-600: #1a54d4;
+  --color-primary-700: #1643ab;
+  --color-primary-800: #18398c;
+  --color-primary-900: #1a336e;
+
+  --color-bg-light: #f6f6f8;
+  --color-bg-dark: #101622;
+
+  --font-sans: "Space Grotesk", "Pretendard Variable", Pretendard,
+    -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI",
+    "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, monospace;
+}
+
+/* Base styles */
+body {
+  @apply bg-bg-light text-slate-900 antialiased dark:bg-bg-dark dark:text-slate-100;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300 dark:bg-slate-700;
+}
+
+/* Prose overrides */
+.prose {
+  --tw-prose-body: theme(--color-slate-700);
+  --tw-prose-headings: theme(--color-slate-900);
+  --tw-prose-links: theme(--color-primary);
+  --tw-prose-code: theme(--color-slate-800);
+  --tw-prose-pre-bg: theme(--color-slate-50);
+  max-width: none;
+}
+
+.dark .prose {
+  --tw-prose-body: theme(--color-slate-300);
+  --tw-prose-headings: theme(--color-slate-100);
+  --tw-prose-links: theme(--color-primary-400);
+  --tw-prose-bold: theme(--color-slate-100);
+  --tw-prose-code: theme(--color-slate-200);
+  --tw-prose-pre-bg: #0d1117;
+  --tw-prose-quotes: theme(--color-slate-300);
+  --tw-prose-quote-borders: theme(--color-primary);
+  --tw-prose-counters: theme(--color-slate-400);
+  --tw-prose-bullets: theme(--color-slate-400);
+  --tw-prose-hr: theme(--color-slate-700);
+  --tw-prose-th-borders: theme(--color-slate-600);
+  --tw-prose-td-borders: theme(--color-slate-700);
+}
+
+.prose a {
+  @apply text-primary no-underline hover:underline dark:text-primary-400;
+}
+
+.prose img {
+  @apply rounded-xl;
+}
+
+.prose pre {
+  @apply relative overflow-x-auto rounded-xl;
+}
+
+/* Code block styles */
+[data-rehype-pretty-code-figure] {
+  @apply relative my-6;
+}
+
+[data-rehype-pretty-code-figure] pre {
+  @apply overflow-x-auto rounded-xl border border-slate-200 px-0 py-4 dark:border-primary/10;
+}
+
+[data-rehype-pretty-code-figure] code {
+  @apply grid text-sm;
+}
+
+[data-rehype-pretty-code-figure] [data-line] {
+  @apply border-l-2 border-transparent px-4;
+}
+
+[data-rehype-pretty-code-figure] [data-highlighted-line] {
+  @apply border-l-primary bg-primary/5 dark:bg-primary/10;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply rounded-t-xl border border-b-0 border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 dark:border-primary/10 dark:bg-slate-900/80 dark:text-slate-400;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  @apply rounded-t-none;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  @apply rounded-lg bg-slate-100 px-1.5 py-0.5 text-sm font-medium dark:bg-primary/10 dark:text-primary-300;
+}
+
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* TOC active state */
+.toc-link.active {
+  @apply font-semibold text-primary dark:text-primary-400;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Glass card effect */
+.glass-card {
+  @apply rounded-xl border border-slate-200 bg-white shadow-sm dark:border-primary/10 dark:bg-slate-900/50;
+}
