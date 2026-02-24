@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import BottomNav from "@/components/layout/BottomNav";
 import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
@@ -86,10 +83,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-screen flex-col">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <Header />
-          <main className="flex-1 pb-20 md:pb-0">{children}</main>
-          <Footer />
-          <BottomNav />
+          {children}
         </ThemeProvider>
         {gaId && <GoogleAnalytics gaId={gaId} />}
       </body>

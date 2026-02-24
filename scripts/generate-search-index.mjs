@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
-const OUTPUT_PATH = path.join(process.cwd(), "out/search-index.json");
+const OUTPUT_PATH = path.join(process.cwd(), "public/search-index.json");
 
 function getFilesRecursively(dir) {
   if (!fs.existsSync(dir)) return [];

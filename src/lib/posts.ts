@@ -22,16 +22,17 @@ function getFilesRecursively(dir: string): string[] {
   return files;
 }
 
-function parsePost(filePath: string): Post | null {
+function parsePost(
+  filePath: string,
+  includeDrafts = false
+): Post | null {
   const fileContents = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContents);
   const frontmatter = data as Frontmatter;
 
-  if (frontmatter.draft) return null;
+  if (frontmatter.draft && !includeDrafts) return null;
 
-  const slug = path
-    .basename(filePath)
-    .replace(/\.mdx?$/, "");
+  const slug = path.basename(filePath).replace(/\.mdx?$/, "");
 
   const stats = readingTime(content);
 
@@ -43,10 +44,10 @@ function parsePost(filePath: string): Post | null {
   };
 }
 
-export function getAllPosts(): Post[] {
+export function getAllPosts(includeDrafts = false): Post[] {
   const files = getFilesRecursively(POSTS_DIR);
   const posts = files
-    .map(parsePost)
+    .map((f) => parsePost(f, includeDrafts))
     .filter((post): post is Post => post !== null);
 
   return posts.sort(
@@ -55,6 +56,30 @@ export function getAllPosts(): Post[] {
       new Date(a.frontmatter.date).getTime()
   );
 }
+
+export function getPostBySlugRaw(slug: string): { frontmatter: Frontmatter; content: string } | null {
+  const files = getFilesRecursively(POSTS_DIR);
+  for (const filePath of files) {
+    const fileName = path.basename(filePath).replace(/\.mdx?$/, "");
+    if (fileName === slug) {
+      const fileContents = fs.readFileSync(filePath, "utf-8");
+      const { data, content } = matter(fileContents);
+      return { frontmatter: data as Frontmatter, content };
+    }
+  }
+  return null;
+}
+
+export function findPostFile(slug: string): string | null {
+  const files = getFilesRecursively(POSTS_DIR);
+  for (const filePath of files) {
+    const fileName = path.basename(filePath).replace(/\.mdx?$/, "");
+    if (fileName === slug) return filePath;
+  }
+  return null;
+}
+
+export { POSTS_DIR };
 
 export function getAllPostMeta(): PostMeta[] {
   return getAllPosts().map(({ slug, frontmatter, readingTime }) => ({

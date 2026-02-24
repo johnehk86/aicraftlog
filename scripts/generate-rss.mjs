@@ -5,7 +5,7 @@ import { Feed } from "feed";
 
 const SITE_URL = "https://aicraftlog.com";
 const POSTS_DIR = path.join(process.cwd(), "content/posts");
-const OUTPUT_PATH = path.join(process.cwd(), "out/feed.xml");
+const OUTPUT_PATH = path.join(process.cwd(), "public/feed.xml");
 
 function getFilesRecursively(dir) {
   if (!fs.existsSync(dir)) return [];

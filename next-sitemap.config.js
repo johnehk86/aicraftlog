@@ -2,7 +2,7 @@
 module.exports = {
   siteUrl: "https://aicraftlog.com",
   generateRobotsTxt: true,
-  outDir: "./out",
+  outDir: "./public",
   robotsTxtOptions: {
     policies: [
       {

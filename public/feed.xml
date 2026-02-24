@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>AI Craft Log</title>
+        <link>https://aicraftlog.com</link>
+        <description>A tech blog covering AI development, web development, and tool reviews for developers</description>
+        <lastBuildDate>Tue, 24 Feb 2026 18:56:03 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <copyright>All rights reserved 2026, AI Craft Log</copyright>
+        <item>
+            <title><![CDATA[The Complete Guide to Building a Tech Blog with Next.js]]></title>
+            <link>https://aicraftlog.com/blog/nextjs-blog-guide</link>
+            <guid>https://aicraftlog.com/blog/nextjs-blog-guide</guid>
+            <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to build an SEO-optimized tech blog step by step using Next.js 15 and MDX.]]></description>
+            <category>nextjs</category>
+            <category>react</category>
+            <category>blog</category>
+            <category>MDX</category>
+        </item>
+        <item>
+            <title><![CDATA[Getting the Most Out of Claude Code: Practical Tips]]></title>
+            <link>https://aicraftlog.com/blog/claude-code-tips</link>
+            <guid>https://aicraftlog.com/blog/claude-code-tips</guid>
+            <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Practical tips and prompt strategies for using Claude Code efficiently.]]></description>
+            <category>claude</category>
+            <category>AI</category>
+            <category>prompts</category>
+            <category>dev-tools</category>
+        </item>
+        <item>
+            <title><![CDATA[Tailwind CSS v4: A Complete Guide to New Features]]></title>
+            <link>https://aicraftlog.com/blog/tailwind-css-v4-guide</link>
+            <guid>https://aicraftlog.com/blog/tailwind-css-v4-guide</guid>
+            <pubDate>Sun, 15 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A summary of major changes and new features in Tailwind CSS v4, including CSS-first configuration and new utilities.]]></description>
+            <category>tailwindcss</category>
+            <category>CSS</category>
+            <category>frontend</category>
+        </item>
+    </channel>
+</rss>
