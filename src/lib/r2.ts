@@ -16,7 +16,7 @@ const r2Client = new S3Client({
 });
 
 export async function uploadToR2(
-  file: Buffer,
+  file: Uint8Array,
   filename: string,
   contentType: string
 ): Promise<string> {

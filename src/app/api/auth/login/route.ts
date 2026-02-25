@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createToken, COOKIE_NAME } from "@/lib/auth";
 
+export const runtime = "edge";
+
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -9,7 +11,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid password" }, { status: 401 });
   }
 
-  const token = createToken();
+  const token = await createToken();
   const response = NextResponse.json({ success: true });
 
   response.cookies.set(COOKIE_NAME, token, {

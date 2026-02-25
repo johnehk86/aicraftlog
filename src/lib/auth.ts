@@ -1,5 +1,3 @@
-import crypto from "crypto";
-
 export const COOKIE_NAME = "admin_token";
 const TOKEN_MAX_AGE = 24 * 60 * 60; // 24 hours in seconds
 
@@ -9,16 +7,28 @@ function getSecret(): string {
   return secret;
 }
 
-export function createToken(): string {
+async function hmacSign(data: string, secret: string): Promise<string> {
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(data));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+export async function createToken(): Promise<string> {
   const timestamp = Math.floor(Date.now() / 1000).toString();
-  const signature = crypto
-    .createHmac("sha256", getSecret())
-    .update(timestamp)
-    .digest("hex");
+  const signature = await hmacSign(timestamp, getSecret());
   return `${timestamp}.${signature}`;
 }
 
-export function verifyToken(token: string): boolean {
+export async function verifyToken(token: string): Promise<boolean> {
   const parts = token.split(".");
   if (parts.length !== 2) return false;
 
@@ -31,9 +41,13 @@ export function verifyToken(token: string): boolean {
   if (now - ts > TOKEN_MAX_AGE) return false;
 
   // Check signature
-  const expected = crypto
-    .createHmac("sha256", getSecret())
-    .update(timestamp)
-    .digest("hex");
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  const expected = await hmacSign(timestamp, getSecret());
+  if (signature.length !== expected.length) return false;
+
+  // Constant-time comparison
+  let mismatch = 0;
+  for (let i = 0; i < signature.length; i++) {
+    mismatch |= signature.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return mismatch === 0;
 }

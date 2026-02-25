@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import { getPostBySlugRaw, findPostFile } from "@/lib/posts";
-import { revalidatePath } from "next/cache";
+
+export const runtime = "edge";
 
 const SLUG_REGEX = /^[a-z0-9-]+$/;
 
@@ -9,69 +8,88 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
+  try {
+    const { slug } = await params;
 
-  if (!SLUG_REGEX.test(slug)) {
-    return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    if (!SLUG_REGEX.test(slug)) {
+      return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    }
+
+    const { getPostBySlugRaw } = await import("@/lib/posts");
+    const post = getPostBySlugRaw(slug);
+    if (!post) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(post);
+  } catch {
+    return NextResponse.json(
+      { error: "This feature is only available in development" },
+      { status: 501 }
+    );
   }
-
-  const post = getPostBySlugRaw(slug);
-  if (!post) {
-    return NextResponse.json({ error: "Post not found" }, { status: 404 });
-  }
-
-  return NextResponse.json(post);
 }
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
+  try {
+    const { slug } = await params;
 
-  if (!SLUG_REGEX.test(slug)) {
-    return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    if (!SLUG_REGEX.test(slug)) {
+      return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    }
+
+    const fs = (await import("fs")).default;
+    const { findPostFile } = await import("@/lib/posts");
+    const filePath = findPostFile(slug);
+    if (!filePath) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    const body = await request.json();
+    const { frontmatter, content } = body;
+
+    const mdxContent = buildMdxContent(frontmatter, content);
+    fs.writeFileSync(filePath, mdxContent, "utf-8");
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json(
+      { error: "This feature is only available in development" },
+      { status: 501 }
+    );
   }
-
-  const filePath = findPostFile(slug);
-  if (!filePath) {
-    return NextResponse.json({ error: "Post not found" }, { status: 404 });
-  }
-
-  const body = await request.json();
-  const { frontmatter, content } = body;
-
-  const mdxContent = buildMdxContent(frontmatter, content);
-  fs.writeFileSync(filePath, mdxContent, "utf-8");
-
-  revalidatePath("/");
-  revalidatePath("/blog");
-  revalidatePath(`/blog/${slug}`);
-
-  return NextResponse.json({ success: true });
 }
 
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
+  try {
+    const { slug } = await params;
 
-  if (!SLUG_REGEX.test(slug)) {
-    return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    if (!SLUG_REGEX.test(slug)) {
+      return NextResponse.json({ error: "Invalid slug" }, { status: 400 });
+    }
+
+    const fs = (await import("fs")).default;
+    const { findPostFile } = await import("@/lib/posts");
+    const filePath = findPostFile(slug);
+    if (!filePath) {
+      return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    }
+
+    fs.unlinkSync(filePath);
+
+    return NextResponse.json({ success: true });
+  } catch {
+    return NextResponse.json(
+      { error: "This feature is only available in development" },
+      { status: 501 }
+    );
   }
-
-  const filePath = findPostFile(slug);
-  if (!filePath) {
-    return NextResponse.json({ error: "Post not found" }, { status: 404 });
-  }
-
-  fs.unlinkSync(filePath);
-
-  revalidatePath("/");
-  revalidatePath("/blog");
-
-  return NextResponse.json({ success: true });
 }
 
 function buildMdxContent(

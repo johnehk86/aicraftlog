@@ -1,56 +1,70 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-import { getAllPosts, POSTS_DIR } from "@/lib/posts";
-import { revalidatePath } from "next/cache";
+
+export const runtime = "edge";
 
 const SLUG_REGEX = /^[a-z0-9-]+$/;
 
 export async function GET() {
-  const posts = getAllPosts(true);
-  const list = posts.map((p) => ({
-    slug: p.slug,
-    title: p.frontmatter.title,
-    date: p.frontmatter.date,
-    category: p.frontmatter.category,
-    draft: p.frontmatter.draft ?? false,
-  }));
-  return NextResponse.json(list);
+  try {
+    const { getAllPosts } = await import("@/lib/posts");
+    const posts = getAllPosts(true);
+    const list = posts.map((p) => ({
+      slug: p.slug,
+      title: p.frontmatter.title,
+      date: p.frontmatter.date,
+      category: p.frontmatter.category,
+      draft: p.frontmatter.draft ?? false,
+    }));
+    return NextResponse.json(list);
+  } catch {
+    return NextResponse.json(
+      { error: "This feature is only available in development" },
+      { status: 501 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json();
-  const { slug, frontmatter, content } = body;
+  try {
+    const fs = (await import("fs")).default;
+    const path = (await import("path")).default;
+    const { POSTS_DIR } = await import("@/lib/posts");
 
-  if (!slug || !SLUG_REGEX.test(slug)) {
+    const body = await request.json();
+    const { slug, frontmatter, content } = body;
+
+    if (!slug || !SLUG_REGEX.test(slug)) {
+      return NextResponse.json(
+        { error: "Invalid slug. Use lowercase letters, numbers, and hyphens only." },
+        { status: 400 }
+      );
+    }
+
+    const year = new Date().getFullYear().toString();
+    const dir = path.join(POSTS_DIR, year);
+
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+
+    const filePath = path.join(dir, `${slug}.mdx`);
+    if (fs.existsSync(filePath)) {
+      return NextResponse.json(
+        { error: "A post with this slug already exists." },
+        { status: 409 }
+      );
+    }
+
+    const mdxContent = buildMdxContent(frontmatter, content);
+    fs.writeFileSync(filePath, mdxContent, "utf-8");
+
+    return NextResponse.json({ success: true, slug }, { status: 201 });
+  } catch {
     return NextResponse.json(
-      { error: "Invalid slug. Use lowercase letters, numbers, and hyphens only." },
-      { status: 400 }
+      { error: "This feature is only available in development" },
+      { status: 501 }
     );
   }
-
-  const year = new Date().getFullYear().toString();
-  const dir = path.join(POSTS_DIR, year);
-
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
-  }
-
-  const filePath = path.join(dir, `${slug}.mdx`);
-  if (fs.existsSync(filePath)) {
-    return NextResponse.json(
-      { error: "A post with this slug already exists." },
-      { status: 409 }
-    );
-  }
-
-  const mdxContent = buildMdxContent(frontmatter, content);
-  fs.writeFileSync(filePath, mdxContent, "utf-8");
-
-  revalidatePath("/");
-  revalidatePath("/blog");
-
-  return NextResponse.json({ success: true, slug }, { status: 201 });
 }
 
 function buildMdxContent(

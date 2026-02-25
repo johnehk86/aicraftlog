@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { uploadToR2 } from "@/lib/r2";
 
+export const runtime = "edge";
+
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -35,8 +37,8 @@ export async function POST(request: NextRequest) {
       .substring(0, 50);
     const filename = `${timestamp}-${safeName}.${ext}`;
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const url = await uploadToR2(buffer, filename, file.type);
+    const arrayBuffer = await file.arrayBuffer();
+    const url = await uploadToR2(new Uint8Array(arrayBuffer), filename, file.type);
 
     return NextResponse.json({ url });
   } catch {
