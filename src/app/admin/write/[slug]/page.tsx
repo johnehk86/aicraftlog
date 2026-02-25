@@ -19,17 +19,10 @@ const turndown = new TurndownService({
 });
 turndown.escape = (str: string) => str;
 
-const CATEGORIES = [
-  { label: "AI Dev", value: "ai" },
-  { label: "Claude", value: "claude" },
-  { label: "ChatGPT", value: "chatgpt" },
-  { label: "AI Coding", value: "ai-coding" },
-  { label: "Web Dev", value: "web-dev" },
-  { label: "Next.js", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Tool Reviews", value: "tools" },
-  { label: "DevOps", value: "devops" },
-];
+interface CategoryItem {
+  label: string;
+  value: string;
+}
 
 /** Simple Markdown → HTML for loading existing content into the editor */
 function markdownToHtml(md: string): string {
@@ -86,10 +79,18 @@ export default function EditPage({
   const [featured, setFeatured] = useState(false);
   const [draft, setDraft] = useState(false);
   const [initialHtml, setInitialHtml] = useState("");
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const htmlRef = useRef("");
 
   const handleEditorChange = useCallback((html: string) => {
     htmlRef.current = html;
+  }, []);
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -247,7 +248,7 @@ export default function EditPage({
               onChange={(e) => setCategory(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             >
-              {CATEGORIES.map((c) => (
+              {categories.map((c) => (
                 <option key={c.value} value={c.value}>
                   {c.label}
                 </option>

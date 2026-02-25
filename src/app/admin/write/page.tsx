@@ -20,17 +20,10 @@ const turndown = new TurndownService({
 });
 turndown.escape = (str: string) => str;
 
-const CATEGORIES = [
-  { label: "AI Dev", value: "ai" },
-  { label: "Claude", value: "claude" },
-  { label: "ChatGPT", value: "chatgpt" },
-  { label: "AI Coding", value: "ai-coding" },
-  { label: "Web Dev", value: "web-dev" },
-  { label: "Next.js", value: "nextjs" },
-  { label: "React", value: "react" },
-  { label: "Tool Reviews", value: "tools" },
-  { label: "DevOps", value: "devops" },
-];
+interface CategoryItem {
+  label: string;
+  value: string;
+}
 
 function slugify(text: string): string {
   return text
@@ -69,7 +62,15 @@ export default function WritePage() {
   const [thumbnail, setThumbnail] = useState("");
   const [featured, setFeatured] = useState(false);
   const [contentImages, setContentImages] = useState<string[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const htmlRef = useRef("");
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data))
+      .catch(() => {});
+  }, []);
 
   const handleEditorChange = useCallback((html: string) => {
     htmlRef.current = html;
@@ -220,7 +221,7 @@ export default function WritePage() {
               onChange={(e) => setCategory(e.target.value)}
               className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
             >
-              {CATEGORIES.map((c) => (
+              {categories.map((c) => (
                 <option key={c.value} value={c.value}>
                   {c.label}
                 </option>
