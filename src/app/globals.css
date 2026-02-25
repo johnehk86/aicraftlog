@@ -142,5 +142,5 @@ html {
 
 /* Glass card effect */
 .glass-card {
-  @apply rounded-xl border border-slate-200 bg-white shadow-sm dark:border-primary/10 dark:bg-slate-900/50;
+  @apply rounded-2xl border border-slate-200 bg-white shadow-sm shadow-blue-500/5 dark:border-primary/10 dark:bg-slate-900/50;
 }

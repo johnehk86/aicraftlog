@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { uploadToR2 } from "@/lib/r2";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
@@ -36,13 +35,10 @@ export async function POST(request: NextRequest) {
       .substring(0, 50);
     const filename = `${timestamp}-${safeName}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "images", "uploads");
-    await mkdir(uploadDir, { recursive: true });
-
     const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(path.join(uploadDir, filename), buffer);
+    const url = await uploadToR2(buffer, filename, file.type);
 
-    return NextResponse.json({ url: `/images/uploads/${filename}` });
+    return NextResponse.json({ url });
   } catch {
     return NextResponse.json(
       { error: "Upload failed" },

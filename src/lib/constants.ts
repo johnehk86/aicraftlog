@@ -70,6 +70,32 @@ export function getAllCategorySlugs(): string[] {
   return slugs;
 }
 
+const DEFAULT_THUMBNAILS: Record<string, string> = {
+  ai: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
+  claude:
+    "https://images.unsplash.com/photo-1697577418970-95d99b5a55cf?w=800&q=80",
+  chatgpt:
+    "https://images.unsplash.com/photo-1684391507090-070814e11aef?w=800&q=80",
+  "ai-coding":
+    "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80",
+  "web-dev":
+    "https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80",
+  nextjs:
+    "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&q=80",
+  react:
+    "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
+  tools:
+    "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80",
+  devops:
+    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+  default:
+    "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=800&q=80",
+};
+
+export function getDefaultThumbnail(category: string): string {
+  return DEFAULT_THUMBNAILS[category] || DEFAULT_THUMBNAILS.default;
+}
+
 export function getParentCategory(childSlug: string): string | null {
   for (const group of CATEGORY_GROUPS) {
     if (group.children) {

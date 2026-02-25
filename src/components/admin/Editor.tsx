@@ -61,6 +61,31 @@ function Divider() {
   );
 }
 
+async function uploadImageFile(file: File): Promise<string | null> {
+  const formData = new FormData();
+  formData.append("file", file);
+  try {
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) {
+      const data = await res.json();
+      alert(data.error || "Upload failed");
+      return null;
+    }
+    const { url } = await res.json();
+    return url;
+  } catch {
+    alert("Upload failed");
+    return null;
+  }
+}
+
+function getImagesFromFiles(files: FileList | File[]): File[] {
+  return Array.from(files).filter((f) => f.type.startsWith("image/"));
+}
+
 export default function Editor({ content, onChange }: EditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -91,6 +116,36 @@ export default function Editor({ content, onChange }: EditorProps) {
         class:
           "prose prose-neutral dark:prose-invert max-w-none min-h-[400px] px-4 py-3 focus:outline-none",
       },
+      handlePaste: (_view, event) => {
+        const items = event.clipboardData?.files;
+        if (!items || items.length === 0) return false;
+        const images = getImagesFromFiles(items);
+        if (images.length === 0) return false;
+
+        event.preventDefault();
+        images.forEach(async (file) => {
+          const url = await uploadImageFile(file);
+          if (url && editor) {
+            editor.chain().focus().setImage({ src: url }).run();
+          }
+        });
+        return true;
+      },
+      handleDrop: (_view, event) => {
+        const items = event.dataTransfer?.files;
+        if (!items || items.length === 0) return false;
+        const images = getImagesFromFiles(items);
+        if (images.length === 0) return false;
+
+        event.preventDefault();
+        images.forEach(async (file) => {
+          const url = await uploadImageFile(file);
+          if (url && editor) {
+            editor.chain().focus().setImage({ src: url }).run();
+          }
+        });
+        return true;
+      },
     },
   });
 
@@ -103,25 +158,9 @@ export default function Editor({ content, onChange }: EditorProps) {
       const file = e.target.files?.[0];
       if (!file || !editor) return;
 
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!res.ok) {
-          const data = await res.json();
-          alert(data.error || "Upload failed");
-          return;
-        }
-
-        const { url } = await res.json();
+      const url = await uploadImageFile(file);
+      if (url) {
         editor.chain().focus().setImage({ src: url }).run();
-      } catch {
-        alert("Upload failed");
       }
 
       // Reset input so same file can be re-selected

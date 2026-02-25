@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PostMeta } from "@/types/post";
 import { formatDate } from "@/lib/utils";
-import { getCategoryName } from "@/lib/constants";
+import { getCategoryName, getDefaultThumbnail } from "@/lib/constants";
 
 interface PostCardProps {
   post: PostMeta;
@@ -27,20 +27,18 @@ function getCategoryColor(slug: string) {
 
 export default function PostCard({ post, variant = "default" }: PostCardProps) {
   const { slug, frontmatter, readingTime } = post;
+  const thumbnail =
+    frontmatter.thumbnail || getDefaultThumbnail(frontmatter.category);
 
   if (variant === "featured") {
     return (
-      <article className="group relative overflow-hidden rounded-xl aspect-[16/10] flex flex-col justify-end">
-        {frontmatter.thumbnail ? (
-          <Image
-            src={frontmatter.thumbnail}
-            alt={frontmatter.title}
-            fill
-            className="object-cover"
-          />
-        ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary-900" />
-        )}
+      <article className="group relative overflow-hidden rounded-2xl aspect-[16/10] flex flex-col justify-end">
+        <Image
+          src={thumbnail}
+          alt={frontmatter.title}
+          fill
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/20 to-transparent" />
         <Link href={`/blog/${slug}`} className="relative p-6">
           <div
@@ -63,23 +61,21 @@ export default function PostCard({ post, variant = "default" }: PostCardProps) {
   }
 
   return (
-    <article className="glass-card group flex flex-col overflow-hidden transition-shadow hover:shadow-lg">
-      {frontmatter.thumbnail && (
-        <Link
-          href={`/blog/${slug}`}
-          className="relative block h-48 w-full overflow-hidden"
-        >
-          <Image
-            src={frontmatter.thumbnail}
-            alt={frontmatter.title}
-            fill
-            className="object-cover transition-transform group-hover:scale-105"
-          />
-          <span className="absolute right-3 top-3 rounded-md bg-black/60 px-2 py-1 text-[10px] font-bold uppercase text-white backdrop-blur-md">
-            {readingTime}
-          </span>
-        </Link>
-      )}
+    <article className="glass-card group flex flex-col overflow-hidden transition-shadow hover:shadow-lg hover:shadow-blue-500/5">
+      <Link
+        href={`/blog/${slug}`}
+        className="relative block h-48 w-full overflow-hidden"
+      >
+        <Image
+          src={thumbnail}
+          alt={frontmatter.title}
+          fill
+          className="object-cover transition-transform group-hover:scale-105"
+        />
+        <span className="absolute right-3 top-3 rounded-md bg-black/60 px-2 py-1 text-[10px] font-bold uppercase text-white backdrop-blur-md">
+          {readingTime}
+        </span>
+      </Link>
       <div className="flex flex-1 flex-col p-4">
         <div className="mb-2 flex items-center gap-2">
           <Link
