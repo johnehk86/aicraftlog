@@ -68,7 +68,6 @@ export default function WritePage() {
   const [tags, setTags] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [featured, setFeatured] = useState(false);
-  const [draft, setDraft] = useState(false);
   const [contentImages, setContentImages] = useState<string[]>([]);
   const htmlRef = useRef("");
 
@@ -95,7 +94,7 @@ export default function WritePage() {
     }
   }
 
-  async function handleSave() {
+  async function handleSave(asDraft: boolean) {
     if (!title || !slug) {
       setError("Title and slug are required.");
       return;
@@ -123,7 +122,7 @@ export default function WritePage() {
               .filter(Boolean),
             thumbnail: thumbnail || undefined,
             featured: featured || undefined,
-            draft: draft || undefined,
+            draft: asDraft || undefined,
           },
           content: markdown,
         }),
@@ -255,15 +254,6 @@ export default function WritePage() {
             />
             Featured
           </label>
-          <label className="flex items-center gap-2 text-sm text-neutral-700 dark:text-neutral-300">
-            <input
-              type="checkbox"
-              checked={draft}
-              onChange={(e) => setDraft(e.target.checked)}
-              className="rounded"
-            />
-            Draft
-          </label>
         </div>
 
         {/* Content - Rich Text Editor */}
@@ -315,11 +305,18 @@ export default function WritePage() {
 
         <div className="flex gap-3">
           <button
-            onClick={handleSave}
+            onClick={() => handleSave(true)}
+            disabled={saving}
+            className="rounded-lg border border-neutral-300 px-6 py-2 font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-50 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          >
+            {saving ? "Saving..." : "Save as Draft"}
+          </button>
+          <button
+            onClick={() => handleSave(false)}
             disabled={saving}
             className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
-            {saving ? "Saving..." : "Save"}
+            {saving ? "Publishing..." : "Publish"}
           </button>
         </div>
       </div>

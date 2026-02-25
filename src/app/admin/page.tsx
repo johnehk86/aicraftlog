@@ -32,6 +32,23 @@ export default function AdminDashboard() {
     }
   }
 
+  async function handlePublish(slug: string) {
+    const res = await fetch(`/api/posts/${slug}`);
+    if (!res.ok) return;
+    const data = await res.json();
+
+    const { draft: _draft, ...frontmatter } = data.frontmatter;
+    await fetch(`/api/posts/${slug}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ frontmatter, content: data.content }),
+    });
+
+    setPosts((prev) =>
+      prev.map((p) => (p.slug === slug ? { ...p, draft: false } : p))
+    );
+  }
+
   async function handleDelete(slug: string) {
     if (!confirm(`Delete "${slug}"?`)) return;
 
@@ -122,6 +139,14 @@ export default function AdminDashboard() {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-2">
+                      {post.draft && (
+                        <button
+                          onClick={() => handlePublish(post.slug)}
+                          className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
+                        >
+                          Publish
+                        </button>
+                      )}
                       <Link
                         href={`/admin/write/${post.slug}`}
                         className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
