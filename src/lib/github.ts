@@ -1,9 +1,19 @@
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN!;
-const GITHUB_OWNER = process.env.GITHUB_OWNER!;
-const GITHUB_REPO = process.env.GITHUB_REPO!;
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
+const GITHUB_OWNER = process.env.GITHUB_OWNER || "";
+const GITHUB_REPO = process.env.GITHUB_REPO || "";
 
 const API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}`;
 const POSTS_PATH = "content/posts";
+
+function validateEnv() {
+  const missing: string[] = [];
+  if (!GITHUB_TOKEN) missing.push("GITHUB_TOKEN");
+  if (!GITHUB_OWNER) missing.push("GITHUB_OWNER");
+  if (!GITHUB_REPO) missing.push("GITHUB_REPO");
+  if (missing.length > 0) {
+    throw new Error(`Missing environment variables: ${missing.join(", ")}`);
+  }
+}
 
 function headers() {
   return {
@@ -42,6 +52,7 @@ export interface GitHubFile {
  * List all MDX files under content/posts/ using the Git Trees API.
  */
 export async function listPostFiles(): Promise<GitHubFile[]> {
+  validateEnv();
   // Get the default branch's latest tree recursively
   const refRes = await fetch(`${API_BASE}/git/ref/heads/main`, {
     headers: headers(),
@@ -81,6 +92,7 @@ export async function listPostFiles(): Promise<GitHubFile[]> {
 export async function getFileContent(
   path: string
 ): Promise<{ content: string; sha: string }> {
+  validateEnv();
   const res = await fetch(`${API_BASE}/contents/${path}`, {
     headers: headers(),
   });
@@ -101,7 +113,9 @@ export async function createFile(
   content: string,
   message: string
 ): Promise<{ sha: string }> {
-  const res = await fetch(`${API_BASE}/contents/${path}`, {
+  validateEnv();
+  const url = `${API_BASE}/contents/${path}`;
+  const res = await fetch(url, {
     method: "PUT",
     headers: headers(),
     body: JSON.stringify({
@@ -112,7 +126,8 @@ export async function createFile(
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(
-      `Failed to create file ${path}: ${res.status} ${err.message || ""}`
+      `Failed to create file ${path}: ${res.status} ${err.message || res.statusText}. ` +
+        `Repo: ${GITHUB_OWNER}/${GITHUB_REPO}, URL: ${url}`
     );
   }
   const data = await res.json();
@@ -128,6 +143,7 @@ export async function updateFile(
   sha: string,
   message: string
 ): Promise<{ sha: string }> {
+  validateEnv();
   const res = await fetch(`${API_BASE}/contents/${path}`, {
     method: "PUT",
     headers: headers(),
@@ -140,7 +156,7 @@ export async function updateFile(
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(
-      `Failed to update file ${path}: ${res.status} ${err.message || ""}`
+      `Failed to update file ${path}: ${res.status} ${err.message || res.statusText}`
     );
   }
   const data = await res.json();
@@ -155,6 +171,7 @@ export async function deleteFile(
   sha: string,
   message: string
 ): Promise<void> {
+  validateEnv();
   const res = await fetch(`${API_BASE}/contents/${path}`, {
     method: "DELETE",
     headers: headers(),
@@ -166,7 +183,7 @@ export async function deleteFile(
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(
-      `Failed to delete file ${path}: ${res.status} ${err.message || ""}`
+      `Failed to delete file ${path}: ${res.status} ${err.message || res.statusText}`
     );
   }
 }
