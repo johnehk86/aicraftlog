@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { AwsClient } from "aws4fetch";
 
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "";
 const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "";
@@ -6,7 +6,7 @@ const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "";
 const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "";
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || "";
 
-function getR2Client() {
+function validateEnv() {
   const missing: string[] = [];
   if (!R2_ACCOUNT_ID) missing.push("R2_ACCOUNT_ID");
   if (!R2_ACCESS_KEY_ID) missing.push("R2_ACCESS_KEY_ID");
@@ -16,15 +16,6 @@ function getR2Client() {
   if (missing.length > 0) {
     throw new Error(`Missing R2 environment variables: ${missing.join(", ")}`);
   }
-
-  return new S3Client({
-    region: "auto",
-    endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
-    credentials: {
-      accessKeyId: R2_ACCESS_KEY_ID,
-      secretAccessKey: R2_SECRET_ACCESS_KEY,
-    },
-  });
 }
 
 export async function uploadToR2(
@@ -32,17 +23,26 @@ export async function uploadToR2(
   filename: string,
   contentType: string
 ): Promise<string> {
-  const key = `uploads/${filename}`;
+  validateEnv();
 
-  const r2Client = getR2Client();
-  await r2Client.send(
-    new PutObjectCommand({
-      Bucket: R2_BUCKET_NAME,
-      Key: key,
-      Body: file,
-      ContentType: contentType,
-    })
-  );
+  const key = `uploads/${filename}`;
+  const url = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${R2_BUCKET_NAME}/${key}`;
+
+  const client = new AwsClient({
+    accessKeyId: R2_ACCESS_KEY_ID,
+    secretAccessKey: R2_SECRET_ACCESS_KEY,
+  });
+
+  const res = await client.fetch(url, {
+    method: "PUT",
+    headers: { "Content-Type": contentType },
+    body: file as unknown as BodyInit,
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`R2 upload failed: ${res.status} ${text}`);
+  }
 
   return `${R2_PUBLIC_URL}/${key}`;
 }
