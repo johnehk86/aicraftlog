@@ -7,7 +7,7 @@ import PostHeader from "@/components/blog/PostHeader";
 import TableOfContents from "@/components/blog/TableOfContents";
 import RelatedPosts from "@/components/blog/RelatedPosts";
 import SocialShare from "@/components/common/SocialShare";
-import GiscusComments from "@/components/comments/GiscusComments";
+import CusdisComments from "@/components/comments/CusdisComments";
 import AdSlot from "@/components/ads/AdSlot";
 
 interface PageProps {
@@ -112,7 +112,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <AdSlot slot="footer-ad" format="horizontal" />
 
             <RelatedPosts posts={relatedPosts} />
-            <GiscusComments />
+            <CusdisComments slug={slug} title={post.frontmatter.title} />
           </article>
 
           {/* Desktop sidebar */}

@@ -4,17 +4,16 @@ import Link from "next/link";
 import { useState } from "react";
 import { CATEGORY_GROUPS } from "@/lib/constants";
 import { PostMeta } from "@/types/post";
+import VisitorStats from "./VisitorStats";
 
 interface SidebarProps {
   recentPosts?: PostMeta[];
-  popularPosts?: PostMeta[];
   allTags?: string[];
   categoryCounts?: Record<string, number>;
 }
 
 export default function Sidebar({
   recentPosts = [],
-  popularPosts = [],
   allTags = [],
   categoryCounts = {},
 }: SidebarProps) {
@@ -43,23 +42,10 @@ export default function Sidebar({
         </SidebarWidget>
       )}
 
-      {/* Popular Posts */}
-      {popularPosts.length > 0 && (
-        <SidebarWidget title="Popular" icon="trending_up">
-          <ul className="space-y-2.5">
-            {popularPosts.slice(0, 5).map((post) => (
-              <li key={post.slug}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="text-sm text-slate-600 transition-colors hover:text-primary dark:text-slate-400 dark:hover:text-primary-400 line-clamp-2"
-                >
-                  {post.frontmatter.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </SidebarWidget>
-      )}
+      {/* Visitor Stats */}
+      <SidebarWidget title="Visitors" icon="group">
+        <VisitorStats />
+      </SidebarWidget>
 
       {/* Tag Cloud */}
       {allTags.length > 0 && (

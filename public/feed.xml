@@ -4,11 +4,23 @@
         <title>AI Craft Log</title>
         <link>https://aicraftlog.com</link>
         <description>A tech blog covering AI development, web development, and tool reviews for developers</description>
-        <lastBuildDate>Tue, 24 Feb 2026 18:56:03 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 26 Feb 2026 11:16:32 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>All rights reserved 2026, AI Craft Log</copyright>
+        <item>
+            <title><![CDATA[test5]]></title>
+            <link>https://aicraftlog.com/blog/test5</link>
+            <guid>https://aicraftlog.com/blog/test5</guid>
+            <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Test7]]></title>
+            <link>https://aicraftlog.com/blog/test7</link>
+            <guid>https://aicraftlog.com/blog/test7</guid>
+            <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[The Complete Guide to Building a Tech Blog with Next.js]]></title>
             <link>https://aicraftlog.com/blog/nextjs-blog-guide</link>
@@ -19,6 +31,12 @@
             <category>react</category>
             <category>blog</category>
             <category>MDX</category>
+        </item>
+        <item>
+            <title><![CDATA[TEST]]></title>
+            <link>https://aicraftlog.com/blog/test</link>
+            <guid>https://aicraftlog.com/blog/test</guid>
+            <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Getting the Most Out of Claude Code: Practical Tips]]></title>

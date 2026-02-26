@@ -106,7 +106,8 @@ export async function getFileContent(
 }
 
 /**
- * Create a new file via the Contents API.
+ * Create or overwrite a file via the Contents API.
+ * If the file already exists, fetches its SHA and updates it.
  */
 export async function createFile(
   path: string,
@@ -115,13 +116,27 @@ export async function createFile(
 ): Promise<{ sha: string }> {
   validateEnv();
   const url = `${API_BASE}/contents/${path}`;
+
+  // Check if file already exists to get SHA
+  let existingSha: string | undefined;
+  const checkRes = await fetch(url, { headers: headers() });
+  if (checkRes.ok) {
+    const existing = await checkRes.json();
+    existingSha = existing.sha;
+  }
+
+  const body: Record<string, string> = {
+    message,
+    content: encodeBase64(content),
+  };
+  if (existingSha) {
+    body.sha = existingSha;
+  }
+
   const res = await fetch(url, {
     method: "PUT",
     headers: headers(),
-    body: JSON.stringify({
-      message,
-      content: encodeBase64(content),
-    }),
+    body: JSON.stringify(body),
   });
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));

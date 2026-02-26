@@ -42,14 +42,6 @@ export default function Footer() {
               >
                 RSS
               </Link>
-              <a
-                href="https://github.com/johnehk86"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-primary dark:hover:text-primary-400"
-              >
-                GitHub
-              </a>
             </div>
           </div>
           <div className="flex items-center justify-center gap-4 text-xs text-slate-400 dark:text-slate-500">
