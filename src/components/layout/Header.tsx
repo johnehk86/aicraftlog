@@ -1,30 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/constants";
 import ThemeToggle from "@/components/common/ThemeToggle";
 import MobileNav from "@/components/layout/MobileNav";
 
+interface NavLink {
+  label: string;
+  href: string;
+}
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [navLinks, setNavLinks] = useState<NavLink[]>(NAV_LINKS);
+
+  useEffect(() => {
+    fetch("/api/nav-links")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setNavLinks(data);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-bg-light/80 backdrop-blur-md dark:border-primary/20 dark:bg-bg-dark/80">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-            <span className="material-symbols-outlined">bubble_chart</span>
-          </div>
+          <img src="/logo.jpg" alt="AI Craft Log" className="h-10 w-10 rounded-lg" />
           <span className="text-lg font-bold tracking-tight">
-            AI <span className="text-primary">Hub</span>
+            <span className="text-primary">AI Craft Log</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -63,6 +78,7 @@ export default function Header() {
       <MobileNav
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
+        navLinks={navLinks}
       />
     </header>
   );

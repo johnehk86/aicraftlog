@@ -3,18 +3,26 @@
 import Link from "next/link";
 import { NAV_LINKS, CATEGORY_GROUPS } from "@/lib/constants";
 
+interface NavLink {
+  label: string;
+  href: string;
+}
+
 interface MobileNavProps {
   isOpen: boolean;
   onClose: () => void;
+  navLinks?: NavLink[];
 }
 
-export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
+export default function MobileNav({ isOpen, onClose, navLinks }: MobileNavProps) {
   if (!isOpen) return null;
+
+  const links = navLinks || NAV_LINKS;
 
   return (
     <div className="border-t border-slate-200 bg-bg-light dark:border-primary/10 dark:bg-bg-dark md:hidden">
       <nav className="flex flex-col px-4 py-3">
-        {NAV_LINKS.map((link) => (
+        {links.map((link) => (
           <Link
             key={link.href}
             href={link.href}

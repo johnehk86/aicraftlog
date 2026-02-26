@@ -77,6 +77,12 @@ export default function AdminDashboard() {
             Categories
           </Link>
           <Link
+            href="/admin/nav-links"
+            className="rounded-lg border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-700 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800"
+          >
+            Nav Links
+          </Link>
+          <Link
             href="/admin/write"
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
