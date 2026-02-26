@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -12,12 +12,17 @@ interface CusdisCommentsProps {
 export default function CusdisComments({ slug, title }: CusdisCommentsProps) {
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
+  const [host, setHost] = useState("");
 
   const appId = process.env.NEXT_PUBLIC_CUSDIS_APP_ID;
-  const host = process.env.NEXT_PUBLIC_CUSDIS_HOST || "https://cusdis.com";
+
+  // Use same-origin proxy to bypass ad blockers
+  useEffect(() => {
+    setHost(`${window.location.origin}/api/comments`);
+  }, []);
 
   const loadCusdis = useCallback(() => {
-    if (!appId) return;
+    if (!appId || !host) return;
 
     // If CUSDIS is already loaded, just re-render
     if ((window as any).CUSDIS) {
@@ -25,10 +30,10 @@ export default function CusdisComments({ slug, title }: CusdisCommentsProps) {
       return;
     }
 
-    // Load script only once globally
-    if (!document.querySelector(`script[src="${host}/js/cusdis.es.js"]`)) {
+    const scriptSrc = `${host}/js/cusdis.es.js`;
+    if (!document.querySelector(`script[src="${scriptSrc}"]`)) {
       const script = document.createElement("script");
-      script.src = `${host}/js/cusdis.es.js`;
+      script.src = scriptSrc;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);

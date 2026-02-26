@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { PostMeta } from "@/types/post";
 import { formatDate } from "@/lib/utils";
-import { getCategoryName, getDefaultThumbnail } from "@/lib/constants";
+import { getCategoryName, getOgImageUrl } from "@/lib/constants";
 
 interface PostCardProps {
   post: PostMeta;
@@ -28,7 +28,8 @@ function getCategoryColor(slug: string) {
 export default function PostCard({ post, variant = "default" }: PostCardProps) {
   const { slug, frontmatter, readingTime } = post;
   const thumbnail =
-    frontmatter.thumbnail || getDefaultThumbnail(frontmatter.category);
+    frontmatter.thumbnail ||
+    getOgImageUrl(frontmatter.title, frontmatter.category, frontmatter.description);
 
   if (variant === "featured") {
     return (

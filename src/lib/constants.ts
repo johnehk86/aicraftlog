@@ -96,6 +96,17 @@ export function getDefaultThumbnail(category: string): string {
   return DEFAULT_THUMBNAILS[category] || DEFAULT_THUMBNAILS.default;
 }
 
+export function getOgImageUrl(
+  title: string,
+  category?: string,
+  description?: string
+): string {
+  const params = new URLSearchParams({ title });
+  if (category) params.set("category", getCategoryName(category));
+  if (description) params.set("description", description);
+  return `${SITE_CONFIG.url}/api/og?${params.toString()}`;
+}
+
 export function getParentCategory(childSlug: string): string | null {
   for (const group of CATEGORY_GROUPS) {
     if (group.children) {

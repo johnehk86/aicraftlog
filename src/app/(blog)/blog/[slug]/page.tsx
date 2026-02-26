@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/posts";
 import { compileMDXContent, extractHeadings } from "@/lib/mdx";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, getOgImageUrl } from "@/lib/constants";
 import PostHeader from "@/components/blog/PostHeader";
 import TableOfContents from "@/components/blog/TableOfContents";
 import RelatedPosts from "@/components/blog/RelatedPosts";
@@ -28,6 +28,9 @@ export async function generateMetadata({
 
   const { frontmatter } = post;
   const url = `${SITE_CONFIG.url}/blog/${slug}`;
+  const ogImage =
+    frontmatter.thumbnail ||
+    getOgImageUrl(frontmatter.title, frontmatter.category, frontmatter.description);
 
   return {
     title: frontmatter.title,
@@ -40,15 +43,13 @@ export async function generateMetadata({
       publishedTime: frontmatter.date,
       modifiedTime: frontmatter.updated,
       tags: frontmatter.tags,
-      images: frontmatter.thumbnail
-        ? [{ url: frontmatter.thumbnail }]
-        : undefined,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: frontmatter.title,
       description: frontmatter.description,
-      images: frontmatter.thumbnail ? [frontmatter.thumbnail] : undefined,
+      images: [ogImage],
     },
     alternates: {
       canonical: url,
@@ -81,7 +82,9 @@ export default async function BlogPostPage({ params }: PageProps) {
       name: SITE_CONFIG.title,
     },
     url: `${SITE_CONFIG.url}/blog/${slug}`,
-    image: post.frontmatter.thumbnail,
+    image:
+      post.frontmatter.thumbnail ||
+      getOgImageUrl(post.frontmatter.title, post.frontmatter.category, post.frontmatter.description),
   };
 
   return (
