@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useTheme } from "next-themes";
 import { SITE_CONFIG } from "@/lib/constants";
 
@@ -16,22 +16,31 @@ export default function CusdisComments({ slug, title }: CusdisCommentsProps) {
   const appId = process.env.NEXT_PUBLIC_CUSDIS_APP_ID;
   const host = process.env.NEXT_PUBLIC_CUSDIS_HOST || "https://cusdis.com";
 
-  useEffect(() => {
-    if (!appId || !containerRef.current) return;
+  const loadCusdis = useCallback(() => {
+    if (!appId) return;
 
-    const script = document.createElement("script");
-    script.src = `${host}/js/cusdis.es.js`;
-    script.async = true;
-    script.defer = true;
-    containerRef.current.appendChild(script);
+    // If CUSDIS is already loaded, just re-render
+    if ((window as any).CUSDIS) {
+      (window as any).CUSDIS.renderTo(containerRef.current);
+      return;
+    }
 
-    return () => {
-      script.remove();
-    };
+    // Load script only once globally
+    if (!document.querySelector(`script[src="${host}/js/cusdis.es.js"]`)) {
+      const script = document.createElement("script");
+      script.src = `${host}/js/cusdis.es.js`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
   }, [appId, host]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).CUSDIS) {
+    loadCusdis();
+  }, [loadCusdis]);
+
+  useEffect(() => {
+    if ((window as any).CUSDIS) {
       (window as any).CUSDIS.setTheme(theme === "dark" ? "dark" : "light");
     }
   }, [theme]);
