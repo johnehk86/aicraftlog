@@ -1,9 +1,5 @@
 [
   {
-    "label": "Claude",
-    "value": "claude"
-  },
-  {
     "label": "Build Log",
     "value": "build-log"
   }
