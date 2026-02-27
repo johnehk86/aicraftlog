@@ -4,11 +4,17 @@
         <title>AI Craft Log</title>
         <link>https://aicraftlog.com</link>
         <description>A tech blog covering AI development, web development, and tool reviews for developers</description>
-        <lastBuildDate>Thu, 26 Feb 2026 11:16:32 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 26 Feb 2026 15:29:56 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>All rights reserved 2026, AI Craft Log</copyright>
+        <item>
+            <title><![CDATA[Test9]]></title>
+            <link>https://aicraftlog.com/blog/test9</link>
+            <guid>https://aicraftlog.com/blog/test9</guid>
+            <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[test5]]></title>
             <link>https://aicraftlog.com/blog/test5</link>
