@@ -2,5 +2,9 @@
   {
     "label": "Build Log",
     "value": "build-log"
+  },
+  {
+    "label": "AI Tools",
+    "value": "ai-tools"
   }
 ]
