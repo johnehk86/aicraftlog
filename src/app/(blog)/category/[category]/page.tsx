@@ -14,6 +14,8 @@ import {
 import PostList from "@/components/blog/PostList";
 import Sidebar from "@/components/layout/Sidebar";
 
+export const dynamicParams = false;
+
 interface PageProps {
   params: Promise<{ category: string }>;
 }
