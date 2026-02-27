@@ -1,6 +1,14 @@
 [
-  { "label": "Home", "href": "/" },
-  { "label": "Blog", "href": "/blog" },
-  { "label": "AI Dev", "href": "/category/ai" },
-  { "label": "Web Dev", "href": "/category/web-dev" }
+  {
+    "label": "Home",
+    "href": "/"
+  },
+  {
+    "label": "Blog",
+    "href": "/blog"
+  },
+  {
+    "label": "Web Dev",
+    "href": "/category/web-dev"
+  }
 ]
