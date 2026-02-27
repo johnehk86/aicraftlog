@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 
 interface Category {
@@ -10,6 +10,7 @@ interface Category {
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [savedCategories, setSavedCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [newLabel, setNewLabel] = useState("");
@@ -25,12 +26,16 @@ export default function CategoriesPage() {
     try {
       const res = await fetch("/api/categories");
       if (res.ok) {
-        setCategories(await res.json());
+        const data = await res.json();
+        setCategories(data);
+        setSavedCategories(data);
       }
     } finally {
       setLoading(false);
     }
   }
+
+  const hasChanges = JSON.stringify(categories) !== JSON.stringify(savedCategories);
 
   function slugify(text: string): string {
     return text
@@ -46,7 +51,7 @@ export default function CategoriesPage() {
     setNewValue(slugify(value));
   }
 
-  async function handleAdd() {
+  function handleAdd() {
     if (!newLabel || !newValue) {
       setError("Label and value are required.");
       return;
@@ -57,33 +62,38 @@ export default function CategoriesPage() {
       return;
     }
 
-    const updated = [...categories, { label: newLabel, value: newValue }];
-    await saveCategories(updated);
+    setCategories([...categories, { label: newLabel, value: newValue }]);
     setNewLabel("");
     setNewValue("");
+    setError("");
   }
 
-  async function handleDelete(value: string) {
+  function handleDelete(value: string) {
     if (!confirm(`Delete category "${value}"?`)) return;
-    const updated = categories.filter((c) => c.value !== value);
-    await saveCategories(updated);
+    setCategories(categories.filter((c) => c.value !== value));
   }
 
-  async function handleMoveUp(index: number) {
+  function handleMoveUp(index: number) {
     if (index === 0) return;
     const updated = [...categories];
     [updated[index - 1], updated[index]] = [updated[index], updated[index - 1]];
-    await saveCategories(updated);
+    setCategories(updated);
   }
 
-  async function handleMoveDown(index: number) {
+  function handleMoveDown(index: number) {
     if (index === categories.length - 1) return;
     const updated = [...categories];
     [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
-    await saveCategories(updated);
+    setCategories(updated);
   }
 
-  async function saveCategories(updated: Category[]) {
+  const handleDiscard = useCallback(() => {
+    setCategories(savedCategories);
+    setError("");
+    setSuccess("");
+  }, [savedCategories]);
+
+  async function handleSave() {
     setSaving(true);
     setError("");
     setSuccess("");
@@ -92,11 +102,11 @@ export default function CategoriesPage() {
       const res = await fetch("/api/categories", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updated),
+        body: JSON.stringify(categories),
       });
 
       if (res.ok) {
-        setCategories(updated);
+        setSavedCategories(categories);
         setSuccess("Saved!");
         setTimeout(() => setSuccess(""), 2000);
       } else {
@@ -160,7 +170,7 @@ export default function CategoriesPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleMoveUp(i)}
-                          disabled={i === 0 || saving}
+                          disabled={i === 0}
                           className="text-neutral-400 hover:text-neutral-600 disabled:opacity-30 dark:hover:text-neutral-300"
                           title="Move up"
                         >
@@ -168,7 +178,7 @@ export default function CategoriesPage() {
                         </button>
                         <button
                           onClick={() => handleMoveDown(i)}
-                          disabled={i === categories.length - 1 || saving}
+                          disabled={i === categories.length - 1}
                           className="text-neutral-400 hover:text-neutral-600 disabled:opacity-30 dark:hover:text-neutral-300"
                           title="Move down"
                         >
@@ -176,8 +186,7 @@ export default function CategoriesPage() {
                         </button>
                         <button
                           onClick={() => handleDelete(cat.value)}
-                          disabled={saving}
-                          className="text-red-600 hover:text-red-800 disabled:opacity-50 dark:text-red-400 dark:hover:text-red-300"
+                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                         >
                           Delete
                         </button>
@@ -225,13 +234,37 @@ export default function CategoriesPage() {
               </div>
               <button
                 onClick={handleAdd}
-                disabled={saving}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
               >
                 Add
               </button>
             </div>
           </div>
+
+          {/* Save / Discard buttons */}
+          {hasChanges && (
+            <div className="flex items-center gap-3 rounded-lg border border-amber-300 bg-amber-50 p-3 dark:border-amber-700 dark:bg-amber-900/20">
+              <span className="text-sm text-amber-700 dark:text-amber-400">
+                Unsaved changes
+              </span>
+              <div className="ml-auto flex gap-2">
+                <button
+                  onClick={handleDiscard}
+                  disabled={saving}
+                  className="rounded-lg border border-neutral-300 px-4 py-1.5 text-sm font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-50 dark:border-neutral-600 dark:text-neutral-300 dark:hover:bg-neutral-800"
+                >
+                  Discard
+                </button>
+                <button
+                  onClick={handleSave}
+                  disabled={saving}
+                  className="rounded-lg bg-blue-600 px-4 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {saving ? "Saving..." : "Save"}
+                </button>
+              </div>
+            </div>
+          )}
 
           {error && (
             <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
