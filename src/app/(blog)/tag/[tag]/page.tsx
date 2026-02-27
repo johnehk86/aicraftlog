@@ -9,6 +9,9 @@ import { SITE_CONFIG } from "@/lib/constants";
 import PostList from "@/components/blog/PostList";
 import Sidebar from "@/components/layout/Sidebar";
 
+export const runtime = "edge";
+export const dynamicParams = false;
+
 interface PageProps {
   params: Promise<{ tag: string }>;
 }
