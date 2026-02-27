@@ -10,7 +10,6 @@ import SocialShare from "@/components/common/SocialShare";
 import CusdisComments from "@/components/comments/CusdisComments";
 import AdSlot from "@/components/ads/AdSlot";
 
-export const runtime = "edge";
 export const dynamicParams = false;
 
 interface PageProps {
