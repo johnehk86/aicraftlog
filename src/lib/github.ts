@@ -202,3 +202,88 @@ export async function deleteFile(
     );
   }
 }
+
+/**
+ * Delete multiple files in a single commit using the Git Data API.
+ * This avoids creating one commit per file, reducing build triggers.
+ */
+export async function deleteMultipleFiles(
+  paths: string[],
+  message: string
+): Promise<void> {
+  validateEnv();
+  if (paths.length === 0) return;
+
+  // 1. Get the latest commit SHA on main
+  const refRes = await fetch(`${API_BASE}/git/ref/heads/main`, {
+    headers: headers(),
+  });
+  if (!refRes.ok) throw new Error(`Failed to get ref: ${refRes.status}`);
+  const refData = await refRes.json();
+  const latestCommitSha = refData.object.sha;
+
+  // 2. Get the tree SHA of the latest commit
+  const commitRes = await fetch(
+    `${API_BASE}/git/commits/${latestCommitSha}`,
+    { headers: headers() }
+  );
+  if (!commitRes.ok)
+    throw new Error(`Failed to get commit: ${commitRes.status}`);
+  const commitData = await commitRes.json();
+  const baseTreeSha = commitData.tree.sha;
+
+  // 3. Create a new tree that removes the specified files
+  const treeItems = paths.map((path) => ({
+    path,
+    mode: "100644" as const,
+    type: "blob" as const,
+    sha: null, // null SHA = delete the file
+  }));
+
+  const newTreeRes = await fetch(`${API_BASE}/git/trees`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({
+      base_tree: baseTreeSha,
+      tree: treeItems,
+    }),
+  });
+  if (!newTreeRes.ok) {
+    const err = await newTreeRes.json().catch(() => ({}));
+    throw new Error(
+      `Failed to create tree: ${newTreeRes.status} ${err.message || ""}`
+    );
+  }
+  const newTreeData = await newTreeRes.json();
+
+  // 4. Create a new commit
+  const newCommitRes = await fetch(`${API_BASE}/git/commits`, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify({
+      message,
+      tree: newTreeData.sha,
+      parents: [latestCommitSha],
+    }),
+  });
+  if (!newCommitRes.ok) {
+    const err = await newCommitRes.json().catch(() => ({}));
+    throw new Error(
+      `Failed to create commit: ${newCommitRes.status} ${err.message || ""}`
+    );
+  }
+  const newCommitData = await newCommitRes.json();
+
+  // 5. Update the ref to point to the new commit
+  const updateRefRes = await fetch(`${API_BASE}/git/refs/heads/main`, {
+    method: "PATCH",
+    headers: headers(),
+    body: JSON.stringify({ sha: newCommitData.sha }),
+  });
+  if (!updateRefRes.ok) {
+    const err = await updateRefRes.json().catch(() => ({}));
+    throw new Error(
+      `Failed to update ref: ${updateRefRes.status} ${err.message || ""}`
+    );
+  }
+}
