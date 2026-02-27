@@ -4,11 +4,11 @@
     "value": "ai"
   },
   {
-    "label": "Claude",
-    "value": "claude"
-  },
-  {
     "label": "Web Dev",
     "value": "web-dev"
+  },
+  {
+    "label": "Claude",
+    "value": "claude"
   }
 ]
