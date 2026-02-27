@@ -3,9 +3,9 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
+import ThumbnailUploader from "@/components/admin/ThumbnailUploader";
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
   ssr: false,
@@ -34,19 +34,6 @@ function slugify(text: string): string {
     .replace(/^-|-$/g, "");
 }
 
-function extractImagesFromHtml(html: string): string[] {
-  if (!html) return [];
-  try {
-    const doc = new DOMParser().parseFromString(html, "text/html");
-    const imgs = doc.querySelectorAll("img[src]");
-    return Array.from(imgs)
-      .map((img) => img.getAttribute("src") || "")
-      .filter(Boolean);
-  } catch {
-    return [];
-  }
-}
-
 export default function WritePage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
@@ -61,7 +48,6 @@ export default function WritePage() {
   const [tags, setTags] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [featured, setFeatured] = useState(false);
-  const [contentImages, setContentImages] = useState<string[]>([]);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const htmlRef = useRef("");
 
@@ -74,19 +60,7 @@ export default function WritePage() {
 
   const handleEditorChange = useCallback((html: string) => {
     htmlRef.current = html;
-    const images = extractImagesFromHtml(html);
-    setContentImages(images);
   }, []);
-
-  // Auto-select thumbnail when images change
-  useEffect(() => {
-    if (contentImages.length === 0) {
-      setThumbnail("");
-    } else if (!thumbnail || !contentImages.includes(thumbnail)) {
-      // Auto-select first image
-      setThumbnail(contentImages[0]);
-    }
-  }, [contentImages, thumbnail]);
 
   function handleTitleChange(value: string) {
     setTitle(value);
@@ -199,6 +173,9 @@ export default function WritePage() {
           />
         </div>
 
+        {/* Thumbnail */}
+        <ThumbnailUploader value={thumbnail} onChange={setThumbnail} />
+
         {/* Date + Category row */}
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -264,41 +241,6 @@ export default function WritePage() {
           </label>
           <Editor content="" onChange={handleEditorChange} />
         </div>
-
-        {/* Thumbnail - auto from content images */}
-        {contentImages.length > 0 && (
-          <div className="rounded-lg border border-neutral-300 bg-neutral-50 p-4 dark:border-neutral-700 dark:bg-neutral-800/50">
-            <label className="mb-3 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-              Thumbnail ({contentImages.length === 1 ? "auto-selected" : `select from ${contentImages.length} images`})
-            </label>
-            <div className="flex flex-wrap gap-3">
-              {contentImages.map((src, i) => (
-                <button
-                  key={`${src}-${i}`}
-                  type="button"
-                  onClick={() => setThumbnail(src)}
-                  className={`relative h-28 w-44 overflow-hidden rounded-lg border-2 transition-all ${
-                    thumbnail === src
-                      ? "border-blue-500 ring-2 ring-blue-500/30"
-                      : "border-neutral-300 hover:border-blue-300 dark:border-neutral-600 dark:hover:border-blue-500"
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt={`Image ${i + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                  {thumbnail === src && (
-                    <span className="absolute left-1 top-1 rounded bg-blue-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
-                      Thumbnail
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {error && (
           <p className="text-sm text-red-600 dark:text-red-400">{error}</p>

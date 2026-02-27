@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
+import ThumbnailUploader from "@/components/admin/ThumbnailUploader";
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
   ssr: false,
@@ -272,17 +273,7 @@ export default function EditPage({
         </div>
 
         {/* Thumbnail */}
-        <div>
-          <label className="mb-1 block text-sm font-medium text-neutral-700 dark:text-neutral-300">
-            Thumbnail URL
-          </label>
-          <input
-            type="text"
-            value={thumbnail}
-            onChange={(e) => setThumbnail(e.target.value)}
-            className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
-          />
-        </div>
+        <ThumbnailUploader value={thumbnail} onChange={setThumbnail} />
 
         {/* Checkboxes */}
         <div className="flex gap-6">
