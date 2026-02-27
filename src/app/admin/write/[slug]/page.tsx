@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
-import ThumbnailUploader from "@/components/admin/ThumbnailUploader";
+
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
   ssr: false,
@@ -76,7 +76,6 @@ export default function EditPage({
   const [date, setDate] = useState("");
   const [category, setCategory] = useState("ai");
   const [tags, setTags] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
   const [featured, setFeatured] = useState(false);
   const [draft, setDraft] = useState(false);
   const [initialHtml, setInitialHtml] = useState("");
@@ -108,7 +107,6 @@ export default function EditPage({
         setDate(data.frontmatter.date || "");
         setCategory(data.frontmatter.category || "ai");
         setTags((data.frontmatter.tags || []).join(", "));
-        setThumbnail(data.frontmatter.thumbnail || "");
         setFeatured(data.frontmatter.featured || false);
         setDraft(data.frontmatter.draft || false);
 
@@ -144,7 +142,6 @@ export default function EditPage({
               .split(",")
               .map((t) => t.trim())
               .filter(Boolean),
-            thumbnail: thumbnail || undefined,
             featured: featured || undefined,
             draft: asDraft || undefined,
           },
@@ -271,9 +268,6 @@ export default function EditPage({
             className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           />
         </div>
-
-        {/* Thumbnail */}
-        <ThumbnailUploader value={thumbnail} onChange={setThumbnail} />
 
         {/* Checkboxes */}
         <div className="flex gap-6">

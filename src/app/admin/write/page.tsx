@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
-import ThumbnailUploader from "@/components/admin/ThumbnailUploader";
+
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
   ssr: false,
@@ -46,7 +46,6 @@ export default function WritePage() {
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [category, setCategory] = useState("ai");
   const [tags, setTags] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
   const [featured, setFeatured] = useState(false);
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const htmlRef = useRef("");
@@ -95,7 +94,6 @@ export default function WritePage() {
               .split(",")
               .map((t) => t.trim())
               .filter(Boolean),
-            thumbnail: thumbnail || undefined,
             featured: featured || undefined,
             draft: asDraft || undefined,
           },
@@ -172,9 +170,6 @@ export default function WritePage() {
             className="w-full rounded-lg border border-neutral-300 bg-white px-4 py-2 text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           />
         </div>
-
-        {/* Thumbnail */}
-        <ThumbnailUploader value={thumbnail} onChange={setThumbnail} />
 
         {/* Date + Category row */}
         <div className="grid grid-cols-2 gap-4">
