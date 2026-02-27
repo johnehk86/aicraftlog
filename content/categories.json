@@ -6,5 +6,9 @@
   {
     "label": "Claude",
     "value": "claude"
+  },
+  {
+    "label": "Web Dev",
+    "value": "web-dev"
   }
 ]
