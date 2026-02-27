@@ -82,7 +82,7 @@ export default function RootLayout({
         )}
       </head>
       <body className="flex min-h-screen flex-col">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           {children}
         </ThemeProvider>
         {gaId && <GoogleAnalytics gaId={gaId} />}
