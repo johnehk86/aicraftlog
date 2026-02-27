@@ -6,9 +6,5 @@
   {
     "label": "Claude",
     "value": "claude"
-  },
-  {
-    "label": "AI Coding",
-    "value": "ai-coding"
   }
 ]
