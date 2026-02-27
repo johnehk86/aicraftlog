@@ -1,11 +1,34 @@
 [
-  { "label": "AI Dev", "value": "ai" },
-  { "label": "Claude", "value": "claude" },
-  { "label": "ChatGPT", "value": "chatgpt" },
-  { "label": "AI Coding", "value": "ai-coding" },
-  { "label": "Web Dev", "value": "web-dev" },
-  { "label": "Next.js", "value": "nextjs" },
-  { "label": "React", "value": "react" },
-  { "label": "Tool Reviews", "value": "tools" },
-  { "label": "DevOps", "value": "devops" }
+  {
+    "label": "AI Dev",
+    "value": "ai"
+  },
+  {
+    "label": "Claude",
+    "value": "claude"
+  },
+  {
+    "label": "AI Coding",
+    "value": "ai-coding"
+  },
+  {
+    "label": "Web Dev",
+    "value": "web-dev"
+  },
+  {
+    "label": "Next.js",
+    "value": "nextjs"
+  },
+  {
+    "label": "React",
+    "value": "react"
+  },
+  {
+    "label": "Tool Reviews",
+    "value": "tools"
+  },
+  {
+    "label": "DevOps",
+    "value": "devops"
+  }
 ]
