@@ -6,5 +6,9 @@
   {
     "label": "AI Tools",
     "value": "ai-tools"
+  },
+  {
+    "label": "Tutorial",
+    "value": "tutorial"
   }
 ]
