@@ -6,5 +6,9 @@
   {
     "label": "Blog",
     "href": "/blog"
+  },
+  {
+    "label": "Build Log",
+    "href": "/category/build-log"
   }
 ]
