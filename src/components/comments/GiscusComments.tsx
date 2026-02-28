@@ -25,7 +25,7 @@ export default function GiscusComments({ slug, title }: GiscusCommentsProps) {
         emitMetadata="0"
         inputPosition="top"
         theme={resolvedTheme === "dark" ? "dark" : "light"}
-        lang="ko"
+        lang="en"
         loading="lazy"
       />
     </div>
