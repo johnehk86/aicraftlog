@@ -47,6 +47,8 @@ export default function WritePage() {
   const [category, setCategory] = useState("ai");
   const [tags, setTags] = useState("");
   const [featured, setFeatured] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [publishDate, setPublishDate] = useState("");
   const [categories, setCategories] = useState<CategoryItem[]>([]);
   const htmlRef = useRef("");
 
@@ -68,7 +70,7 @@ export default function WritePage() {
     }
   }
 
-  async function handleSave(asDraft: boolean) {
+  async function handleSave(asDraft: boolean, scheduleDate?: string) {
     if (!title || !slug) {
       setError("Title and slug are required.");
       return;
@@ -80,23 +82,29 @@ export default function WritePage() {
     try {
       const markdown = turndown.turndown(htmlRef.current || "");
 
+      const frontmatter: Record<string, unknown> = {
+        title,
+        description,
+        date,
+        category,
+        tags: tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
+        featured: featured || undefined,
+        draft: asDraft || undefined,
+      };
+      if (scheduleDate) {
+        frontmatter.publishDate = scheduleDate;
+        frontmatter.draft = undefined;
+      }
+
       const res = await fetch("/api/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           slug,
-          frontmatter: {
-            title,
-            description,
-            date,
-            category,
-            tags: tags
-              .split(",")
-              .map((t) => t.trim())
-              .filter(Boolean),
-            featured: featured || undefined,
-            draft: asDraft || undefined,
-          },
+          frontmatter,
           content: markdown,
         }),
       });
@@ -112,6 +120,14 @@ export default function WritePage() {
     } finally {
       setSaving(false);
     }
+  }
+
+  function handleSchedule() {
+    if (!publishDate) {
+      setError("Please select a schedule date and time.");
+      return;
+    }
+    handleSave(false, publishDate);
   }
 
   return (
@@ -241,7 +257,7 @@ export default function WritePage() {
           <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
         )}
 
-        <div className="flex gap-3">
+        <div className="flex flex-wrap items-end gap-3">
           <button
             onClick={() => handleSave(true)}
             disabled={saving}
@@ -249,6 +265,33 @@ export default function WritePage() {
           >
             {saving ? "Saving..." : "Save as Draft"}
           </button>
+          <div className="flex items-end gap-2">
+            <button
+              type="button"
+              onClick={() => setShowSchedule(!showSchedule)}
+              disabled={saving}
+              className="rounded-lg border border-blue-300 px-6 py-2 font-medium text-blue-700 hover:bg-blue-50 disabled:opacity-50 dark:border-blue-600 dark:text-blue-400 dark:hover:bg-blue-900/20"
+            >
+              Schedule
+            </button>
+            {showSchedule && (
+              <div className="flex items-end gap-2">
+                <input
+                  type="datetime-local"
+                  value={publishDate}
+                  onChange={(e) => setPublishDate(e.target.value)}
+                  className="rounded-lg border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-900 focus:border-blue-500 focus:outline-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
+                />
+                <button
+                  onClick={handleSchedule}
+                  disabled={saving || !publishDate}
+                  className="whitespace-nowrap rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+                >
+                  {saving ? "Scheduling..." : "Confirm Schedule"}
+                </button>
+              </div>
+            )}
+          </div>
           <button
             onClick={() => handleSave(false)}
             disabled={saving}

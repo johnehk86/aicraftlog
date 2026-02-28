@@ -10,6 +10,7 @@ interface PostItem {
   date: string;
   category: string;
   draft: boolean;
+  publishDate?: string | null;
 }
 
 export default function AdminDashboard() {
@@ -39,7 +40,7 @@ export default function AdminDashboard() {
     if (!res.ok) return;
     const data = await res.json();
 
-    const { draft: _draft, ...frontmatter } = data.frontmatter;
+    const { draft: _draft, publishDate: _pd, ...frontmatter } = data.frontmatter;
     await fetch(`/api/posts/${slug}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -47,7 +48,7 @@ export default function AdminDashboard() {
     });
 
     setPosts((prev) =>
-      prev.map((p) => (p.slug === slug ? { ...p, draft: false } : p))
+      prev.map((p) => (p.slug === slug ? { ...p, draft: false, publishDate: null } : p))
     );
   }
 
@@ -229,6 +230,10 @@ export default function AdminDashboard() {
                         <span className="rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
                           Draft
                         </span>
+                      ) : post.publishDate && new Date(post.publishDate) > new Date() ? (
+                        <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                          Scheduled {new Date(post.publishDate).toLocaleString(undefined, { month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                        </span>
                       ) : (
                         <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
                           Published
@@ -237,12 +242,12 @@ export default function AdminDashboard() {
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex gap-2">
-                        {post.draft && (
+                        {(post.draft || (post.publishDate && new Date(post.publishDate) > new Date())) && (
                           <button
                             onClick={() => handlePublish(post.slug)}
                             className="text-green-600 hover:text-green-800 dark:text-green-400 dark:hover:text-green-300"
                           >
-                            Publish
+                            Publish Now
                           </button>
                         )}
                         <Link

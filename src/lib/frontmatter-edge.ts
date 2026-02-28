@@ -46,6 +46,7 @@ export function serializeFrontmatter(
   if (frontmatter.thumbnail) fm.thumbnail = frontmatter.thumbnail;
   if (frontmatter.featured) fm.featured = frontmatter.featured;
   if (frontmatter.draft) fm.draft = frontmatter.draft;
+  if (frontmatter.publishDate) fm.publishDate = frontmatter.publishDate;
 
   const yaml = stringifyYaml(fm, { lineWidth: 0 }).trimEnd();
   return `---\n${yaml}\n---\n\n${content}`;

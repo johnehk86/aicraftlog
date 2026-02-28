@@ -25,6 +25,7 @@ export async function GET() {
             date: frontmatter.date,
             category: frontmatter.category,
             draft: frontmatter.draft || false,
+            publishDate: frontmatter.publishDate || null,
             readingTime: calculateReadingTime(content),
           };
         } catch {

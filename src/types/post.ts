@@ -8,6 +8,7 @@ export interface Frontmatter {
   thumbnail?: string;
   featured?: boolean;
   draft?: boolean;
+  publishDate?: string;
 }
 
 export interface Post {

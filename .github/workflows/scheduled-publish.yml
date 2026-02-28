@@ -1,0 +1,30 @@
+name: Scheduled Publish
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Every hour
+  workflow_dispatch: {} # Manual trigger
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for scheduled posts
+        id: check
+        run: |
+          now=$(date -u +%Y-%m-%dT%H:%M)
+          found=false
+          while IFS= read -r line; do
+            pd=$(echo "$line" | grep -oP 'publishDate:\s*\K.*' | tr -d '"' | xargs)
+            if [ -n "$pd" ] && [[ "$pd" < "$now" || "$pd" == "$now" ]]; then
+              found=true
+              break
+            fi
+          done < <(grep -r "publishDate:" content/posts/ 2>/dev/null || true)
+          echo "has_scheduled=$found" >> "$GITHUB_OUTPUT"
+
+      - name: Trigger Cloudflare Pages deploy
+        if: steps.check.outputs.has_scheduled == 'true'
+        run: curl -sS -X POST "${{ secrets.CF_DEPLOY_HOOK_URL }}"

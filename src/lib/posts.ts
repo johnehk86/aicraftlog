@@ -32,6 +32,11 @@ function parsePost(
 
   if (frontmatter.draft && !includeDrafts) return null;
 
+  if (!includeDrafts && frontmatter.publishDate) {
+    const publishAt = new Date(frontmatter.publishDate);
+    if (publishAt > new Date()) return null;
+  }
+
   const slug = path.basename(filePath).replace(/\.mdx?$/, "");
 
   const stats = readingTime(content);
