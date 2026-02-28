@@ -1,3 +1,5 @@
+export const runtime = "edge";
+
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/posts";
