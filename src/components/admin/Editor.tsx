@@ -1,6 +1,6 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, type Editor as TiptapEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Color from "@tiptap/extension-color";
@@ -61,9 +61,60 @@ function Divider() {
   );
 }
 
+async function compressImage(file: File): Promise<File> {
+  if (file.type === "image/gif") return file;
+
+  const MAX_WIDTH = 1600;
+  const bitmap = await createImageBitmap(file);
+  let { width, height } = bitmap;
+
+  if (width <= MAX_WIDTH) {
+    bitmap.close();
+    return file;
+  }
+
+  const ratio = MAX_WIDTH / width;
+  width = MAX_WIDTH;
+  height = Math.round(height * ratio);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close();
+
+  const blob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob(
+      (b) => resolve(b),
+      "image/webp",
+      0.8
+    );
+  });
+
+  if (blob && blob.size < file.size) {
+    const ext = "webp";
+    const name = file.name.replace(/\.[^.]+$/, `.${ext}`);
+    return new File([blob], name, { type: `image/${ext}` });
+  }
+
+  // WebP not smaller or not supported — try JPEG fallback
+  const jpegBlob = await new Promise<Blob | null>((resolve) => {
+    canvas.toBlob((b) => resolve(b), "image/jpeg", 0.85);
+  });
+
+  if (jpegBlob && jpegBlob.size < file.size) {
+    const name = file.name.replace(/\.[^.]+$/, ".jpg");
+    return new File([jpegBlob], name, { type: "image/jpeg" });
+  }
+
+  return file;
+}
+
 async function uploadImageFile(file: File): Promise<string | null> {
+  const compressed = await compressImage(file);
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", compressed);
   try {
     const res = await fetch("/api/upload", {
       method: "POST",
@@ -79,6 +130,43 @@ async function uploadImageFile(file: File): Promise<string | null> {
   } catch {
     alert("Upload failed");
     return null;
+  }
+}
+
+const PLACEHOLDER_TEXT = "[Uploading image...]";
+
+function removePlaceholder(editor: TiptapEditor) {
+  const { state } = editor;
+  let placeholderPos = -1;
+  state.doc.descendants((node, pos) => {
+    if (placeholderPos === -1 && node.isText && node.text === PLACEHOLDER_TEXT) {
+      placeholderPos = pos;
+    }
+  });
+  if (placeholderPos !== -1) {
+    const node = state.doc.nodeAt(placeholderPos);
+    if (node) {
+      const tr = state.tr.delete(placeholderPos, placeholderPos + node.nodeSize);
+      editor.view.dispatch(tr);
+    }
+  }
+}
+
+async function uploadWithPlaceholder(editor: TiptapEditor, file: File) {
+  editor
+    .chain()
+    .focus()
+    .insertContent({
+      type: "paragraph",
+      content: [{ type: "text", text: PLACEHOLDER_TEXT }],
+    })
+    .run();
+
+  const url = await uploadImageFile(file);
+  removePlaceholder(editor);
+
+  if (url) {
+    editor.chain().focus().setImage({ src: url }).run();
   }
 }
 
@@ -123,11 +211,8 @@ export default function Editor({ content, onChange }: EditorProps) {
         if (images.length === 0) return false;
 
         event.preventDefault();
-        images.forEach(async (file) => {
-          const url = await uploadImageFile(file);
-          if (url && editor) {
-            editor.chain().focus().setImage({ src: url }).run();
-          }
+        images.forEach((file) => {
+          if (editor) uploadWithPlaceholder(editor, file);
         });
         return true;
       },
@@ -138,11 +223,8 @@ export default function Editor({ content, onChange }: EditorProps) {
         if (images.length === 0) return false;
 
         event.preventDefault();
-        images.forEach(async (file) => {
-          const url = await uploadImageFile(file);
-          if (url && editor) {
-            editor.chain().focus().setImage({ src: url }).run();
-          }
+        images.forEach((file) => {
+          if (editor) uploadWithPlaceholder(editor, file);
         });
         return true;
       },
@@ -158,10 +240,7 @@ export default function Editor({ content, onChange }: EditorProps) {
       const file = e.target.files?.[0];
       if (!file || !editor) return;
 
-      const url = await uploadImageFile(file);
-      if (url) {
-        editor.chain().focus().setImage({ src: url }).run();
-      }
+      await uploadWithPlaceholder(editor, file);
 
       // Reset input so same file can be re-selected
       e.target.value = "";

@@ -18,20 +18,28 @@ function validateEnv() {
   }
 }
 
+let cachedClient: AwsClient | null = null;
+
+function getR2Client(): AwsClient {
+  if (!cachedClient) {
+    validateEnv();
+    cachedClient = new AwsClient({
+      accessKeyId: R2_ACCESS_KEY_ID,
+      secretAccessKey: R2_SECRET_ACCESS_KEY,
+    });
+  }
+  return cachedClient;
+}
+
 export async function uploadToR2(
   file: Uint8Array,
   filename: string,
   contentType: string
 ): Promise<string> {
-  validateEnv();
+  const client = getR2Client();
 
   const key = `uploads/${filename}`;
   const url = `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${R2_BUCKET_NAME}/${key}`;
-
-  const client = new AwsClient({
-    accessKeyId: R2_ACCESS_KEY_ID,
-    secretAccessKey: R2_SECRET_ACCESS_KEY,
-  });
 
   const res = await client.fetch(url, {
     method: "PUT",
