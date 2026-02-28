@@ -1,0 +1,54 @@
+---
+title: Building an AI-Focused Blog with Next.js and Cloudflare
+description: How I built AICraftLog from scratch using Next.js, Cloudflare Pages, and AI-assisted development workflow.
+date: 2026-02-28
+category: build-log
+tags:
+  - nextjs
+  - cloudflare
+  - ai
+  - blog
+featured: true
+---
+
+## Why Build a Custom Blog?
+
+There are plenty of blogging platforms out there, but none of them gave me the exact workflow I wanted. I needed a blog that was fast, fully customizable, and optimized for writing about AI and development topics.
+
+So I decided to build **AICraftLog** from scratch.
+
+## Tech Stack
+
+Here's what powers this blog:
+
+- **Next.js 15** - React framework with App Router and static site generation
+- **Cloudflare Pages** - Global edge deployment with zero cold starts
+- **Cloudflare R2** - Image storage without egress fees
+- **MDX** - Markdown with JSX support for rich content
+- **TipTap Editor** - Rich text editing in the admin dashboard
+- **Tailwind CSS** - Utility-first styling with dark mode support
+
+## Key Features
+
+### Admin Dashboard
+
+The admin dashboard lets me manage everything from the browser. I can create, edit, and delete posts with a visual editor. No need to touch code or push commits manually.
+
+### Static Site Generation
+
+All blog posts are statically generated at build time. This means every page loads instantly from Cloudflare's edge network. The blog scores near-perfect on Core Web Vitals.
+
+### AI-Assisted Workflow
+
+One of the most interesting aspects of this project is that much of it was built with AI assistance. From initial architecture decisions to implementing features, AI pair programming significantly accelerated the development process.
+
+## What's Next
+
+I plan to continue adding features like:
+
+- Scheduled post publishing
+- Enhanced search functionality
+- Newsletter integration
+- Analytics dashboard
+
+Stay tuned for more posts about the development process and AI tools I discover along the way.
