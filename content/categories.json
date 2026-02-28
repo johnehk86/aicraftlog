@@ -10,5 +10,9 @@
   {
     "label": "Tutorial",
     "value": "tutorial"
+  },
+  {
+    "label": "Thoughts",
+    "value": "thoughts"
   }
 ]
