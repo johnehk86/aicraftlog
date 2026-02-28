@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/constants";
+import NewsletterSubscribe from "@/components/common/NewsletterSubscribe";
 
 export default function Footer() {
   return (
     <footer className="hidden border-t border-slate-200 bg-white dark:border-primary/10 dark:bg-bg-dark md:block">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
+          <div className="mx-auto w-full max-w-md">
+            <NewsletterSubscribe />
+          </div>
           <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
             <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
               <span>&copy; {new Date().getFullYear()}</span>

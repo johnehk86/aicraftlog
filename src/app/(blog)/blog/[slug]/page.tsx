@@ -9,6 +9,7 @@ import RelatedPosts from "@/components/blog/RelatedPosts";
 import SocialShare from "@/components/common/SocialShare";
 import GiscusComments from "@/components/comments/GiscusComments";
 import AdSlot from "@/components/ads/AdSlot";
+import NewsletterSubscribe from "@/components/common/NewsletterSubscribe";
 
 export const dynamicParams = false;
 
@@ -114,6 +115,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             <AdSlot slot="footer-ad" format="horizontal" />
 
             <RelatedPosts posts={relatedPosts} />
+            <div className="my-8">
+              <NewsletterSubscribe />
+            </div>
             <GiscusComments slug={slug} title={post.frontmatter.title} />
           </article>
 
