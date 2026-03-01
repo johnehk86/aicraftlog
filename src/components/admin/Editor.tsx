@@ -251,9 +251,9 @@ export default function Editor({ content, onChange }: EditorProps) {
   if (!editor) return null;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-neutral-300 dark:border-neutral-700">
+    <div className="rounded-lg border border-neutral-300 dark:border-neutral-700">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 border-b border-neutral-300 bg-neutral-50 px-2 py-1.5 dark:border-neutral-700 dark:bg-neutral-800/50">
+      <div className="sticky top-0 z-10 flex flex-wrap items-center gap-0.5 rounded-t-lg border-b border-neutral-300 bg-neutral-50 px-2 py-1.5 dark:border-neutral-700 dark:bg-neutral-800/50">
         {/* Text style */}
         <ToolbarButton
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -407,7 +407,7 @@ export default function Editor({ content, onChange }: EditorProps) {
       </div>
 
       {/* Editor content */}
-      <div className="bg-white dark:bg-neutral-800">
+      <div className="rounded-b-lg bg-white dark:bg-neutral-800">
         <EditorContent editor={editor} />
       </div>
     </div>
