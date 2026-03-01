@@ -96,7 +96,7 @@ body {
 }
 
 [data-rehype-pretty-code-figure] pre {
-  @apply overflow-x-auto rounded-xl border border-slate-700/50 px-0 py-4 dark:border-primary/10;
+  @apply overflow-x-auto rounded-xl border border-slate-700/50 bg-[#1e1e2e] px-0 py-4 dark:border-primary/10 dark:bg-[#0d1117];
 }
 
 [data-rehype-pretty-code-figure] code {
