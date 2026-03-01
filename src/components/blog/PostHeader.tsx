@@ -2,15 +2,18 @@ import Link from "next/link";
 import { Frontmatter } from "@/types/post";
 import { formatDate } from "@/lib/utils";
 import { getCategoryName } from "@/lib/constants";
+import PostViewCount from "./PostViewCount";
 
 interface PostHeaderProps {
   frontmatter: Frontmatter;
   readingTime: string;
+  slug: string;
 }
 
 export default function PostHeader({
   frontmatter,
   readingTime,
+  slug,
 }: PostHeaderProps) {
   return (
     <header className="mb-8 border-b border-slate-200 pb-8 dark:border-primary/10">
@@ -47,6 +50,8 @@ export default function PostHeader({
           </span>
           <span>{readingTime}</span>
         </div>
+        <span className="text-slate-300 dark:text-slate-600">|</span>
+        <PostViewCount slug={slug} />
         {frontmatter.updated && (
           <>
             <span className="text-slate-300 dark:text-slate-600">|</span>

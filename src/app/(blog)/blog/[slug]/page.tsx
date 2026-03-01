@@ -100,6 +100,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <PostHeader
               frontmatter={post.frontmatter}
               readingTime={post.readingTime}
+              slug={slug}
             />
 
             <AdSlot slot="header-ad" format="horizontal" />
