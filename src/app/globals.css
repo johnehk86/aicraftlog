@@ -57,8 +57,8 @@ body {
   --tw-prose-body: theme(--color-slate-700);
   --tw-prose-headings: theme(--color-slate-900);
   --tw-prose-links: theme(--color-primary);
-  --tw-prose-code: theme(--color-slate-800);
-  --tw-prose-pre-bg: theme(--color-slate-50);
+  --tw-prose-code: #e4e4e7;
+  --tw-prose-pre-bg: #1e1e2e;
   max-width: none;
 }
 
@@ -96,7 +96,7 @@ body {
 }
 
 [data-rehype-pretty-code-figure] pre {
-  @apply overflow-x-auto rounded-xl border border-slate-200 px-0 py-4 dark:border-primary/10;
+  @apply overflow-x-auto rounded-xl border border-slate-700/50 px-0 py-4 dark:border-primary/10;
 }
 
 [data-rehype-pretty-code-figure] code {
@@ -112,7 +112,7 @@ body {
 }
 
 [data-rehype-pretty-code-title] {
-  @apply rounded-t-xl border border-b-0 border-slate-200 bg-slate-100 px-4 py-2 text-sm font-medium text-slate-600 dark:border-primary/10 dark:bg-slate-900/80 dark:text-slate-400;
+  @apply rounded-t-xl border border-b-0 border-slate-700/50 bg-[#181825] px-4 py-2 text-sm font-medium text-slate-400 dark:border-primary/10 dark:bg-slate-900/80 dark:text-slate-400;
 }
 
 [data-rehype-pretty-code-title] + pre {
