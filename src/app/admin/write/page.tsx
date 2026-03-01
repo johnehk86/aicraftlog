@@ -44,7 +44,7 @@ export default function WritePage() {
   const [slugManual, setSlugManual] = useState(false);
   const [description, setDescription] = useState("");
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [category, setCategory] = useState("ai");
+  const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
   const [featured, setFeatured] = useState(false);
   const [showSchedule, setShowSchedule] = useState(false);
@@ -55,7 +55,10 @@ export default function WritePage() {
   useEffect(() => {
     fetch("/api/categories")
       .then((res) => res.json())
-      .then((data) => setCategories(data))
+      .then((data: CategoryItem[]) => {
+        setCategories(data);
+        if (data.length > 0) setCategory(data[0].value);
+      })
       .catch(() => {});
   }, []);
 

@@ -74,7 +74,7 @@ export default function EditPage({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
-  const [category, setCategory] = useState("ai");
+  const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
   const [featured, setFeatured] = useState(false);
   const [draft, setDraft] = useState(false);
@@ -107,7 +107,7 @@ export default function EditPage({
         setTitle(data.frontmatter.title || "");
         setDescription(data.frontmatter.description || "");
         setDate(data.frontmatter.date || "");
-        setCategory(data.frontmatter.category || "ai");
+        setCategory(data.frontmatter.category || "");
         setTags((data.frontmatter.tags || []).join(", "));
         setFeatured(data.frontmatter.featured || false);
         setDraft(data.frontmatter.draft || false);
