@@ -55,11 +55,13 @@ export function getAllPosts(includeDrafts = false): Post[] {
     .map((f) => parsePost(f, includeDrafts))
     .filter((post): post is Post => post !== null);
 
-  return posts.sort(
-    (a, b) =>
+  return posts.sort((a, b) => {
+    const dateDiff =
       new Date(b.frontmatter.date).getTime() -
-      new Date(a.frontmatter.date).getTime()
-  );
+      new Date(a.frontmatter.date).getTime();
+    if (dateDiff !== 0) return dateDiff;
+    return b.slug.localeCompare(a.slug);
+  });
 }
 
 export function getPostBySlugRaw(slug: string): { frontmatter: Frontmatter; content: string } | null {
