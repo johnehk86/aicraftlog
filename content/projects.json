@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Snow Bros: Nick & Tom",
+    "description": "Classic arcade snow battle game",
+    "url": "https://snow-bros.craftai.work/",
+    "icon": "ac_unit",
+    "iconColor": "sky",
+    "type": "web"
+  },
+  {
+    "title": "Retro Replay",
+    "description": "Nostalgic arcade games collection",
+    "url": "https://retro-replay.craftai.work/",
+    "icon": "sports_esports",
+    "iconColor": "purple",
+    "type": "web"
+  },
+  {
+    "title": "Claude Code로 1시간 만에 스노우 브라더스 만들기",
+    "description": "코딩 1도 몰라도 AI와 대화만으로 게임을 만드는 바이브 코딩",
+    "url": "https://youtu.be/J4vUiZFIwU4",
+    "icon": "play_circle",
+    "iconColor": "red",
+    "type": "youtube"
+  }
+]

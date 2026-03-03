@@ -1,4 +1,6 @@
 import Link from "next/link";
+import fs from "fs";
+import path from "path";
 import {
   getAllPostMeta,
   getCategoryCounts,
@@ -8,11 +10,36 @@ import PostCard from "@/components/blog/PostCard";
 import Sidebar from "@/components/layout/Sidebar";
 import { SITE_CONFIG, CATEGORY_GROUPS } from "@/lib/constants";
 
+interface Project {
+  title: string;
+  description: string;
+  url: string;
+  icon: string;
+  iconColor: string;
+  type: "web" | "youtube";
+}
+
+const ICON_COLOR_MAP: Record<string, { bg: string; text: string }> = {
+  sky: { bg: "bg-sky-100 dark:bg-sky-900/30", text: "text-sky-500" },
+  purple: { bg: "bg-purple-100 dark:bg-purple-900/30", text: "text-purple-500" },
+  red: { bg: "bg-red-100 dark:bg-red-900/30", text: "text-red-500" },
+  emerald: { bg: "bg-emerald-100 dark:bg-emerald-900/30", text: "text-emerald-500" },
+  amber: { bg: "bg-amber-100 dark:bg-amber-900/30", text: "text-amber-500" },
+  blue: { bg: "bg-blue-100 dark:bg-blue-900/30", text: "text-blue-500" },
+};
+
+function getProjects(): Project[] {
+  const filePath = path.join(process.cwd(), "content", "projects.json");
+  const raw = fs.readFileSync(filePath, "utf-8");
+  return JSON.parse(raw);
+}
+
 export default function HomePage() {
   const allPosts = getAllPostMeta();
   const recentPosts = allPosts.slice(0, 6);
   const categoryCounts = getCategoryCounts();
   const allTags = getAllTags();
+  const projects = getProjects();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -65,49 +92,34 @@ export default function HomePage() {
           <span className="material-symbols-outlined text-primary text-xl">rocket_launch</span>
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">Craft Works</h3>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <a
-            href="https://snow-bros.craftai.work/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-card group flex items-center gap-4 p-4 transition-all hover:border-primary/40 hover:shadow-md hover:shadow-primary/10"
-          >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-2xl dark:bg-sky-900/30">
-              <span className="material-symbols-outlined text-sky-500">ac_unit</span>
-            </div>
-            <div className="min-w-0">
-              <p className="font-semibold text-slate-900 group-hover:text-primary dark:text-white dark:group-hover:text-primary-400 transition-colors">
-                Snow Bros: Nick & Tom
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
-                Classic arcade snow battle game
-              </p>
-            </div>
-            <span className="material-symbols-outlined ml-auto text-slate-300 group-hover:text-primary transition-colors dark:text-slate-600 dark:group-hover:text-primary-400">
-              arrow_forward
-            </span>
-          </a>
-          <a
-            href="https://retro-replay.craftai.work/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="glass-card group flex items-center gap-4 p-4 transition-all hover:border-primary/40 hover:shadow-md hover:shadow-primary/10"
-          >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-2xl dark:bg-purple-900/30">
-              <span className="material-symbols-outlined text-purple-500">sports_esports</span>
-            </div>
-            <div className="min-w-0">
-              <p className="font-semibold text-slate-900 group-hover:text-primary dark:text-white dark:group-hover:text-primary-400 transition-colors">
-                Retro Replay
-              </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
-                Nostalgic arcade games collection
-              </p>
-            </div>
-            <span className="material-symbols-outlined ml-auto text-slate-300 group-hover:text-primary transition-colors dark:text-slate-600 dark:group-hover:text-primary-400">
-              arrow_forward
-            </span>
-          </a>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {projects.map((project) => {
+            const colors = ICON_COLOR_MAP[project.iconColor] || ICON_COLOR_MAP.blue;
+            return (
+              <a
+                key={project.url}
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-card group flex items-center gap-4 p-4 transition-all hover:border-primary/40 hover:shadow-md hover:shadow-primary/10"
+              >
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${colors.bg}`}>
+                  <span className={`material-symbols-outlined ${colors.text}`}>{project.icon}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-slate-900 group-hover:text-primary dark:text-white dark:group-hover:text-primary-400 transition-colors text-sm">
+                    {project.title}
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                    {project.description}
+                  </p>
+                </div>
+                <span className="material-symbols-outlined ml-auto text-slate-300 group-hover:text-primary transition-colors dark:text-slate-600 dark:group-hover:text-primary-400 shrink-0">
+                  {project.type === "youtube" ? "play_arrow" : "arrow_forward"}
+                </span>
+              </a>
+            );
+          })}
         </div>
       </section>
 
