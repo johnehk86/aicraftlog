@@ -59,6 +59,58 @@ export default function HomePage() {
       </section>
 
 
+      {/* Craft Works */}
+      <section className="mx-auto max-w-6xl px-4 pt-6">
+        <div className="mb-4 flex items-center gap-2">
+          <span className="material-symbols-outlined text-primary text-xl">rocket_launch</span>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white">Craft Works</h3>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a
+            href="https://snow-bros.craftai.work/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card group flex items-center gap-4 p-4 transition-all hover:border-primary/40 hover:shadow-md hover:shadow-primary/10"
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-2xl dark:bg-sky-900/30">
+              <span className="material-symbols-outlined text-sky-500">ac_unit</span>
+            </div>
+            <div className="min-w-0">
+              <p className="font-semibold text-slate-900 group-hover:text-primary dark:text-white dark:group-hover:text-primary-400 transition-colors">
+                Snow Bros: Nick & Tom
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                Classic arcade snow battle game
+              </p>
+            </div>
+            <span className="material-symbols-outlined ml-auto text-slate-300 group-hover:text-primary transition-colors dark:text-slate-600 dark:group-hover:text-primary-400">
+              arrow_forward
+            </span>
+          </a>
+          <a
+            href="https://retro-replay.craftai.work/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-card group flex items-center gap-4 p-4 transition-all hover:border-primary/40 hover:shadow-md hover:shadow-primary/10"
+          >
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-purple-100 text-2xl dark:bg-purple-900/30">
+              <span className="material-symbols-outlined text-purple-500">sports_esports</span>
+            </div>
+            <div className="min-w-0">
+              <p className="font-semibold text-slate-900 group-hover:text-primary dark:text-white dark:group-hover:text-primary-400 transition-colors">
+                Retro Replay
+              </p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                Nostalgic arcade games collection
+              </p>
+            </div>
+            <span className="material-symbols-outlined ml-auto text-slate-300 group-hover:text-primary transition-colors dark:text-slate-600 dark:group-hover:text-primary-400">
+              arrow_forward
+            </span>
+          </a>
+        </div>
+      </section>
+
       {/* Content */}
       <div className="mx-auto max-w-6xl px-4 py-6">
         {/* Category Filters - aligned with content */}

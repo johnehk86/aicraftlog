@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
+import { tables } from "turndown-plugin-gfm";
 
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
@@ -18,6 +19,7 @@ const turndown = new TurndownService({
   headingStyle: "atx",
   codeBlockStyle: "fenced",
 });
+turndown.use(tables);
 turndown.escape = (str: string) => str;
 
 interface CategoryItem {
@@ -25,8 +27,41 @@ interface CategoryItem {
   value: string;
 }
 
+/** Convert a markdown table block into an HTML table */
+function markdownTableToHtml(tableBlock: string): string {
+  const lines = tableBlock.trim().split("\n");
+  if (lines.length < 2) return tableBlock;
+
+  const parseRow = (line: string) =>
+    line.replace(/^\|/, "").replace(/\|$/, "").split("|").map((c) => c.trim());
+
+  const headerCells = parseRow(lines[0]);
+  // lines[1] is the separator row (e.g. |---|---|)
+  const bodyRows = lines.slice(2);
+
+  let html = "<table><thead><tr>";
+  for (const cell of headerCells) {
+    html += `<th>${cell}</th>`;
+  }
+  html += "</tr></thead><tbody>";
+  for (const row of bodyRows) {
+    const cells = parseRow(row);
+    html += "<tr>";
+    for (const cell of cells) {
+      html += `<td>${cell}</td>`;
+    }
+    html += "</tr>";
+  }
+  html += "</tbody></table>";
+  return html;
+}
+
 /** Simple Markdown → HTML for loading existing content into the editor */
 function markdownToHtml(md: string): string {
+  // Convert markdown tables first (before line-level transforms)
+  const tableRegex = /(?:^|\n)((?:\|.+\|[ \t]*\n)\|[-| :]+\|[ \t]*\n(?:\|.+\|[ \t]*\n?)+)/g;
+  md = md.replace(tableRegex, (_match, table: string) => "\n" + markdownTableToHtml(table) + "\n");
+
   return md
     // Code blocks (fenced)
     .replace(/```(\w*)\n([\s\S]*?)```/g, (_m, _lang, code) => `<pre><code>${code.trim()}</code></pre>`)

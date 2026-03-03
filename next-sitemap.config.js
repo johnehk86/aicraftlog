@@ -1,15 +1,7 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
   siteUrl: "https://aicraftlog.com",
-  generateRobotsTxt: true,
+  generateRobotsTxt: false,
   outDir: "./public",
-  robotsTxtOptions: {
-    policies: [
-      {
-        userAgent: "*",
-        allow: "/",
-      },
-    ],
-    additionalSitemaps: ["https://aicraftlog.com/feed.xml"],
-  },
+  exclude: ["/admin", "/admin/*", "/search"],
 };

@@ -7,6 +7,10 @@ import Color from "@tiptap/extension-color";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Underline from "@tiptap/extension-underline";
 import Placeholder from "@tiptap/extension-placeholder";
+import { Table } from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
 import { useRef, useCallback } from "react";
 
 interface EditorProps {
@@ -191,6 +195,10 @@ export default function Editor({ content, onChange }: EditorProps) {
       Color,
       TextStyle,
       Underline,
+      Table.configure({ resizable: false }),
+      TableRow,
+      TableHeader,
+      TableCell,
       Placeholder.configure({
         placeholder: "Start writing...",
       }),
@@ -389,6 +397,57 @@ export default function Editor({ content, onChange }: EditorProps) {
 
         <Divider />
 
+        {/* Table */}
+        <ToolbarButton
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
+          }
+          title="Insert Table"
+        >
+          Table
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().addRowAfter().run()}
+          disabled={!editor.can().addRowAfter()}
+          title="Add Row"
+        >
+          +Row
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().addColumnAfter().run()}
+          disabled={!editor.can().addColumnAfter()}
+          title="Add Column"
+        >
+          +Col
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().deleteRow().run()}
+          disabled={!editor.can().deleteRow()}
+          title="Delete Row"
+        >
+          -Row
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().deleteColumn().run()}
+          disabled={!editor.can().deleteColumn()}
+          title="Delete Column"
+        >
+          -Col
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().deleteTable().run()}
+          disabled={!editor.can().deleteTable()}
+          title="Delete Table"
+        >
+          xTable
+        </ToolbarButton>
+
+        <Divider />
+
         {/* Undo / Redo */}
         <ToolbarButton
           onClick={() => editor.chain().focus().undo().run()}
@@ -407,6 +466,15 @@ export default function Editor({ content, onChange }: EditorProps) {
       </div>
 
       {/* Editor content */}
+      <style>{`
+        .ProseMirror table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+        .ProseMirror th, .ProseMirror td { border: 1px solid #d1d5db; padding: 0.5em 0.75em; min-width: 80px; vertical-align: top; }
+        .ProseMirror th { background: #f3f4f6; font-weight: 600; }
+        .dark .ProseMirror th { background: #374151; }
+        .dark .ProseMirror th, .dark .ProseMirror td { border-color: #4b5563; }
+        .ProseMirror .selectedCell { background: #dbeafe; }
+        .dark .ProseMirror .selectedCell { background: #1e3a5f; }
+      `}</style>
       <div className="rounded-b-lg bg-white dark:bg-neutral-800">
         <EditorContent editor={editor} />
       </div>

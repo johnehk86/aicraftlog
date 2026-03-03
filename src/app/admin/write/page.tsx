@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import TurndownService from "turndown";
+import { tables } from "turndown-plugin-gfm";
 
 
 const Editor = dynamic(() => import("@/components/admin/Editor"), {
@@ -18,6 +19,7 @@ const turndown = new TurndownService({
   headingStyle: "atx",
   codeBlockStyle: "fenced",
 });
+turndown.use(tables);
 turndown.escape = (str: string) => str;
 
 interface CategoryItem {
