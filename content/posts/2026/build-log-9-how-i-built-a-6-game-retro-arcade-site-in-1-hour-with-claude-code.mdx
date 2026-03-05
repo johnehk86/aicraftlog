@@ -1,0 +1,175 @@
+---
+title: "Build Log #9: How I Built a 6-Game Retro Arcade Site in 1 Hour with Claude Code"
+description: "\"I told Claude Code 'let's build a retro arcade game site' — and 6 games were created at once. Snake, Tetris, Breakout, Pong, Minesweeper, Dodge — all in pure HTML/CSS/JS. No frameworks, $0 server cost, 3,000 lines of code total.\""
+date: 2026-03-05
+category: build-log
+tags:
+  - Claude Code
+  - Retro Games
+  - Web Games
+  - HTML Games
+  - JavaScript
+  - AI Coding
+  - AICRAFTER
+  - Game Development
+  - Arcade
+  - Side Project
+---
+
+In the previous post, I set up SEO to get the blog indexed on Google Search.
+
+This time, I changed direction. **Instead of coding, I made games.** Six of them. In under an hour.
+
+* * *
+
+## Why Games?
+
+I'd already built a blog with AI, connected a domain, and set up SEO. The next question was this:
+
+**"Can AI build something that real people can actually play with?"**
+
+Web games were the perfect answer.
+
+No server needed, just a browser, and anyone can play the moment it's deployed.
+
+* * *
+
+## What I Built: Retro Replay
+
+**Retro Replay** is a website with 6 classic arcade games in one place.
+
+*   **Snake** — The classic game where you eat food and grow longer
+    
+*   **Tetris** — Stack blocks and clear lines
+    
+*   **Breakout** — Bounce a ball to break bricks
+    
+*   **Pong** — Classic table tennis against AI
+    
+*   **Minesweeper** — A strategy game where you avoid mines and open all tiles
+    
+*   **Dodge** — The main game: survive 60 seconds dodging homing missiles
+    
+
+The tech stack is **pure HTML, CSS, and JavaScript**. No frameworks. No server. No build tools. Just open a browser and play.
+
+* * *
+
+## How I Built It: Conversations with Claude Code
+
+### Step 1: Setting Up the Project Structure
+
+I told Claude Code "let's build a retro arcade game site." In the very first commit, all 6 games and the main page were created at once.
+
+Here's the project structure that came out:
+
+`retro-replay/   ├── index.html ← Main page (game list)   ├── games/   │ ├── snake/ ← Snake game   │ ├── tetris/ ← Tetris game   │ ├── breakout/ ← Breakout game   │ ├── pong/ ← Pong game   │ ├── minesweeper/ ← Minesweeper game   │ └── dodge/ ← Dodge game (main)`
+
+Each game folder contains an `index.html` and one game logic `.js` file. Total code: approximately **3,000 lines**.
+
+### Step 2: Mobile Support + UI Improvements
+
+The games were built, but they couldn't be played on mobile. No keyboard.
+
+I told Claude Code "add touch controls so they work on mobile too." In a single request, touch controls were added to all 6 games.
+
+What was added in this step:
+
+*   Mobile touch buttons (d-pad, action buttons)
+    
+*   Mobile-specific CSS layouts
+    
+*   AI Craft Log banner (link to [aicraftlog.com](http://aicraftlog.com))
+    
+*   Approximately **600 lines** of additional code
+    
+
+### Step 3: Dodge Game — Designed So No Human Can Beat It
+
+Among the 6 games, **Dodge** got the most attention.
+
+First, I sketched a rough draft in Paint and sent it to Claude Code.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772684948267-image.png)
+
+I explained that the triangle was an airplane, the airplane dodges missiles, the missiles chase the airplane, and asked for the game to be designed so that **nobody can survive past 60 seconds**.
+
+The AI proposed **4 mechanisms** to ensure no human can ever pass the 60-second mark:
+
+<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Mechanism</p></th><th colspan="1" rowspan="1"><p>Description</p></th></tr><tr><td colspan="1" rowspan="1"><p><strong>Homing Missiles</strong></p></td><td colspan="1" rowspan="1"><p>Missiles that track the player's position every frame</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Spawn Interval Reduction</strong></p></td><td colspan="1" rowspan="1"><p>Decreases from 0.8s → 0.15s over time</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Simultaneous Spawn Increase</strong></p></td><td colspan="1" rowspan="1"><p>1 missile → up to 6 at once (~40 per second in late game)</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Missile Speed Increase</strong></p></td><td colspan="1" rowspan="1"><p>Base 1.8 → max 4.3 (player speed fixed at 4)</p></td></tr></tbody></table>
+
+The key is the last one. In the late game, **missile speed (4.3) exceeds player speed (4).**
+
+On top of that, 40 missiles per second are raining down — making evasion physically impossible.
+
+The game is mathematically designed so that 60 seconds is unbeatable.
+
+The main page features a **live demo animation** of the Dodge game.
+
+It's a canvas showing AI automatically dodging missiles — and Claude Code built this too.
+
+* * *
+
+## Results in Numbers
+
+<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Item</p></th><th colspan="1" rowspan="1"><p>Value</p></th></tr><tr><td colspan="1" rowspan="1"><p>Total games</p></td><td colspan="1" rowspan="1"><p>6</p></td></tr><tr><td colspan="1" rowspan="1"><p>Total code</p></td><td colspan="1" rowspan="1"><p>~3,000 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>Commits</p></td><td colspan="1" rowspan="1"><p>3</p></td></tr><tr><td colspan="1" rowspan="1"><p>Tech used</p></td><td colspan="1" rowspan="1"><p>HTML, CSS, JavaScript (no frameworks)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Server cost</p></td><td colspan="1" rowspan="1"><p>$0 (static site)</p></td></tr><tr><td colspan="1" rowspan="1"><p>First commit to completion</p></td><td colspan="1" rowspan="1"><p>Same day</p></td></tr></tbody></table>
+
+* * *
+
+## Main Page: Capturing the Arcade Feel
+
+The main page isn't just a game list. It features **neon colors, scanline effects, and a retro grid background** for an authentic arcade atmosphere.
+
+*   Dodge takes the hero section with a live canvas animation running
+    
+*   The other 5 games have **pixel art preview canvases** for quick previews
+    
+*   Each game's high score is saved in localStorage and displayed on the main page
+    
+*   Styled with TailwindCSS CDN (no build tools needed)
+    
+
+* * *
+
+## Lessons Learned
+
+### 1. AI Can Build Games Too
+
+It's not just blogs. AI is excellent at building games with clear rules. Say "make a Snake game" and you get a fully working Snake.
+
+### 2. You Can Build Multiple Games at Once
+
+I didn't need to build them one by one. "Build an arcade site with 6 retro games" — and all 6 came out in the first commit.
+
+### 3. Game Balancing Is Done Through Conversation
+
+The difficulty curve for Dodge was tuned through conversation with Claude Code. A single request — "make it impossible to beat 60 seconds" — led to a design where missile speed exceeds player speed.
+
+* * *
+
+## Summary of What Was Done
+
+1.  Built a retro arcade game site called **Retro Replay** with Claude Code
+    
+2.  Implemented 6 games (Snake, Tetris, Breakout, Pong, Minesweeper, Dodge) in pure HTML/CSS/JS
+    
+3.  Added mobile touch controls so all games are playable on mobile
+    
+4.  Applied an unbeatable difficulty design to the Dodge game (60-second cap)
+    
+5.  Created a neon arcade-style main page with a live demo animation
+    
+
+`Idea (Retro Arcade)   → Code Generation (Claude Code)   → 6 Games + Main Page (HTML/CSS/JS)   → Mobile Support (Touch Controls)   → Game Balancing (Dodge 60s Design)   → Deployment (GitHub Pages / Cloudflare)`
+
+* * *
+
+## What's Next
+
+In the next post, I'll take on a more complex game. This time, instead of a single AI working alone, I'll use **Agent Teams** — a feature where multiple AI instances split roles and work in parallel. A lead AI assigns tasks, and each teammate AI handles frontend, game logic, and testing simultaneously — cutting the development time significantly.
+
+See you in Build Log #10.
+
+* * *
+
+_I'm an embedded software developer in the automotive industry who builds AI-powered services as AICRAFTER. I'm documenting this journey at_ [_aicraftlog.com_](http://aicraftlog.com)_._
