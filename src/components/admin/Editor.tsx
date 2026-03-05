@@ -137,13 +137,17 @@ async function uploadImageFile(file: File): Promise<string | null> {
   }
 }
 
-const PLACEHOLDER_TEXT = "[Uploading image...]";
+let placeholderCounter = 0;
 
-function removePlaceholder(editor: TiptapEditor) {
+function makePlaceholderText() {
+  return `[Uploading image... #${++placeholderCounter}]`;
+}
+
+function removePlaceholder(editor: TiptapEditor, placeholder: string) {
   const { state } = editor;
   let placeholderPos = -1;
   state.doc.descendants((node, pos) => {
-    if (placeholderPos === -1 && node.isText && node.text === PLACEHOLDER_TEXT) {
+    if (placeholderPos === -1 && node.isText && node.text === placeholder) {
       placeholderPos = pos;
     }
   });
@@ -157,17 +161,18 @@ function removePlaceholder(editor: TiptapEditor) {
 }
 
 async function uploadWithPlaceholder(editor: TiptapEditor, file: File) {
+  const placeholder = makePlaceholderText();
   editor
     .chain()
     .focus()
     .insertContent({
       type: "paragraph",
-      content: [{ type: "text", text: PLACEHOLDER_TEXT }],
+      content: [{ type: "text", text: placeholder }],
     })
     .run();
 
   const url = await uploadImageFile(file);
-  removePlaceholder(editor);
+  removePlaceholder(editor, placeholder);
 
   if (url) {
     editor.chain().focus().setImage({ src: url }).run();
@@ -245,10 +250,11 @@ export default function Editor({ content, onChange }: EditorProps) {
 
   const onFileSelected = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (!file || !editor) return;
+      const files = e.target.files;
+      if (!files || files.length === 0 || !editor) return;
 
-      await uploadWithPlaceholder(editor, file);
+      const images = getImagesFromFiles(files);
+      images.forEach((file) => uploadWithPlaceholder(editor, file));
 
       // Reset input so same file can be re-selected
       e.target.value = "";
@@ -391,6 +397,7 @@ export default function Editor({ content, onChange }: EditorProps) {
           ref={fileInputRef}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/gif"
+          multiple
           onChange={onFileSelected}
           className="hidden"
         />
