@@ -22,5 +22,21 @@
     "icon": "play_circle",
     "iconColor": "red",
     "type": "youtube"
+  },
+  {
+    "title": "Claude Skills Explained in 5 Minutes",
+    "description": "Claude Skills Explained in 5 Minutes",
+    "url": "https://youtu.be/EpEDQgKzurs",
+    "icon": "play_circle",
+    "iconColor": "red",
+    "type": "youtube"
+  },
+  {
+    "title": "A game designed so AI can't survive past 60 seconds...",
+    "description": "A game designed so AI can't survive past 60 seconds...",
+    "url": "https://youtu.be/_2xURKyThCo",
+    "icon": "play_circle",
+    "iconColor": "red",
+    "type": "youtube"
   }
 ]
