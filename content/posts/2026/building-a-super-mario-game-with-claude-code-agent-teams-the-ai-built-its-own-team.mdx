@@ -1,0 +1,242 @@
+---
+title: Building a Super Mario Game with Claude Code Agent Teams | The AI Built Its Own Team
+description: '"I told Claude Code to build a Super Mario-style game using Agent Teams. The AI formed its own team, split the roles, and delivered a 2D platformer in 15 minutes. 2,711 lines of pure HTML/CSS/JS, zero image files. Real benefits and honest limitations."'
+date: 2026-03-06
+category: build-log
+tags:
+  - Claude Code
+  - Agent Teams
+  - Game Development
+  - Pixel Adventure
+  - 2D Platformer
+  - AI Coding
+  - AICRAFTER
+  - JavaScript
+  - Canvas API
+  - Multi-Agent
+---
+
+# The AI Formed a Team and Built a Super Mario-Style Game
+
+Hello.
+
+Have you ever heard of the concept of AI forming a team to work together?
+
+Think of AI as a person.
+
+A team lead AI and teammate AIs form a team, actively communicate, and build something together.
+
+That's basically the concept of **Agent Teams**.
+
+Last time, Claude Code built 6 simple games like Snake and Tetris all by itself.
+
+This time, I'm going to have an AI team tackle something more complex — **a "Super Mario" style game**.
+
+* * *
+
+## I Asked the AI to Form a Team
+
+First, I made this request to Claude Code:
+
+> Let's build a Super Mario-style 2D game! But I don't want the AI working alone! I want you to form an Agent Team — a team of AIs — to develop this together. I want faster results!
+
+And Claude Code **formed its own team** like this:
+
+> *   Engine: Physics engine, collision detection, camera, game loop
+>     
+> 
+> *   Level: Map data, block/pipe/enemy/item placement
+>     
+> *   Graphics: Sprite rendering, animation, background, UI
+>     
+
+Here's the team structure:
+
+<table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Teammate</p></th><th colspan="1" rowspan="1"><p>Role</p></th><th colspan="1" rowspan="1"><p>File</p></th></tr><tr><td colspan="1" rowspan="1"><p><strong>Engine</strong></p></td><td colspan="1" rowspan="1"><p>Physics, collision detection, camera, game loop, input</p></td><td colspan="1" rowspan="1"><p><code>js/engine.js</code></p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Level</strong></p></td><td colspan="1" rowspan="1"><p>Map data (212 tiles), blocks/pipes/enemies/items</p></td><td colspan="1" rowspan="1"><p><code>js/level.js</code></p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Graphics</strong></p></td><td colspan="1" rowspan="1"><p>Sprites, animation, background, UI display</p></td><td colspan="1" rowspan="1"><p><code>js/graphics.js</code></p></td></tr></tbody></table>
+
+This structure has each teammate modifying only their own file, with the team leader integrating the results.
+
+Here's the important part.
+
+**I didn't tell it how to organize the team.**
+
+I simply asked it to form a team and deliver fast results.
+
+The AI looked at the project's scope and characteristics, then split the roles and assigned teammates on its own.
+
+* * *
+
+## The First Attempt Failed
+
+However, the first attempt ended in failure.
+
+The reason was that the teammate AIs **didn't have file write permissions**.
+
+Background agents can't show the user a "Can I write this file?" confirmation prompt, so the requests were automatically denied.
+
+So I asked Claude Code to grant file write permissions to the agents.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772769163301-image.png)
+
+json
+
+`{   "permissions": {   "allow": ["Write", "Edit", "Bash(mkdir:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(touch:*)"]   }   }`
+
+When issues like this come up, just ask Claude Code to analyze the cause and fix the problem.
+
+This single configuration made all team work run smoothly.
+
+* * *
+
+## The Game Was Built in 15 Minutes
+
+After setting permissions, I ran it again.
+
+And the game was ready **in 15 minutes**.
+
+This was built in 15 minutes?
+
+I honestly couldn't believe it.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772769173196-image--14-.png)
+
+A side-scrolling map with blocks, pipes, gaps, enemies (21 Goombas), and a goal flag.
+
+Everything built in pure HTML, CSS, and JavaScript. **Zero image files**.
+
+All graphics drawn entirely with Canvas API code.
+
+* * *
+
+## I Got Greedy
+
+Once the base game was running, I wanted more.
+
+I made additional requests to the AI:
+
+> Make the character jump higher. Add a charge attack — hold to charge energy, release to fire. And add another character — a Ninja Turtle. The Ninja Turtle should attack with a staff.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772769197125-image.png)
+
+And the AI formed an Agent Team and **completed the work in 3 minutes**.
+
+* * *
+
+## The Charge Attack Works
+
+Hold the X key to charge energy. Up to 1 second. Release to fire an energy ball.
+
+<table style="min-width: 100px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Charge Level</p></th><th colspan="1" rowspan="1"><p>Size</p></th><th colspan="1" rowspan="1"><p>Speed</p></th><th colspan="1" rowspan="1"><p>Gauge Color</p></th></tr><tr><td colspan="1" rowspan="1"><p>Low</p></td><td colspan="1" rowspan="1"><p>12px</p></td><td colspan="1" rowspan="1"><p>5</p></td><td colspan="1" rowspan="1"><p>Blue</p></td></tr><tr><td colspan="1" rowspan="1"><p>Medium</p></td><td colspan="1" rowspan="1"><p>18px</p></td><td colspan="1" rowspan="1"><p>7.5</p></td><td colspan="1" rowspan="1"><p>Yellow</p></td></tr><tr><td colspan="1" rowspan="1"><p>High</p></td><td colspan="1" rowspan="1"><p>20px</p></td><td colspan="1" rowspan="1"><p>8.5</p></td><td colspan="1" rowspan="1"><p>Orange</p></td></tr><tr><td colspan="1" rowspan="1"><p>Maximum</p></td><td colspan="1" rowspan="1"><p>24px</p></td><td colspan="1" rowspan="1"><p>10</p></td><td colspan="1" rowspan="1"><p>Red</p></td></tr></tbody></table>
+
+The energy ball renders with a white core + orange glow + trail effect.
+
+Hitting an enemy triggers knockback + 200 points + explosion particles, and it can destroy brick blocks too.
+
+All of these visuals are **drawn entirely with code — not a single image file**.
+
+* * *
+
+## Ninja Turtle Has Entered the Game
+
+Can you see it? A Ninja Turtle has crashed into the Super Mario game.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772769208735-image--17-.png)
+
+Below is how the AI defined each character's abilities:
+
+> *   **Pixel Hero (Default)**
+>     
+> 
+> *   Speed ★★★ / Jump ★★★★
+>     
+> *   Skill: Fireball — Hold X to charge, release for ranged attack
+>     
+> *   Safe, long-range play style
+>     
+> 
+> **Ninja Turtle (New)**
+> 
+> *   Speed ★★★★ / Jump ★★★
+>     
+> *   Skill: Bo Staff — Press X for instant melee strike
+>     
+> *   Green skin, blue mask (Leonardo), brown shell
+>     
+> *   40px forward melee hitbox, fast and aggressive play style
+>     
+
+Character selection, skill differences, stat balancing — all designed by the AI.
+
+* * *
+
+## The Numbers
+
+<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Item</p></th><th colspan="1" rowspan="1"><p>Value</p></th></tr><tr><td colspan="1" rowspan="1"><p>Total code</p></td><td colspan="1" rowspan="1"><p>2,711 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>engine.js</p></td><td colspan="1" rowspan="1"><p>965 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>graphics.js</p></td><td colspan="1" rowspan="1"><p>1,213 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>level.js</p></td><td colspan="1" rowspan="1"><p>302 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>index.html</p></td><td colspan="1" rowspan="1"><p>231 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>Map size</p></td><td colspan="1" rowspan="1"><p>212 x 15 tiles (6 sections)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Enemies</p></td><td colspan="1" rowspan="1"><p>21 Goombas</p></td></tr><tr><td colspan="1" rowspan="1"><p>Playable characters</p></td><td colspan="1" rowspan="1"><p>2</p></td></tr><tr><td colspan="1" rowspan="1"><p>Image files</p></td><td colspan="1" rowspan="1"><p>0 (everything drawn with code)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Server cost</p></td><td colspan="1" rowspan="1"><p>$0</p></td></tr><tr><td colspan="1" rowspan="1"><p>Time to first build</p></td><td colspan="1" rowspan="1"><p>15 minutes</p></td></tr></tbody></table>
+
+* * *
+
+## Honest Thoughts After Using Agent Teams
+
+First, I thought I'd need to give very specific instructions, but
+
+**"Form a team and build it"**
+
+That one sentence was all it took.
+
+The AI assigned the team roles on its own.
+
+### Real Benefits
+
+**1. Speed Through Parallel Work**
+
+3 AIs modified their respective files simultaneously. Working alone, it would have had to go through `graphics.js` → `engine.js` → `index.html` sequentially. Since the files were independent, parallel processing worked without conflicts.
+
+**2. Forced Clean Architecture**
+
+Splitting into teams naturally established the engine / graphics / level structure. When a single AI writes everything, code tends to pile into one file. The role division itself kept the architecture clean.
+
+**3. Context Window Efficiency**
+
+Each agent focuses exclusively on its own file, so no single agent needs to hold all 2,711 lines in memory. Especially for a large file like `graphics.js` (1,213 lines), having a dedicated agent handle it was far more effective.
+
+### Honest Limitations
+
+<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Problem</p></th><th colspan="1" rowspan="1"><p>Details</p></th></tr><tr><td colspan="1" rowspan="1"><p><strong>Permission Failure</strong></p></td><td colspan="1" rowspan="1"><p>First attempt failed because teammate AIs didn't have file write permissions</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Missing Code</strong></p></td><td colspan="1" rowspan="1"><p>Graphics agent omitted some functions → Main AI had to fill in the gaps</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Integration Cost</strong></p></td><td colspan="1" rowspan="1"><p>Every phase required the main AI to verify results and fill in missing pieces</p></td></tr></tbody></table>
+
+In conclusion, Agent Teams is closer to **parallel copilots** than a fully autonomous team.
+
+By parallel copilots, I mean multiple AIs work on their tasks simultaneously, but the team lead AI must handle final verification and integration.
+
+The team lead AI must always verify and clean up the results.
+
+But compare working through 2,711 lines sequentially with one AI versus having 3 work simultaneously while the lead integrates.
+
+**The latter is clearly faster, and the code structure ends up cleaner.**
+
+* * *
+
+## What I Took Away From This
+
+I wondered if there were more engineering insights to extract here, but
+
+I think in the future, AI will optimize and build things on its own without humans even having to ask.
+
+I wanted to learn how to use AI well, but it seems we've entered an era where using AI well is something the AI does for you.
+
+With one sentence — "form a team and build it" — the AI organized its own team, split the roles, worked in parallel, and built a game in 15 minutes.
+
+Man, what are people going to do from here?
+
+It really feels like a scary era.
+
+* * *
+
+## Git Code
+
+Here's the git repository for this project. Feel free to check it out.
+
+[https://github.com/johnehk86/pixel_adventure](https://github.com/johnehk86/pixel_adventure)
+
+* * *
+
+_I'm an embedded software developer in the automotive industry who builds AI-powered services as AICRAFTER. I'm documenting this journey at_ [_aicraftlog.com_](http://aicraftlog.com)_._
