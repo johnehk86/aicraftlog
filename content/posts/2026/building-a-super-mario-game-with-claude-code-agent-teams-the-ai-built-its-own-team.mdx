@@ -52,7 +52,11 @@ And Claude Code **formed its own team** like this:
 
 Here's the team structure:
 
-<table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Teammate</p></th><th colspan="1" rowspan="1"><p>Role</p></th><th colspan="1" rowspan="1"><p>File</p></th></tr><tr><td colspan="1" rowspan="1"><p><strong>Engine</strong></p></td><td colspan="1" rowspan="1"><p>Physics, collision detection, camera, game loop, input</p></td><td colspan="1" rowspan="1"><p><code>js/engine.js</code></p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Level</strong></p></td><td colspan="1" rowspan="1"><p>Map data (212 tiles), blocks/pipes/enemies/items</p></td><td colspan="1" rowspan="1"><p><code>js/level.js</code></p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Graphics</strong></p></td><td colspan="1" rowspan="1"><p>Sprites, animation, background, UI display</p></td><td colspan="1" rowspan="1"><p><code>js/graphics.js</code></p></td></tr></tbody></table>
+| Teammate | Role | File |
+|---|---|---|
+| **Engine** | Physics, collision detection, camera, game loop, input | `js/engine.js` |
+| **Level** | Map data (212 tiles), blocks/pipes/enemies/items | `js/level.js` |
+| **Graphics** | Sprites, animation, background, UI display | `js/graphics.js` |
 
 This structure has each teammate modifying only their own file, with the team leader integrating the results.
 
@@ -126,7 +130,12 @@ And the AI formed an Agent Team and **completed the work in 3 minutes**.
 
 Hold the X key to charge energy. Up to 1 second. Release to fire an energy ball.
 
-<table style="min-width: 100px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Charge Level</p></th><th colspan="1" rowspan="1"><p>Size</p></th><th colspan="1" rowspan="1"><p>Speed</p></th><th colspan="1" rowspan="1"><p>Gauge Color</p></th></tr><tr><td colspan="1" rowspan="1"><p>Low</p></td><td colspan="1" rowspan="1"><p>12px</p></td><td colspan="1" rowspan="1"><p>5</p></td><td colspan="1" rowspan="1"><p>Blue</p></td></tr><tr><td colspan="1" rowspan="1"><p>Medium</p></td><td colspan="1" rowspan="1"><p>18px</p></td><td colspan="1" rowspan="1"><p>7.5</p></td><td colspan="1" rowspan="1"><p>Yellow</p></td></tr><tr><td colspan="1" rowspan="1"><p>High</p></td><td colspan="1" rowspan="1"><p>20px</p></td><td colspan="1" rowspan="1"><p>8.5</p></td><td colspan="1" rowspan="1"><p>Orange</p></td></tr><tr><td colspan="1" rowspan="1"><p>Maximum</p></td><td colspan="1" rowspan="1"><p>24px</p></td><td colspan="1" rowspan="1"><p>10</p></td><td colspan="1" rowspan="1"><p>Red</p></td></tr></tbody></table>
+| Charge Level | Size | Speed | Gauge Color |
+|---|---|---|---|
+| Low | 12px | 5 | Blue |
+| Medium | 18px | 7.5 | Yellow |
+| High | 20px | 8.5 | Orange |
+| Maximum | 24px | 10 | Red |
 
 The energy ball renders with a white core + orange glow + trail effect.
 
@@ -171,7 +180,19 @@ Character selection, skill differences, stat balancing — all designed by the A
 
 ## The Numbers
 
-<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Item</p></th><th colspan="1" rowspan="1"><p>Value</p></th></tr><tr><td colspan="1" rowspan="1"><p>Total code</p></td><td colspan="1" rowspan="1"><p>2,711 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>engine.js</p></td><td colspan="1" rowspan="1"><p>965 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>graphics.js</p></td><td colspan="1" rowspan="1"><p>1,213 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>level.js</p></td><td colspan="1" rowspan="1"><p>302 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>index.html</p></td><td colspan="1" rowspan="1"><p>231 lines</p></td></tr><tr><td colspan="1" rowspan="1"><p>Map size</p></td><td colspan="1" rowspan="1"><p>212 x 15 tiles (6 sections)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Enemies</p></td><td colspan="1" rowspan="1"><p>21 Goombas</p></td></tr><tr><td colspan="1" rowspan="1"><p>Playable characters</p></td><td colspan="1" rowspan="1"><p>2</p></td></tr><tr><td colspan="1" rowspan="1"><p>Image files</p></td><td colspan="1" rowspan="1"><p>0 (everything drawn with code)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Server cost</p></td><td colspan="1" rowspan="1"><p>$0</p></td></tr><tr><td colspan="1" rowspan="1"><p>Time to first build</p></td><td colspan="1" rowspan="1"><p>15 minutes</p></td></tr></tbody></table>
+| Item | Value |
+|---|---|
+| Total code | 2,711 lines |
+| engine.js | 965 lines |
+| graphics.js | 1,213 lines |
+| level.js | 302 lines |
+| index.html | 231 lines |
+| Map size | 212 x 15 tiles (6 sections) |
+| Enemies | 21 Goombas |
+| Playable characters | 2 |
+| Image files | 0 (everything drawn with code) |
+| Server cost | $0 |
+| Time to first build | 15 minutes |
 
 * * *
 
@@ -201,7 +222,11 @@ Each agent focuses exclusively on its own file, so no single agent needs to hold
 
 ### Honest Limitations
 
-<table style="min-width: 50px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Problem</p></th><th colspan="1" rowspan="1"><p>Details</p></th></tr><tr><td colspan="1" rowspan="1"><p><strong>Permission Failure</strong></p></td><td colspan="1" rowspan="1"><p>First attempt failed because teammate AIs didn't have file write permissions</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Missing Code</strong></p></td><td colspan="1" rowspan="1"><p>Graphics agent omitted some functions → Main AI had to fill in the gaps</p></td></tr><tr><td colspan="1" rowspan="1"><p><strong>Integration Cost</strong></p></td><td colspan="1" rowspan="1"><p>Every phase required the main AI to verify results and fill in missing pieces</p></td></tr></tbody></table>
+| Problem | Details |
+|---|---|
+| **Permission Failure** | First attempt failed because teammate AIs didn't have file write permissions |
+| **Missing Code** | Graphics agent omitted some functions → Main AI had to fill in the gaps |
+| **Integration Cost** | Every phase required the main AI to verify results and fill in missing pieces |
 
 In conclusion, Agent Teams is closer to **parallel copilots** than a fully autonomous team.
 
