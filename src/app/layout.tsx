@@ -61,6 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        <meta name="naver-site-verification" content="cd059feed55e4ab2ea446d7ab0b480b6bea55eb7" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
