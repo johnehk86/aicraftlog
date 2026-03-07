@@ -38,5 +38,21 @@
     "icon": "play_circle",
     "iconColor": "red",
     "type": "youtube"
+  },
+  {
+    "title": "Pixel Adventure",
+    "description": "A Super Mario-inspired platformer built with Claude Agent Teams",
+    "url": "https://pixel-adventure.craftai.work",
+    "icon": "videogame_asset",
+    "iconColor": "green",
+    "type": "web"
+  },
+  {
+    "title": "Built a Super Mario Game in 15 Minutes with Claude Agent Teams",
+    "description": "Agent Teams Tutorial",
+    "url": "https://youtu.be/CPCrp_TBhl8",
+    "icon": "play_circle",
+    "iconColor": "red",
+    "type": "youtube"
   }
 ]
