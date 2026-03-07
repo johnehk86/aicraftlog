@@ -1,0 +1,122 @@
+---
+title: "Embedded Software in the Age of AI: Starting Over from Scratch"
+description: After 15 years in embedded development, I'm rebuilding everything from scratch — this time with AI. Here's why embedded still matters, what Edge AI changes, and what I'm building next.
+date: 2026-03-07
+category: build-log
+tags:
+  - embedded
+  - AI
+  - TC275
+  - Claude Code
+  - Edge AI
+  - automotive
+---
+
+Hi, I'm AI Craft Toby.
+
+It's been a while since I wrote about embedded software.
+
+A few years ago, I wrote a series explaining what embedded SW is, what an MCU does, and whether this field even has a future. Looking back at those posts, the core content still holds up.
+
+But one thing has fundamentally changed.
+
+**AI is here. And I want to use it.**
+
+So today I'm revisiting the basics — and announcing a new project I'm genuinely excited about.
+
+* * *
+
+## What Is Embedded Software?
+
+"Embedded" literally means _built-in_. Embedded software is software that lives inside a machine, designed for one specific purpose and nothing else.
+
+Take a washing machine. When you press a button, it washes, rinses, and spins — automatically. That's possible because there's a small computer inside called an **ECU (Electric Control Unit)**. And inside that ECU sits a tiny black chip called an **MCU (Micro Control Unit)**. The software that runs your washing machine lives inside that chip.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772868154470-image.png)
+
+That's embedded software.
+
+It's fundamentally different from the apps on your laptop. Your laptop runs Excel, YouTube, games — whatever you install. It's general-purpose. But embedded software does one thing only. It doesn't need a massive CPU or gigabytes of RAM. It just needs to be _fast, reliable, and precise enough_ to do its job.
+
+> **Embedded software is software built into a machine to control something specific — and nothing else.**
+
+* * *
+
+## What's Inside an MCU?
+
+MCU stands for Micro Control Unit — a tiny, self-contained computer on a single chip.
+
+Inside every MCU you'll find:
+
+*   **CPU** — the brain that executes code
+    
+*   **Memory** — where the code is stored
+    
+*   **Peripherals** — specialized modules like ADC, SPI, CAN, and GPIO that handle real-world signals
+    
+
+Those peripherals are what make embedded software interesting. The washing machine maintains water temperature using ADC (analog-to-digital conversion). It controls spin speed through PWM signals. In a car, CAN (Controller Area Network) lets dozens of ECUs communicate with each other in real time.
+
+Embedded software is ultimately about **control** — using these peripherals to make the physical world behave exactly as intended.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772868164598-image--16-.png)
+
+* * *
+
+## Will Embedded Developers Still Have a Job in the Age of AI?
+
+I've been doing embedded development for over 15 years. I've asked myself this question more than once.
+
+_Is this field still worth it?_
+
+My answer: **yes — and more than ever.**
+
+Here's why.
+
+Embedded software runs in the physical world. When code is wrong, cars stop, airbags misfire, factory lines go down. AI can generate code, but someone still needs to **verify that it works safely on real hardware**. In automotive especially, standards like ISO 26262 mean that even AI-generated code requires human review and certification. That responsibility isn't going away.
+
+The role is shifting, not disappearing. Where I used to write every register config and driver line by hand, the future looks like this: AI generates the first draft, and the engineer focuses on **architecture, validation, and optimization**. Repetitive work moves to AI. The harder judgment calls stay with humans.
+
+* * *
+
+## The Biggest Opportunity: Edge AI
+
+There's one more reason this field is about to get a lot more interesting. **Edge AI.**
+
+Most AI today runs in the cloud. You send data to a server, the server runs the model, and you get a result back. That works fine for many use cases.
+
+But imagine a self-driving car. If a person steps in front of the vehicle, there's no time to ping a server and wait. The chip _inside the car_ has to make that decision instantly — in milliseconds.
+
+That's Edge AI: running AI inference directly on the device, with no cloud dependency.
+
+Tesla's FSD chip does exactly this. It processes camera feeds and makes driving decisions entirely on-board, in real time. Modern smartphones have dedicated NPUs for on-device AI processing. And increasingly, automotive-grade MCUs are being used to run lightweight AI models — what's called **TinyML** — directly on constrained hardware.
+
+Here's what that means for the field.
+
+There are plenty of people who can build AI models. There are very few who can **deploy them safely on real hardware** — respecting tight memory limits, meeting real-time deadlines, and satisfying functional safety requirements all at once. That combination takes years to develop.
+
+**AI knowledge + hardware knowledge = the rarest skill set in the industry.**
+
+High barrier to entry means fewer competitors. That's not a bad thing if you're already in.
+
+* * *
+
+## So I'm Starting Over — With AI
+
+I've spent the past year building web apps and a browser game using Claude Code. The workflow is simple: I describe what I want, AI writes the code, I review and steer. It's been surprisingly effective.
+
+So I started wondering: _what if I applied the same approach to embedded development?_
+
+That's the project.
+
+I'm using an **Infineon TC275 board** and **Claude Code** to build an AI-Vehicle from scratch. The first goal: a small car that avoids obstacles in real time using infrared and ultrasonic sensors.
+
+Every step — hardware design, peripheral setup, control logic — I'll be working alongside AI. I explain the theory. Claude Code generates the implementation. We run it on actual hardware and see what happens.
+
+If you're learning embedded development, I hope this series makes the concepts more accessible. If you're curious about using AI beyond web development, this is going to be interesting territory.
+
+**Next post: Setting up the development environment — AURIX Development Studio and connecting the TC275 board.**
+
+* * *
+
+_I'm an embedded software developer building AI-powered projects with Claude Code. Follow the journey at_ [_aicraftlog.com_](http://aicraftlog.com)_._
