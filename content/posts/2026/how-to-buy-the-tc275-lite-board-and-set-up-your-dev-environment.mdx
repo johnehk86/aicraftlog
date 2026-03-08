@@ -22,13 +22,13 @@ If you're not familiar with embedded software or MCUs yet, I'd recommend reading
 
 👉 [Embedded SW in the Age of AI: Starting Over from Scratch](https://aicraftlog.com/blog/embedded-software-in-the-age-of-ai-starting-over-from-scratch)
 
-* * *
-
 ## Why Infineon? Why TC275 Lite?
 
 ### Why Automotive Companies Choose Infineon
 
 Inside a modern car, there are dozens — sometimes over 100 — ECUs (Electronic Control Units). Each ECU has an MCU at its core. And for the most critical ECUs, Infineon is the dominant choice. Here's why.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772961180293-image.png)
 
 **1. ISO 26262 Functional Safety**
 
@@ -47,8 +47,6 @@ Infineon MCUs come with a built-in HSM (Hardware Security Module) that handles e
 A modern ECU has to read sensors, control motors, handle communication, and run safety monitors — all at the same time. The TC275 has three TriCore cores, allowing you to split these tasks across cores. That's something a single-core MCU simply can't do at the same level.
 
 These three factors have made Infineon the go-to MCU vendor in the automotive industry. And high demand means **developers who know Infineon MCUs are in high demand too.**
-
-* * *
 
 ### Why TC275 Specifically?
 
@@ -70,20 +68,22 @@ The TC275 Lite board has an onboard debugger. Connect it via USB and you can dow
 
 Pricing varies depending on supply and timing, so check the links below for current prices.
 
-* * *
-
 ## Where to Buy the TC275 Lite
 
 ### Option 1: Mouser Korea
 
-1.  Search for **'Mouser Korea'** and go to the site. Create an account first.
+*   Search for **'Mouser Korea'** and go to the site. Create an account first.
     
-2.  Search for **TC275** in the search bar.
+
+*   Search for **TC275** in the search bar.
     
-3.  Select the board with part number **726-KTAURIXTC275LITE**.
+
+*   Select the board with part number **726-KTAURIXTC275LITE**.
     
-    ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772959752484-image--13-.webp)
-4.  Enter your quantity and proceed to checkout.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1772959752484-image--13-.webp)
+
+*   Enter your quantity and proceed to checkout.
     
 
 > 💡 **Note:** When I first bought this board, it was around ₩52,000. Prices fluctuate based on semiconductor supply. Always check current pricing before ordering.
@@ -100,8 +100,6 @@ Part number: **KITAURIXTC275LITETOBO1** — same board, same specs. Check both s
 
 > 💡 **Free shipping tip:** Both Mouser and DigiKey offer free shipping on orders over ₩60,000. Ordering two boards (or bundling with other components) gets you there easily.
 
-* * *
-
 ## What Is a Dev Environment?
 
 Once your board arrives, you need to set up a development environment. But what does that actually mean?
@@ -114,14 +112,14 @@ To do that, you need three things:
 
 *   **Source code editor** — write the code
     
+
 *   **Compiler** — convert code into machine language the MCU understands
     
+
 *   **Downloader & debugger** — flash it onto the MCU and check behavior
     
 
 Let's go through each one.
-
-* * *
 
 ### ① Source Code Editor
 
@@ -131,14 +129,14 @@ Three reasons VS Code stands out:
 
 *   **Completely free.** No license fees, no trial limits.
     
+
 *   **Thousands of Extensions** — think of them like apps you install to add features. C/C++ autocomplete, syntax highlighting, Git integration, and more. You can build a fully customized development environment without spending a cent.
     
-*   **Excellent AI integration.** Extensions for GitHub Copilot, Claude, and other AI coding tools are well-supported. This series will use VS Code as the base editor, with AI-assisted development throughout.
+
+*   **Excellent AI integration.** Extensions for GitHub Copilot, Claude, and other AI coding tools are well-supported. This series will use VS Code as the base editor, with AI-assisted development throughout
     
 
 👉 Download VS Code: [https://code.visualstudio.com/download](https://code.visualstudio.com/download)
-
-* * *
 
 ### ② Compiler (Cross Compiler)
 
@@ -150,21 +148,15 @@ But in automotive production, GCC isn't used. The reason is **ISO 26262 function
 
 Here's the good news: **AURIX Development Studio (ADS) includes the TASKING compiler for free.** The same compiler used in real automotive ECU development — available to you at no cost. That's a genuine advantage of the TC275 Lite ecosystem.
 
-* * *
-
 ### ③ Downloader & Debugger
 
 Once your code is compiled, you need to flash it into the MCU's Flash memory and verify it runs correctly. In production environments, engineers use Trace32 — a debugger that costs tens of thousands of dollars.
 
 At home, we can't afford that. But the TC275 Lite has an onboard debugger that connects via USB. It handles both flashing and debugging. It's not as powerful as Trace32, but it's more than enough to learn and build real projects.
 
-* * *
-
 ### At Home: One IDE Does Everything
 
 In a professional setting, each of these three tools is purchased and managed separately. At home, we can use a single **IDE (Integrated Development Environment)** that bundles all three. Infineon provides one for free.
-
-* * *
 
 ## Installing AURIX Development Studio (ADS)
 
@@ -190,20 +182,22 @@ During installation, **DAS (Device Access Server)** will also be installed. DAS 
 
 This single tool handles source code editing, compilation, flashing, and debugging. A complete, free IDE — all in one.
 
-* * *
-
 ## Wrapping Up
 
 Here's the summary:
 
 *   Infineon dominates automotive MCUs for three reasons: ISO 26262 hardware safety, built-in cybersecurity (HSM), and multi-core architecture
     
+
 *   TC275 Lite is available on Mouser and DigiKey — compare prices and availability
     
+
 *   Free shipping on both platforms for orders over ₩60,000
     
+
 *   ADS is a free IDE that includes the TASKING compiler — no additional tools needed
     
+
 *   The onboard debugger means USB is all you need to start developing
     
 
