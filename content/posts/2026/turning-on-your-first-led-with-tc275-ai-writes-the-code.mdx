@@ -25,8 +25,6 @@ But here's the twist — **I'm not writing it myself.**
 
 I hand the hardware manual to AI, and let it figure out everything — pin numbers, circuit behavior, timing — on its own. This post shows you exactly how that works.
 
-*
-
 ## 1. Creating a Project in ADS
 
 ### 1) File → New → New AURIX Project
@@ -49,8 +47,6 @@ Choose **TC27xTP_D-Step → KIT AURIX TC275 LITE** and click **Finish**.
 
 ADS will generate a base project configured for the TC275 Lite board.
 
-*
-
 ## 2. Building the Project
 
 With the project created, let's run a build.
@@ -68,8 +64,6 @@ Right-click on the project name and select **Build Project**.
 You'll see a success message in the console at the bottom. Inside the project folder, a **Debug** folder appears containing your **.elf file**.
 
 > **💡 What is a .elf file?** ELF stands for Executable and Linkable Format. It's the binary file that gets downloaded onto the MCU. Once it's on the board, the code runs.
-
-*
 
 ## 3. Downloading to the TC275 Board
 
@@ -96,8 +90,6 @@ Click **Debug**. The .elf file will be downloaded to the TC275 board and the deb
 ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773027495413-image--19-.png)
 
 At this point, the code you built is actually running on real hardware.
-
-*
 
 ## 4. Understanding LED and GPIO — Before We Let AI Write the Code
 
@@ -142,8 +134,6 @@ Here's the key:
 This design is called **Active Low**. You pull the GPIO down to GND to turn the LED on.
 
 > **💡 What is outputPushPull mode?** It's one of the GPIO output modes — it actively drives both HIGH and LOW states. The difference between Push-Pull and Open-Drain will be covered in a future post.
-
-*
 
 ## 5. Letting AI (Claude Code) Write the Code
 
@@ -203,7 +193,7 @@ The code is generated. Click **Accept** to apply it.
 
 After receiving the code, I asked Claude to explain its design choices. Here's what it said:
 
-`● LED Blink Code — Design Rationale 1. Why P00.5 and P00.6? From the board manual, Table 3: LED1 → P00.5 (green, Low-active) LED2 → P00.6 (green, Low-active) 2. What does Low-active mean? PIN = HIGH → LED OFF PIN = LOW → LED ON Current flows only when the pin is pulled to GND. 3. Why use the STM timer for delay? STM (System Timer) is a hardware timer that starts counting automatically at power-on. A simple for-loop delay is unreliable because the compiler may optimize it away. STM guarantees accurate timing.` **Claude read the manual, identified the correct pins, understood the circuit behavior, and chose the right timer — all on its own.** This is what using AI in embedded development actually looks like. No manual register hunting required. *
+`● LED Blink Code — Design Rationale 1. Why P00.5 and P00.6? From the board manual, Table 3: LED1 → P00.5 (green, Low-active) LED2 → P00.6 (green, Low-active) 2. What does Low-active mean? PIN = HIGH → LED OFF PIN = LOW → LED ON Current flows only when the pin is pulled to GND. 3. Why use the STM timer for delay? STM (System Timer) is a hardware timer that starts counting automatically at power-on. A simple for-loop delay is unreliable because the compiler may optimize it away. STM guarantees accurate timing.` **Claude read the manual, identified the correct pins, understood the circuit behavior, and chose the right timer — all on its own.** This is what using AI in embedded development actually looks like. No manual register hunting required.
 
 ## 6. Running and Checking Registers
 
@@ -221,15 +211,11 @@ If you manually change that value to 1 in the debugger, LED1 turns off.
 
 ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773027739308-image--36-.png)
 
-*
-
 ## 7. What's Next — Blinking Every 1 Second
 
 We successfully turned the LED on and off.
 
 If you look at the code Claude generated, it already uses the STM timer for a 500ms delay. In the next post, we'll dig into why that matters — and walk through **Clock, PLL, Timer, and Interrupt** concepts one by one.
-
-*
 
 ## Summary
 
