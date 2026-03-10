@@ -41,7 +41,7 @@ You can delegate the coding to AI. **You cannot delegate the understanding.**
 
 That's why, before diving into hands-on coding with the TC275 board, I want to lay down the fundamentals — how the embedded system works, what each peripheral does, and why these concepts matter. Running AI-generated code without understanding it is very different from verifying AI-generated code because you understand it.
 
-* * *
+*
 
 ## Why Is LED Blinking Such a Big Deal?
 
@@ -67,6 +67,7 @@ Embedded SW broadly falls into two categories:
 
 *   **Firmware SW** — runs without an OS; the developer builds the scheduler directly
     
+
 *   **OS SW** — runs on top of an RTOS or embedded Linux
     
 
@@ -74,13 +75,13 @@ Most small MCUs don't need an OS. In those cases, the developer has to design th
 
 Even when using an RTOS or embedded Linux, the situation is the same at its core. The OS handles scheduling, but underneath it all, that OS is driven by Timer Interrupts. **Whether you use an OS or not, interrupts and absolute time are the foundation of all embedded SW.** Understanding this from the start is what separates engineers who can debug from engineers who just run code and hope for the best.
 
-* * *
+*
 
 ## Why You Can't Use a `for` Loop for Delay
 
 At first glance, this seems like a reasonable approach:
 
-> `while(1) {   for(i = 0; i < 10000; i++){};   LED_ON();   for(i = 0; i < 10000; i++){};   LED_OFF();   }`
+> `while(1) { for(i = 0; i < 10000; i++){}; LED_ON(); for(i = 0; i < 10000; i++){}; LED_OFF(); }`
 
 Wait a set number of loop iterations, toggle the GPIO, repeat.
 
@@ -90,7 +91,7 @@ Say you want to build a digital clock where an LED blinks exactly once per secon
 
 After a lot of trial and error accounting for CPU speed, you find that `10000000` gives you roughly 1 second. Great.
 
-> `while(1) {   for(i = 0; i < 10000000; i++){};   LED_ON();   for(i = 0; i < 10000000; i++){};   LED_OFF();   ADD_Function(); // newly added function   }`
+> `while(1) { for(i = 0; i < 10000000; i++){}; LED_ON(); for(i = 0; i < 10000000; i++){}; LED_OFF(); ADD_Function(); // newly added function }`
 
 You add one more function — `ADD_Function()`. Its execution time adds to the loop. Now `10000000` is no longer accurate. You have to re-tune the value.
 
@@ -102,7 +103,7 @@ So how do you actually generate absolute time?
 
 You use **Timer and Interrupt**. And to understand Timer, you first need to understand **Clock**.
 
-* * *
+*
 
 ## 1. What Is a Clock?
 
@@ -132,10 +133,14 @@ Every time the CPU executes code, it goes through three stages:
 
 *   **Fetch** — retrieve an instruction from memory
     
+
 *   **Decode** — interpret what the instruction means
     
+
 *   **Execute** — carry out the operation
     
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773112454902-image.png)
 
 These three stages are synchronized to the clock cycle. **The faster the clock, the faster the CPU processes code.**
 
@@ -151,7 +156,7 @@ A Timer module, for example, counts clock pulses. When it reaches a set count, i
 
 ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773109804578-image--15-.png)
 
-* * *
+*
 
 ## 2. 20MHz Isn't Enough — Why We Need PLL
 
@@ -173,8 +178,10 @@ Here's how it works conceptually:
 
 *   **FI (Input)** — the 20MHz signal from the oscillator
     
+
 *   **FO (Output)** — the 200MHz signal we want
     
+
 *   **÷N (Divider)** — divides the output and feeds it back for comparison; the loop adjusts until the divided output matches the input
     
 
@@ -188,17 +195,17 @@ The TC275 PLL formula is:
 
 Plugging in the actual register values:
 
-> `N = NDIV + 1 = 0x3b + 1 = 60   P = PDIV + 1 = 0x1 + 1 = 2   K2 = K2DIV + 1 = 0x2 + 1 = 3      fPLL = 60 / (2 × 3) × 20MHz = 200MHz ✓`
+> `N = NDIV + 1 = 0x3b + 1 = 60 P = PDIV + 1 = 0x1 + 1 = 2 K2 = K2DIV + 1 = 0x2 + 1 = 3 fPLL = 60 / (2 × 3) × 20MHz = 200MHz ✓`
 
 In an ADS project, you configure these values in `Ifx_Cfg.h`:
 
-> `#define IFX_CFG_SCU_XTAL_FREQUENCY (20000000) /* Input: 20MHz */   #define IFX_CFG_SCU_PLL_FREQUENCY (200000000) /* Output: 200MHz */`
+> `#define IFX_CFG_SCU_XTAL_FREQUENCY (20000000) / Input: 20MHz / #define IFX_CFG_SCU_PLL_FREQUENCY (200000000) / Output: 200MHz /`
 
 ILLD (Infineon Low Level Driver) reads these settings and automatically initializes the PLL registers inside `IfxScuCcu_init()`. You don't need to touch the registers manually.
 
 And in practice — this is exactly the kind of setup work we'll hand off to AI.
 
-* * *
+*
 
 ## 3. Distributing the Clock — Splitting 200MHz Across Modules
 
@@ -210,13 +217,13 @@ Each module has a maximum clock frequency it can accept, and the CCU automatical
 
 When using the ILLD Driver, this all happens automatically with optimized values:
 
-> `fCPU0 = 200MHz (CPU core)   fSRI = 200MHz (system bus)   fSPB = 100MHz (peripheral bus)   fSTM = 100MHz (System Timer)   fGTM = 100MHz (General Timer)   fCAN = 100MHz (CAN communication)`
+> `fCPU0 = 200MHz (CPU core) fSRI = 200MHz (system bus) fSPB = 100MHz (peripheral bus) fSTM = 100MHz (System Timer) fGTM = 100MHz (General Timer) fCAN = 100MHz (CAN communication)`
 
 You can verify these values at runtime by inspecting the `ClockSettingInfo` struct in the debugger — the actual frequencies match exactly what the ILLD driver configured.
 
 ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773109897152--52F2D769-A28E-4C0F-824A-DF554F155BD9-.png)
 
-* * *
+*
 
 ## Putting It All Together
 
@@ -230,12 +237,14 @@ Here's the one-sentence summary of everything above:
 
 In the next post, we'll dig into the core of this flow — **Timer and Interrupt** — and walk through how these concepts work inside the TC275.
 
-* * *
+*
 
 📝 Previous posts in this series
 
 *   EP.01: [Embedded Software in the Age of AI — Starting Over From Scratch](https://aicraftlog.com/blog/embedded-software-in-the-age-of-ai-starting-over-from-scratch)
     
+
 *   EP.02: [How to Buy the TC275 Lite Board and Set Up Your Dev Environment](https://aicraftlog.com/blog/how-to-buy-the-tc275-lite-board-and-set-up-your-dev-environment)
     
+
 *   EP.03: [Turning On Your First LED with TC275 — AI Writes the Code](https://aicraftlog.com/blog/turning-on-your-first-led-with-tc275-ai-writes-the-code)
