@@ -23,6 +23,10 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
     name: "Tutorial",
     slug: "tutorial",
   },
+  {
+    name: "Embedded Log",
+    slug: "embedded-log",
+  },
 ];
 
 export const NAV_LINKS = [
@@ -31,6 +35,7 @@ export const NAV_LINKS = [
   { label: "Build Log", href: "/category/build-log" },
   { label: "AI Tools", href: "/category/ai-tools" },
   { label: "Tutorial", href: "/category/tutorial" },
+  { label: "Embedded Log", href: "/category/embedded-log" },
 ];
 
 export function getCategoryName(slug: string): string {
