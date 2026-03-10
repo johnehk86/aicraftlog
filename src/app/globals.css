@@ -137,7 +137,7 @@ body {
 
 /* Inline code */
 .prose :not(pre) > code {
-  @apply rounded-lg bg-slate-100 px-1.5 py-0.5 text-sm font-medium dark:bg-primary/10 dark:text-primary-300;
+  @apply rounded-lg bg-slate-200/70 px-1.5 py-0.5 text-sm font-medium text-slate-800 dark:bg-primary/10 dark:text-primary-300;
 }
 
 .prose :not(pre) > code::before,
