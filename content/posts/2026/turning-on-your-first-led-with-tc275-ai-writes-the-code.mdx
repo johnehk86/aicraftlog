@@ -110,20 +110,24 @@ The pin that controls the LED is called a **GPIO — General Purpose Input/Outpu
 It's the MCU's way of communicating with the outside world. It works in two directions:
 
 *   **Input mode** — reads external signals. For example, when you press a button, voltage enters the pin and the MCU detects it.
-
+    
 *   **Output mode** — sends signals out. This is what we're doing here. We configure pin `P00.5` as output and write `0` or `1` to its register to turn the LED on or off.
+    
 
 ### How the LED Circuit Works
 
 LED1 on the TC275 Lite is connected to **pin P00.5**. The circuit looks like this:
 
-`VEXT(5V) ── R21(680Ω) ── LED1 ── P00.5 pin` ![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773027536714-image--22-.png)
+`VEXT(5V) ── R21(680Ω) ── LED1 ── P00.5 pin`
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773027536714-image--22-.png)
 
 Here's the key:
 
 *   **Register = 1** → P00.5 = HIGH (5V) → same voltage as VEXT → no current → **LED OFF**
-
+    
 *   **Register = 0** → P00.5 = LOW (GND) → voltage difference → current flows → **LED ON**
+    
 
 This design is called **Active Low**. You pull the GPIO down to GND to turn the LED on.
 
@@ -187,7 +191,17 @@ The code is generated. Click **Accept** to apply it.
 
 After receiving the code, I asked Claude to explain its design choices. Here's what it said:
 
-`● LED Blink Code — Design Rationale 1. Why P00.5 and P00.6? From the board manual, Table 3: LED1 → P00.5 (green, Low-active) LED2 → P00.6 (green, Low-active) 2. What does Low-active mean? PIN = HIGH → LED OFF PIN = LOW → LED ON Current flows only when the pin is pulled to GND. 3. Why use the STM timer for delay? STM (System Timer) is a hardware timer that starts counting automatically at power-on. A simple for-loop delay is unreliable because the compiler may optimize it away. STM guarantees accurate timing.` **Claude read the manual, identified the correct pins, understood the circuit behavior, and chose the right timer — all on its own.** This is what using AI in embedded development actually looks like. No manual register hunting required.
+```
+LED Blink Code — Design Rationale 
+1. Why P00.5 and P00.6? 
+From the board manual, Table 3: LED1 → P00.5 (green, Low-active) LED2 → P00.6 (green, Low-active) 
+2. What does Low-active mean? 
+PIN = HIGH → LED OFF PIN = LOW → LED ON Current flows only when the pin is pulled to GND. 
+3. Why use the STM timer for delay? 
+STM (System Timer) is a hardware timer that starts counting automatically at power-on. A simple for-loop delay is unreliable because the compiler may optimize it away. STM guarantees accurate timing.
+```
+
+**Claude read the manual, identified the correct pins, understood the circuit behavior, and chose the right timer — all on its own.** This is what using AI in embedded development actually looks like. No manual register hunting required.
 
 ## 6. Running and Checking Registers
 
@@ -214,12 +228,13 @@ If you look at the code Claude generated, it already uses the STM timer for a 50
 ## Summary
 
 *   Create a project in ADS, build it, and you get a **.elf file** ready to download to the TC275 board via USB.
-
+    
 *   The TC275's LEDs are **Active Low** — write 0 to the GPIO register to turn the LED on.
-
+    
 *   Give **Claude Code** the hardware manual and it figures out pin numbers, circuit behavior, and timing logic on its own.
-
+    
 *   Push-Pull vs. Open-Drain will be covered in the next post.
+    
 
 Embedded development moves faster with AI than you'd expect.
 
