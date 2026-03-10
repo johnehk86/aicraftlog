@@ -189,9 +189,7 @@ export default function Editor({ content, onChange }: EditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
-      StarterKit.configure({
-        codeBlock: false,
-      }),
+      StarterKit,
       Image.configure({
         HTMLAttributes: {
           class: "max-w-full rounded-lg",

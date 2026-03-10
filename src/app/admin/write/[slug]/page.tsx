@@ -65,6 +65,9 @@ function markdownToHtml(md: string): string {
   return md
     // Code blocks (fenced)
     .replace(/```(\w*)\n([\s\S]*?)```/g, (_m, _lang, code) => `<pre><code>${code.trim()}</code></pre>`)
+    // Horizontal rules (must come before bold/italic/list processing)
+    .replace(/^---$/gm, "<hr>")
+    .replace(/^\* ?\* ?\*$/gm, "<hr>")
     // Headings
     .replace(/^### (.+)$/gm, "<h3>$1</h3>")
     .replace(/^## (.+)$/gm, "<h2>$1</h2>")
@@ -81,18 +84,19 @@ function markdownToHtml(md: string): string {
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
     // Blockquotes
     .replace(/^> (.+)$/gm, "<blockquote>$1</blockquote>")
-    // Unordered list items
-    .replace(/^[*-] (.+)$/gm, "<li>$1</li>")
+    // Unordered list items (allow multiple spaces after marker)
+    .replace(/^[*-]\s+(.+)$/gm, "<li>$1</li>")
     // Ordered list items
-    .replace(/^\d+\. (.+)$/gm, "<li>$1</li>")
+    .replace(/^\d+\.\s+(.+)$/gm, "<li>$1</li>")
+    // Collapse blank lines between consecutive <li> items
+    .replace(/(<\/li>)\s*\n\s*\n\s*(<li>)/g, "$1\n$2")
     // Wrap consecutive <li> in <ul>
     .replace(/((?:<li>.*<\/li>\n?)+)/g, "<ul>$1</ul>")
-    // Horizontal rules
-    .replace(/^---$/gm, "<hr>")
     // Paragraphs (non-empty lines not already wrapped)
     .replace(/^(?!<[a-z])(.+)$/gm, "<p>$1</p>")
-    // Clean up
-    .replace(/<p><\/p>/g, "");
+    // Clean up empty paragraphs and excess whitespace between block elements
+    .replace(/<p><\/p>/g, "")
+    .replace(/(<\/(ul|ol|blockquote|pre|table|h[1-6]|hr|p)>)\s*\n\s*\n+\s*(<)/g, "$1\n$3");
 }
 
 export default function EditPage({
