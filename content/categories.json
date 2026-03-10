@@ -14,5 +14,9 @@
   {
     "label": "Thoughts",
     "value": "thoughts"
+  },
+  {
+    "label": "Embedded Log",
+    "value": "embedded-log"
   }
 ]
