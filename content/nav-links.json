@@ -14,5 +14,9 @@
   {
     "label": "Tutorial",
     "href": "/category/tutorial"
+  },
+  {
+    "label": "About",
+    "href": "/about"
   }
 ]
