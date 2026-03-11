@@ -128,7 +128,12 @@ When a peripheral has something to report, it sends an **electrical signal** to 
 
 No watching. No waiting. React only when needed.
 
-<table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p></p></th><th colspan="1" rowspan="1"><p>Polling</p></th><th colspan="1" rowspan="1"><p>Interrupt</p></th></tr><tr><td colspan="1" rowspan="1"><p>CPU load</p></td><td colspan="1" rowspan="1"><p>High (constant checking)</p></td><td colspan="1" rowspan="1"><p>Low (only when needed)</p></td></tr><tr><td colspan="1" rowspan="1"><p>Response time</p></td><td colspan="1" rowspan="1"><p>Depends on check interval</p></td><td colspan="1" rowspan="1"><p>Immediate</p></td></tr><tr><td colspan="1" rowspan="1"><p>Code structure</p></td><td colspan="1" rowspan="1"><p>Simple</p></td><td colspan="1" rowspan="1"><p>ISR requires separate design</p></td></tr><tr><td colspan="1" rowspan="1"><p>Typical use</p></td><td colspan="1" rowspan="1"><p>Simple state monitoring</p></td><td colspan="1" rowspan="1"><p>Timers, communication, sensor events</p></td></tr></tbody></table>
+| | Polling | Interrupt |
+|---|---|---|
+| CPU load | High (constant checking) | Low (only when needed) |
+| Response time | Depends on check interval | Immediate |
+| Code structure | Simple | ISR requires separate design |
+| Typical use | Simple state monitoring | Timers, communication, sensor events |
 
 * * *
 
