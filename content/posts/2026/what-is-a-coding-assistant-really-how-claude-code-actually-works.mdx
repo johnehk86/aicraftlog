@@ -1,0 +1,199 @@
+---
+title: What Is a Coding Assistant, Really? — How Claude Code Actually Works
+description: Most people think Claude Code is just a code generator. It's not. Here's how it actually works — explained with a shopping mall analogy and a Windows terminal
+date: 2026-03-11
+category: build-log
+tags:
+  - claude-code
+  - ai-tools
+  - coding-assistant
+  - how-it-works
+  - anthropic
+---
+
+Claude, ChatGPT, Gemini.
+
+Most people use these as smart chat assistants. Ask a question, get an answer. Summarize a document, generate some text.
+
+They're great at that. But they have one hard limit.
+
+* * *
+
+## One File Is Fine. What About 100?
+
+Let's say you run an online store.
+
+You have 100 Excel files in a folder — one for each month of sales data over the past few years.
+
+You want this:
+
+```
+"Go through every file in my sales folder,
+ read all of them,
+ and give me a full summary report."
+```
+
+**ChatGPT can't do that. Claude can't do that.**
+
+Not because they're not smart enough. Because they can only see what you hand them directly. They can't go browsing through your computer on their own.
+
+* * *
+
+## Claude Code Is Different
+
+Tools like Claude Code and OpenAI's Codex are a different category.
+
+```
+Browse your folders autonomously
+Read the files it needs
+Process your instructions
+Save the result exactly where you want it
+```
+
+Not just on your PC — it can deliver results to a server too.
+
+**The shift: from a smart advisor that tells you what to do → to an assistant that actually does it.**
+
+It sounds like a tool only developers would use. The name "coding assistant" doesn't help. But the capability goes way beyond writing code.
+
+I was always curious how this worked under the hood.
+
+Then I found out Anthropic offers a free official course.
+
+```
+Course: Claude Code in Action
+URL:    https://anthropic.skilljar.com/claude-code-in-action
+Price:  Free (just need a Skilljar account)
+Bonus:  Official Anthropic certificate on completion
+```
+
+Going through it, I finally understood the structure. Here's what I learned.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773230032970--B4F911C4-B2CF-460D-9B3D-64F9213BA86C---1-.png)
+
+* * *
+
+## The Truth About Claude Code — It's Not That Smart
+
+Claude Code is an app that runs in your terminal.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773230046968--D51C6B7D-FD98-4F7C-A6EB-E8A62E954C93---1-.png)
+
+And honestly? The app itself isn't that intelligent.
+
+Here's what actually happens when you give it a task:
+
+```
+You give a command
+    ↓
+Claude Code passes it to Claude (the AI model)
+    ↓
+Claude says "I need more data — get me that file"
+    ↓
+Claude Code finds the file, reads it, hands it over
+    ↓
+Claude analyzes it and decides what to do next
+    ↓
+Claude Code writes the result as an actual file on your machine
+```
+
+Claude Code is basically **Claude's assistant.**
+
+The brain is Claude. Claude Code is the one that physically moves around your computer doing whatever the brain asks.
+
+* * *
+
+## So How Does Claude Code Actually Read Files?
+
+This is where the key concept comes in: **Tools.**
+
+Open a Windows terminal and type `mkdir test_folder`.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773230062647--9376E9C5-C02D-41E9-8FEF-4967ACE0F3AA---1-.png)
+
+A new folder appears. Here's what's really happening:
+
+```
+cmd.exe receives the mkdir command
+    ↓
+Passes "test_folder" as a parameter to Windows OS
+    ↓
+OS creates the folder
+```
+
+`cmd.exe` is the program that takes your command and tells the OS what to do.
+
+**Tools work exactly the same way.**
+
+Anthropic built a set of these "command handlers" and baked them into Claude Code:
+
+```
+Read   → Access the file system and read a file
+Write  → Access the file system and create a file
+Edit   → Access the file system and modify a file
+Bash   → Execute a terminal command
+Fetch  → Make an HTTP request over the network
+```
+
+That's why Claude Code can open an Excel file, a Word doc, a log file — whatever it needs.
+
+**Claude Code = an app that bundles Claude (the brain) with Tools (the hands and feet)**
+
+* * *
+
+## Claude Solves Problems Like a Human
+
+Once Claude Code hands over the data, Claude works through the problem in a loop — just like a developer would.
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773230074892--74854276-BE70-401B-833F-07C5558F6A8B---1-.png)
+
+**Step 1 — Gather context**
+
+*   What's in these files?
+    
+*   Where is this data coming from?
+    
+*   What's the overall structure here?
+    
+
+**Step 2 — Formulate a plan**
+
+*   What's the best way to handle this?
+    
+*   Are there edge cases?
+    
+*   What format should the result be in?
+    
+
+**Step 3 — Take action**
+
+*   Ask Claude Code to read or modify files
+    
+*   Check the result
+    
+*   If it's not right, go back to Step 1
+    
+
+One pass is rarely enough. It iterates. That's exactly how a senior developer works.
+
+* * *
+
+## The Real Picture
+
+![](https://pub-218bb21699b74268b562557c2f9ad25f.r2.dev/uploads/1773230094537--C16A091E-7CAF-4A4E-8520-D7ABA63CA5D3-.png)
+
+```
+Claude      = Brain (reasoning, planning, analysis)
+Tools       = Hands and feet (file read/write/execute)
+Claude Code = The app that connects brain to machine
+```
+
+Claude decides what needs to happen. Claude Code makes it happen on your actual computer.
+
+"Coding assistant" is an undersell. A more accurate description:
+
+> **An execution layer that digs through your computer, feeds data to an AI, and turns the AI's output into real files.**
+
+* * *
+
+_This post is based on Anthropic's official free course "Claude Code in Action."_ _Course link:_ [_https://anthropic.skilljar.com/claude-code-in-action_](https://anthropic.skilljar.com/claude-code-in-action)
