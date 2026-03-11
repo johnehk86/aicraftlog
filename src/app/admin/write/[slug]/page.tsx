@@ -58,13 +58,19 @@ function markdownTableToHtml(tableBlock: string): string {
 
 /** Simple Markdown → HTML for loading existing content into the editor */
 function markdownToHtml(md: string): string {
-  // Convert markdown tables first (before line-level transforms)
+  // Extract code blocks first to protect them from line-level transforms
+  const codeBlocks: string[] = [];
+  md = md.replace(/```(\w*)\n([\s\S]*?)```/g, (_m, _lang, code) => {
+    const idx = codeBlocks.length;
+    codeBlocks.push(`<pre><code>${code.trim()}</code></pre>`);
+    return `\n%%CODEBLOCK_${idx}%%\n`;
+  });
+
+  // Convert markdown tables (before line-level transforms)
   const tableRegex = /(?:^|\n)((?:\|.+\|[ \t]*\n)\|[-| :]+\|[ \t]*\n(?:\|.+\|[ \t]*\n?)+)/g;
   md = md.replace(tableRegex, (_match, table: string) => "\n" + markdownTableToHtml(table) + "\n");
 
-  return md
-    // Code blocks (fenced)
-    .replace(/```(\w*)\n([\s\S]*?)```/g, (_m, _lang, code) => `<pre><code>${code.trim()}</code></pre>`)
+  md = md
     // Horizontal rules (must come before bold/italic/list processing)
     .replace(/^---$/gm, "<hr>")
     .replace(/^\* ?\* ?\*$/gm, "<hr>")
@@ -93,10 +99,15 @@ function markdownToHtml(md: string): string {
     // Wrap consecutive <li> in <ul>
     .replace(/((?:<li>.*<\/li>\n?)+)/g, "<ul>$1</ul>")
     // Paragraphs (non-empty lines not already wrapped)
-    .replace(/^(?!<[a-z])(.+)$/gm, "<p>$1</p>")
+    .replace(/^(?!<[a-z])(?!%%CODEBLOCK_)(.+)$/gm, "<p>$1</p>")
     // Clean up empty paragraphs and excess whitespace between block elements
     .replace(/<p><\/p>/g, "")
     .replace(/(<\/(ul|ol|blockquote|pre|table|h[1-6]|hr|p)>)\s*\n\s*\n+\s*(<)/g, "$1\n$3");
+
+  // Restore code blocks
+  md = md.replace(/%%CODEBLOCK_(\d+)%%/g, (_m, idx) => codeBlocks[parseInt(idx, 10)]);
+
+  return md;
 }
 
 export default function EditPage({
