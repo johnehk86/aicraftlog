@@ -1,42 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://aicraftlog.com/terms</loc><lastmod>2026-03-02T03:03:51.085Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/privacy</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/category/ai-tools</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/category/build-log</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/category/tutorial</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/about</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/contact</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/adsense</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/ai</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/ai-coding</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/blog</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/blog-development</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/branding</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/build-log</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/career-change</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/claude-code</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/cloudflare</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/cloudflare-pages</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/codex-cli</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/deployment</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/domain</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/gemini-cli</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/git</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/github</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/google-adsense</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/monetization</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/prompts</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/seo</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/tutorial</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/tag/vibe-coding</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-1-from-embedded-developer-to-ai-builder-my-first-month</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-2-where-do-you-even-start-with-ai-monetization</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-3-building-a-blog-with-ai-tool-selection-setup-and-first-prompt</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-4-all-24-prompts-that-built-my-blog-fully-revealed</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-5-how-ai-generated-code-goes-live</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-6-buying-a-domain-and-connecting-it-to-your-site</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://aicraftlog.com/blog/build-log-7-monetizing-the-blog-with-google-adsense</loc><lastmod>2026-03-02T03:03:51.086Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/privacy</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/contact</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/category/ai-tools</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/category/build-log</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/category/embedded-log</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/category/tutorial</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/about</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/terms</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/2D Platformer</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/absolute time</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/ADS</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/adsense</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Agent Teams</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/ai</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI Coding</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI embedded</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI Manual</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI Productivity</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI Tools</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/ai-coding</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AI-Vehicle</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AICRAFTER</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Anthropic</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Arcade</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/AURIX</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/automotive</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/automotive embedded</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/blog</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/blog-development</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/branding</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/build-log</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Canvas API</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/career-change</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/CCU</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Claude</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Claude Code</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Claude Skills</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/claude-code</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/clock distribution</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/clock signal</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/cloudflare</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/cloudflare-pages</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/codex-cli</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Custom Skills</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/deployment</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/dev environment</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/domain</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Edge AI</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/embedded</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/embedded fundamentals</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/embedded systems</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/firmware development</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Game Development</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/gemini-cli</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/git</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/github</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/google-adsense</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/GPIO</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/HTML Games</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/ILLD</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Infineon</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/interrupt</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/JavaScript</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/LED</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/LED blinking</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/MCU</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/MCU clock</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/monetization</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Multi-Agent</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/oscillator</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/phase-locked loop</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Pixel Adventure</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/PLL</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/PowerPoint Automation</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Prompt Engineering</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/prompts</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Retro Games</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/seo</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Side Project</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/square wave</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/STM</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/STM timer</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/TC275</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/time-base</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/timer</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/timer interrupt</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/TriCore</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/tutorial</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/vibe-coding</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/tag/Web Games</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/ai-tools-1-claude-skills-give-ai-a-manual-and-the-results-change</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-1-from-embedded-developer-to-ai-builder-my-first-month</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-2-where-do-you-even-start-with-ai-monetization</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-3-building-a-blog-with-ai-tool-selection-setup-and-first-prompt</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-4-all-24-prompts-that-built-my-blog-fully-revealed</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-5-how-ai-generated-code-goes-live</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-6-buying-a-domain-and-connecting-it-to-your-site</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-7-monetizing-the-blog-with-google-adsense</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-8-how-to-register-google-search-console-get-your-blog-indexed-on-google</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/build-log-9-how-i-built-a-6-game-retro-arcade-site-in-1-hour-with-claude-code</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/building-a-super-mario-game-with-claude-code-agent-teams-the-ai-built-its-own-team</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/embedded-software-in-the-age-of-ai-starting-over-from-scratch</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/how-to-buy-the-tc275-lite-board-and-set-up-your-dev-environment</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/timer-and-interrupt-how-to-create-a-heartbeat-in-embedded-sw</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/turning-on-your-first-led-with-tc275-ai-writes-the-code</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://aicraftlog.com/blog/why-does-led-blinking-matter-understanding-clock-and-pll-first-ai-vehicle-4</loc><lastmod>2026-03-11T05:46:52.800Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

@@ -4,66 +4,247 @@
         <title>AI Craft Log</title>
         <link>https://aicraftlog.com</link>
         <description>A tech blog covering AI development, web development, and tool reviews for developers</description>
-        <lastBuildDate>Thu, 26 Feb 2026 15:29:56 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 11 Mar 2026 05:46:52 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
         <copyright>All rights reserved 2026, AI Craft Log</copyright>
         <item>
-            <title><![CDATA[Test9]]></title>
-            <link>https://aicraftlog.com/blog/test9</link>
-            <guid>https://aicraftlog.com/blog/test9</guid>
-            <pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate>
+            <title><![CDATA[Timer and Interrupt — How to Create a Heartbeat in Embedded SW]]></title>
+            <link>https://aicraftlog.com/blog/timer-and-interrupt-how-to-create-a-heartbeat-in-embedded-sw</link>
+            <guid>https://aicraftlog.com/blog/timer-and-interrupt-how-to-create-a-heartbeat-in-embedded-sw</guid>
+            <pubDate>Wed, 11 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn why for-loop delays break timing in embedded systems, and how Timer + Interrupt creates a rock-solid 1ms Time Base on the TC275 MCU. Part of the AI-Vehicle series.]]></description>
+            <category>TC275</category>
+            <category>embedded</category>
+            <category>timer</category>
+            <category>interrupt</category>
+            <category>STM</category>
+            <category>time-base</category>
+            <category>automotive</category>
+            <category>AI-Vehicle</category>
+            <category>Infineon</category>
+            <category>TriCore</category>
         </item>
         <item>
-            <title><![CDATA[test5]]></title>
-            <link>https://aicraftlog.com/blog/test5</link>
-            <guid>https://aicraftlog.com/blog/test5</guid>
-            <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+            <title><![CDATA[Why Does LED Blinking Matter? — Understanding Clock and PLL First | AI-Vehicle #4]]></title>
+            <link>https://aicraftlog.com/blog/why-does-led-blinking-matter-understanding-clock-and-pll-first-ai-vehicle-4</link>
+            <guid>https://aicraftlog.com/blog/why-does-led-blinking-matter-understanding-clock-and-pll-first-ai-vehicle-4</guid>
+            <pubDate>Tue, 10 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Why does LED blinking matter in embedded development? Before writing any code, learn how Clock, PLL, and CCU work — and why AI-generated code still needs an engineer to verify it.]]></description>
+            <category>TC275</category>
+            <category>AURIX</category>
+            <category>Infineon</category>
+            <category>embedded systems</category>
+            <category>automotive embedded</category>
+            <category>clock signal</category>
+            <category>PLL</category>
+            <category>phase-locked loop</category>
+            <category>CCU</category>
+            <category>clock distribution</category>
+            <category>LED blinking</category>
+            <category>absolute time</category>
+            <category>timer interrupt</category>
+            <category>firmware development</category>
+            <category>Claude Code</category>
+            <category>AI embedded</category>
+            <category>embedded fundamentals</category>
+            <category>MCU clock</category>
+            <category>oscillator</category>
+            <category>square wave</category>
+            <category>STM timer</category>
+            <category>ILLD</category>
+            <category>ADS</category>
         </item>
         <item>
-            <title><![CDATA[Test7]]></title>
-            <link>https://aicraftlog.com/blog/test7</link>
-            <guid>https://aicraftlog.com/blog/test7</guid>
-            <pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate>
+            <title><![CDATA[Turning On Your First LED with TC275 — AI Writes the Code]]></title>
+            <link>https://aicraftlog.com/blog/turning-on-your-first-led-with-tc275-ai-writes-the-code</link>
+            <guid>https://aicraftlog.com/blog/turning-on-your-first-led-with-tc275-ai-writes-the-code</guid>
+            <pubDate>Mon, 09 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[Learn how to create a project in ADS, build it, download it to the TC275 Lite board, and turn on an LED — with Claude Code writing the embedded C code from the hardware manual.]]></description>
+            <category>TC275</category>
+            <category>AURIX</category>
+            <category>embedded</category>
+            <category>LED</category>
+            <category>GPIO</category>
+            <category>Claude Code</category>
+            <category>ADS</category>
         </item>
         <item>
-            <title><![CDATA[The Complete Guide to Building a Tech Blog with Next.js]]></title>
-            <link>https://aicraftlog.com/blog/nextjs-blog-guide</link>
-            <guid>https://aicraftlog.com/blog/nextjs-blog-guide</guid>
-            <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[Learn how to build an SEO-optimized tech blog step by step using Next.js 15 and MDX.]]></description>
-            <category>nextjs</category>
-            <category>react</category>
-            <category>blog</category>
-            <category>MDX</category>
+            <title><![CDATA[How to Buy the TC275 Lite Board and Set Up Your Dev Environment]]></title>
+            <link>https://aicraftlog.com/blog/how-to-buy-the-tc275-lite-board-and-set-up-your-dev-environment</link>
+            <guid>https://aicraftlog.com/blog/how-to-buy-the-tc275-lite-board-and-set-up-your-dev-environment</guid>
+            <pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[A complete guide to buying the Infineon TC275 Lite dev board and setting up your embedded SW development environment from scratch — including why automotive companies choose Infineon, where to buy it, and how to install ADS for free.]]></description>
+            <category>embedded</category>
+            <category>TC275</category>
+            <category>Infineon</category>
+            <category>AURIX</category>
+            <category>ADS</category>
+            <category>automotive</category>
+            <category>MCU</category>
+            <category>dev environment</category>
         </item>
         <item>
-            <title><![CDATA[TEST]]></title>
-            <link>https://aicraftlog.com/blog/test</link>
-            <guid>https://aicraftlog.com/blog/test</guid>
-            <pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Getting the Most Out of Claude Code: Practical Tips]]></title>
-            <link>https://aicraftlog.com/blog/claude-code-tips</link>
-            <guid>https://aicraftlog.com/blog/claude-code-tips</guid>
-            <pubDate>Fri, 20 Feb 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[Practical tips and prompt strategies for using Claude Code efficiently.]]></description>
-            <category>claude</category>
+            <title><![CDATA[Embedded Software in the Age of AI: Starting Over from Scratch]]></title>
+            <link>https://aicraftlog.com/blog/embedded-software-in-the-age-of-ai-starting-over-from-scratch</link>
+            <guid>https://aicraftlog.com/blog/embedded-software-in-the-age-of-ai-starting-over-from-scratch</guid>
+            <pubDate>Sat, 07 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[After 15 years in embedded development, I'm rebuilding everything from scratch — this time with AI. Here's why embedded still matters, what Edge AI changes, and what I'm building next.]]></description>
+            <category>embedded</category>
             <category>AI</category>
-            <category>prompts</category>
-            <category>dev-tools</category>
+            <category>TC275</category>
+            <category>Claude Code</category>
+            <category>Edge AI</category>
+            <category>automotive</category>
         </item>
         <item>
-            <title><![CDATA[Tailwind CSS v4: A Complete Guide to New Features]]></title>
-            <link>https://aicraftlog.com/blog/tailwind-css-v4-guide</link>
-            <guid>https://aicraftlog.com/blog/tailwind-css-v4-guide</guid>
-            <pubDate>Sun, 15 Feb 2026 00:00:00 GMT</pubDate>
-            <description><![CDATA[A summary of major changes and new features in Tailwind CSS v4, including CSS-first configuration and new utilities.]]></description>
-            <category>tailwindcss</category>
-            <category>CSS</category>
-            <category>frontend</category>
+            <title><![CDATA[Building a Super Mario Game with Claude Code Agent Teams | The AI Built Its Own Team]]></title>
+            <link>https://aicraftlog.com/blog/building-a-super-mario-game-with-claude-code-agent-teams-the-ai-built-its-own-team</link>
+            <guid>https://aicraftlog.com/blog/building-a-super-mario-game-with-claude-code-agent-teams-the-ai-built-its-own-team</guid>
+            <pubDate>Fri, 06 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA["I told Claude Code to build a Super Mario-style game using Agent Teams. The AI formed its own team, split the roles, and delivered a 2D platformer in 15 minutes. 2,711 lines of pure HTML/CSS/JS, zero image files. Real benefits and honest limitations."]]></description>
+            <category>Claude Code</category>
+            <category>Agent Teams</category>
+            <category>Game Development</category>
+            <category>Pixel Adventure</category>
+            <category>2D Platformer</category>
+            <category>AI Coding</category>
+            <category>AICRAFTER</category>
+            <category>JavaScript</category>
+            <category>Canvas API</category>
+            <category>Multi-Agent</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #9: How I Built a 6-Game Retro Arcade Site in 1 Hour with Claude Code]]></title>
+            <link>https://aicraftlog.com/blog/build-log-9-how-i-built-a-6-game-retro-arcade-site-in-1-hour-with-claude-code</link>
+            <guid>https://aicraftlog.com/blog/build-log-9-how-i-built-a-6-game-retro-arcade-site-in-1-hour-with-claude-code</guid>
+            <pubDate>Thu, 05 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA["I told Claude Code 'let's build a retro arcade game site' — and 6 games were created at once. Snake, Tetris, Breakout, Pong, Minesweeper, Dodge — all in pure HTML/CSS/JS. No frameworks, $0 server cost, 3,000 lines of code total."]]></description>
+            <category>Claude Code</category>
+            <category>Retro Games</category>
+            <category>Web Games</category>
+            <category>HTML Games</category>
+            <category>JavaScript</category>
+            <category>AI Coding</category>
+            <category>AICRAFTER</category>
+            <category>Game Development</category>
+            <category>Arcade</category>
+            <category>Side Project</category>
+        </item>
+        <item>
+            <title><![CDATA[AI Tools #1: Claude Skills — Give AI a Manual, and the Results Change]]></title>
+            <link>https://aicraftlog.com/blog/ai-tools-1-claude-skills-give-ai-a-manual-and-the-results-change</link>
+            <guid>https://aicraftlog.com/blog/ai-tools-1-claude-skills-give-ai-a-manual-and-the-results-change</guid>
+            <pubDate>Wed, 04 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA["Did you know AI reads a secret file before starting any task? Same Claude, same request — but with Skills, the results are completely different. Learn what Claude Skills are, see real before/after examples, and discover how to create your own custom Skills."]]></description>
+            <category>Claude</category>
+            <category>Claude Skills</category>
+            <category>AI Tools</category>
+            <category>Anthropic</category>
+            <category>PowerPoint Automation</category>
+            <category>AI Productivity</category>
+            <category>Claude Code</category>
+            <category>Prompt Engineering</category>
+            <category>AI Manual</category>
+            <category>Custom Skills</category>
+            <category>AICRAFTER</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #8: How to Register Google Search Console — Get Your Blog Indexed on Google]]></title>
+            <link>https://aicraftlog.com/blog/build-log-8-how-to-register-google-search-console-get-your-blog-indexed-on-google</link>
+            <guid>https://aicraftlog.com/blog/build-log-8-how-to-register-google-search-console-get-your-blog-indexed-on-google</guid>
+            <pubDate>Mon, 02 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[How to register your blog with Google Search Console, submit a sitemap, and apply basic SEO to get your blog indexed and visible in search results.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #2: Where Do You Even Start with AI Monetization?]]></title>
+            <link>https://aicraftlog.com/blog/build-log-2-where-do-you-even-start-with-ai-monetization</link>
+            <guid>https://aicraftlog.com/blog/build-log-2-where-do-you-even-start-with-ai-monetization</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[My roadmap for turning AI skills into real income — starting with building a self-hosted blog, targeting 50K monthly visitors, and documenting every step.]]></description>
+            <category>build-log</category>
+            <category>adsense</category>
+            <category>monetization</category>
+            <category>blog</category>
+            <category>seo</category>
+            <category>vibe-coding</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #3: Building a Blog with AI — Tool Selection, Setup, and First Prompt]]></title>
+            <link>https://aicraftlog.com/blog/build-log-3-building-a-blog-with-ai-tool-selection-setup-and-first-prompt</link>
+            <guid>https://aicraftlog.com/blog/build-log-3-building-a-blog-with-ai-tool-selection-setup-and-first-prompt</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[An embedded developer with zero web experience picks the best AI coding tool, installs it, and writes the first prompt to build a blog from scratch.]]></description>
+            <category>build-log</category>
+            <category>claude-code</category>
+            <category>vibe-coding</category>
+            <category>codex-cli</category>
+            <category>gemini-cli</category>
+            <category>tutorial</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #4: All 24 Prompts That Built My Blog — Fully Revealed]]></title>
+            <link>https://aicraftlog.com/blog/build-log-4-all-24-prompts-that-built-my-blog-fully-revealed</link>
+            <guid>https://aicraftlog.com/blog/build-log-4-all-24-prompts-that-built-my-blog-fully-revealed</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[The complete 24 prompts I used to build aicraftlog.com with Claude Code — including the secret trick of showing AI a screenshot instead of writing long instructions.]]></description>
+            <category>build-log</category>
+            <category>claude-code</category>
+            <category>vibe-coding</category>
+            <category>prompts</category>
+            <category>tutorial</category>
+            <category>blog-development</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #5: How AI-Generated Code Goes Live]]></title>
+            <link>https://aicraftlog.com/blog/build-log-5-how-ai-generated-code-goes-live</link>
+            <guid>https://aicraftlog.com/blog/build-log-5-how-ai-generated-code-goes-live</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[From code on my PC to a live website — how Git, GitHub, and Cloudflare Pages work together to publish AI-generated code to the world.]]></description>
+            <category>build-log</category>
+            <category>git</category>
+            <category>github</category>
+            <category>cloudflare-pages</category>
+            <category>deployment</category>
+            <category>tutorial</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #6: Buying a Domain and Connecting It to Your Site]]></title>
+            <link>https://aicraftlog.com/blog/build-log-6-buying-a-domain-and-connecting-it-to-your-site</link>
+            <guid>https://aicraftlog.com/blog/build-log-6-buying-a-domain-and-connecting-it-to-your-site</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[How to buy a .com domain, why .com matters for branding, and how to connect it to Cloudflare Pages — with a full cost breakdown of running a blog.]]></description>
+            <category>build-log</category>
+            <category>domain</category>
+            <category>cloudflare</category>
+            <category>deployment</category>
+            <category>branding</category>
+            <category>tutorial</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #7: Monetizing the Blog with Google AdSense]]></title>
+            <link>https://aicraftlog.com/blog/build-log-7-monetizing-the-blog-with-google-adsense</link>
+            <guid>https://aicraftlog.com/blog/build-log-7-monetizing-the-blog-with-google-adsense</guid>
+            <pubDate>Sun, 01 Mar 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[How Google AdSense works, the step-by-step application process, and how I used AI to optimize the blog for approval.]]></description>
+            <category>build-log</category>
+            <category>google-adsense</category>
+            <category>monetization</category>
+            <category>tutorial</category>
+            <category>ai-coding</category>
+        </item>
+        <item>
+            <title><![CDATA[Build Log #1: From Embedded Developer to AI Builder — My First Month]]></title>
+            <link>https://aicraftlog.com/blog/build-log-1-from-embedded-developer-to-ai-builder-my-first-month</link>
+            <guid>https://aicraftlog.com/blog/build-log-1-from-embedded-developer-to-ai-builder-my-first-month</guid>
+            <pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate>
+            <description><![CDATA[How an embedded software developer with zero web experience built 3 AI-powered web services in one month using Claude Code and vibe coding.]]></description>
+            <category>build-log</category>
+            <category>claude-code</category>
+            <category>ai</category>
+            <category>career-change</category>
+            <category>vibe-coding</category>
         </item>
     </channel>
 </rss>

@@ -18,5 +18,9 @@
   {
     "label": "Embedded Log",
     "value": "embedded-log"
+  },
+  {
+    "label": "AI New",
+    "value": "ai-new"
   }
 ]
