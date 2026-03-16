@@ -1,0 +1,174 @@
+---
+title: What is a Memory Section? From Concept to Custom Placement (.text, .data, .bss, .rodata)
+description: A practical guide to memory sections in embedded systems — what .text, .data, .bss, and .rodata actually mean, why they exist, and how to create your own custom section in TASKING compiler.
+date: 2026-03-16
+category: build-log
+tags:
+  - embedded
+  - memory
+  - linker
+  - TC275
+  - AURIX
+  - TASKING
+  - firmware
+---
+
+This time, we're going one level deeper — **how memory is divided into sections**, and the fact that you can actually create your own.
+
+* * *
+
+## What Is a Section?
+
+Look up "section" in the dictionary and you get: **a part of something.**
+
+That's exactly what it is. A memory section is a **designated region of memory for a specific purpose.**
+
+Think of it like a house. A house has a living room, a kitchen, a bedroom, and a storage room. Each room has a different purpose. Memory works the same way — there's a region for code, a region for initialized variables, a region for uninitialized variables. Each one has its own role.
+
+* * *
+
+## Let's See It in Code
+
+Take this simple example:
+
+```c
+int Test1;
+int Test2 = 2;
+const int Test3 = 3;
+
+int main(void)
+{
+    int Test4 = 4;
+    Test1++;
+    Test2++;
+    Test4++;
+
+    return 0;
+}
+```
+
+Four variables. Four different sections.
+
+<table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Variable</p></th><th colspan="1" rowspan="1"><p>Characteristic</p></th><th colspan="1" rowspan="1"><p>Section</p></th></tr><tr><td colspan="1" rowspan="1"><p>Test1</p></td><td colspan="1" rowspan="1"><p>Uninitialized global</p></td><td colspan="1" rowspan="1"><p><strong>.bss</strong></p></td></tr><tr><td colspan="1" rowspan="1"><p>Test2</p></td><td colspan="1" rowspan="1"><p>Initialized global</p></td><td colspan="1" rowspan="1"><p><strong>.data</strong></p></td></tr><tr><td colspan="1" rowspan="1"><p>Test3</p></td><td colspan="1" rowspan="1"><p>Read-only (const)</p></td><td colspan="1" rowspan="1"><p><strong>.rodata</strong></p></td></tr><tr><td colspan="1" rowspan="1"><p>Test4</p></td><td colspan="1" rowspan="1"><p>Local variable</p></td><td colspan="1" rowspan="1"><p><strong>Stack</strong></p></td></tr></tbody></table>
+
+* * *
+
+## Why Bother Splitting?
+
+_"Can't we just dump everything in one place?"_
+
+No. Because **each type of data has a different purpose** — and different runtime behavior.
+
+### .bss — Uninitialized globals
+
+`Test1` has no initial value. There's nothing to store in Flash (ROM). The start code just needs to reserve space in RAM and zero it out. No Flash space consumed.
+
+### .data — Initialized globals
+
+`Test2` starts with the value `2`. That value has to live somewhere even before the program runs — so it's stored in Flash. When the program boots, the start code copies it from Flash into RAM. That's why initialized globals need Flash _and_ RAM.
+
+### .rodata — const variables
+
+`Test3` is `const` — read-only. It never needs to be written. It can stay in Flash permanently. The start code doesn't need to allocate any RAM for it.
+
+### Stack — local variables
+
+`Test4` lives inside a function. It's pushed onto the Stack when the function is called and disappears when the function returns.
+
+* * *
+
+## What's the Benefit of Splitting?
+
+Splitting sections enables **efficient use of extremely limited resources.**
+
+*   Variables that don't need initialization → **no wasted Flash**
+    
+*   Read-only data stays in Flash → **RAM saved**
+    
+*   Only what's needed gets copied → **faster boot time**
+    
+
+In embedded development, both Flash and RAM are scarce. Managing them well is one of the core skills of firmware development.
+
+* * *
+
+## Compilers Add More Sections
+
+The four sections above — `.text`, `.data`, `.bss`, `.rodata` — are universal. Every MCU, every compiler uses them.
+
+But real-world toolchains go further.
+
+Here's what the **TASKING compiler** (used in Aurix Development Studio) looks like:
+
+<table style="min-width: 75px;"><colgroup><col style="min-width: 25px;"><col style="min-width: 25px;"><col style="min-width: 25px;"></colgroup><tbody><tr><th colspan="1" rowspan="1"><p>Section type</p></th><th colspan="1" rowspan="1"><p>Name prefix</p></th><th colspan="1" rowspan="1"><p>Description</p></th></tr><tr><td colspan="1" rowspan="1"><p>code</p></td><td colspan="1" rowspan="1"><p>.text</p></td><td colspan="1" rowspan="1"><p>program code</p></td></tr><tr><td colspan="1" rowspan="1"><p>neardata</p></td><td colspan="1" rowspan="1"><p>.zdata</p></td><td colspan="1" rowspan="1"><p>initialized near data</p></td></tr><tr><td colspan="1" rowspan="1"><p>fardata</p></td><td colspan="1" rowspan="1"><p>.data</p></td><td colspan="1" rowspan="1"><p>initialized far data</p></td></tr><tr><td colspan="1" rowspan="1"><p>nearrom</p></td><td colspan="1" rowspan="1"><p>.zrodata</p></td><td colspan="1" rowspan="1"><p>constant near data</p></td></tr><tr><td colspan="1" rowspan="1"><p>farrom</p></td><td colspan="1" rowspan="1"><p>.rodata</p></td><td colspan="1" rowspan="1"><p>constant far data</p></td></tr><tr><td colspan="1" rowspan="1"><p>nearbss</p></td><td colspan="1" rowspan="1"><p>.zbss</p></td><td colspan="1" rowspan="1"><p>uninitialized near data (cleared)</p></td></tr><tr><td colspan="1" rowspan="1"><p>farbss</p></td><td colspan="1" rowspan="1"><p>.bss</p></td><td colspan="1" rowspan="1"><p>uninitialized far data (cleared)</p></td></tr><tr><td colspan="1" rowspan="1"><p>a0data</p></td><td colspan="1" rowspan="1"><p>.data_a0</p></td><td colspan="1" rowspan="1"><p>initialized a0 data</p></td></tr><tr><td colspan="1" rowspan="1"><p>a0rom</p></td><td colspan="1" rowspan="1"><p>.rodata_a0</p></td><td colspan="1" rowspan="1"><p>constant a0 data</p></td></tr><tr><td colspan="1" rowspan="1"><p>a0bss</p></td><td colspan="1" rowspan="1"><p>.bss_a0</p></td><td colspan="1" rowspan="1"><p>uninitialized a0 data (cleared)</p></td></tr></tbody></table>
+
+The `z` prefix and `a0`, `a1`, `a8`, `a9` suffixes? Those are **MCU-specific sections** designed for faster memory access and more granular control inside the chip's memory architecture. Think of them as optimized variants of the standard sections.
+
+* * *
+
+## You Can Create Your Own Section
+
+Here's where things get interesting.
+
+> **You can define a custom section and place it at any memory address you want.**
+
+In the TASKING compiler, `#pragma` is how you do it:
+
+```c
+#pragma protect on
+#pragma section code "test"   // Start a code section named "test"
+
+void TestFunction(void)
+{
+    cnt++;
+}
+
+#pragma protect restore
+#pragma section code restore  // End section, restore default
+```
+
+After this, `TestFunction` will be placed into a section called `.text.test`.
+
+Compile and check the map file — `.text.test` is right there.
+
+* * *
+
+## Placing a Custom Section at a Specific Address
+
+Creating the section is just step one. The **linker script** controls where it actually lands in memory.
+
+Say you want `TestFunction` at address `0x80001000`. Add this to the linker script:
+
+```
+group (ordered, run_addr=0x80001000)
+{
+    select "*.test";
+}
+```
+
+Recompile, check the map file again — `.text.test` is now sitting at `0x80001000`.
+
+This works for variables too, not just functions.
+
+* * *
+
+## The Full Picture
+
+Memory sections follow a simple three-step flow:
+
+1.  **The compiler** classifies variables and functions into sections based on their type
+    
+2.  **The linker script** maps those sections to actual memory addresses
+    
+3.  **If needed**, you can define custom sections and place them exactly where you want
+    
+
+All of this is orchestrated by the linker script.
+
+Managing memory well — knowing what goes where and why — that's what separates good firmware from great firmware. It's one of the most satisfying parts of the job.
+
+Next post, we're back to peripheral configuration on the TC275.
+
+* * *
+
+_I'm an embedded software developer with 15+ years of experience, now building AI-powered tools and documenting the intersection of embedded systems and AI. Follow the build at_ [_aicraftlog.com_](http://aicraftlog.com)_._
