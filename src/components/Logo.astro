@@ -1,0 +1,25 @@
+---
+import site from '../data/site.json';
+import { publicAsset } from '../lib/videos';
+
+// public/logo.png 가 있으면 그 파일을, 없으면 텍스트 로고를 쓴다
+const logo = publicAsset('logo.png');
+---
+
+<a href="/" class="inline-flex shrink-0 items-center gap-2.5">
+  {
+    logo ? (
+      <img src={logo} alt="" width="36" height="36" class="h-9 w-9 rounded-md border border-line object-contain" />
+    ) : (
+      <span
+        aria-hidden="true"
+        class="grid h-9 w-9 place-items-center rounded-md bg-navy font-mono text-[15px] font-bold leading-none"
+      >
+        <span>
+          <span class="text-[#8fb4ff]">A</span><span class="text-[#34d399]">C</span>
+        </span>
+      </span>
+    )
+  }
+  <span class="whitespace-nowrap text-[15px] font-bold tracking-[0.08em] text-fg">AI CRAFT LOG<span class="sr-only"> 홈</span></span>
+</a>

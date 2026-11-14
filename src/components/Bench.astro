@@ -1,0 +1,67 @@
+---
+// Hero 그래픽: RC카의 구성을 보여 주는 블록 다이어그램 카드. 문구는 site.json 의 home.hero.diagram
+import site from '../data/site.json';
+
+const d = site.home.hero.diagram;
+const icons: Record<string, string> = {
+  // 카메라
+  eye: 'M3 8h3l1.5-2h9L18 8h3v11H3z M12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z',
+  // 칩
+  brain: 'M7 7h10v10H7z M10 10h4v4h-4z M9 3v4 M15 3v4 M9 17v4 M15 17v4 M3 9h4 M3 15h4 M17 9h4 M17 15h4',
+  // 바퀴
+  drive: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z M12 14.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z M12 3v6.5 M12 14.5V21 M3 12h6.5 M14.5 12H21',
+};
+
+// PWM 파형: 듀티가 점점 커진다
+let pwm = 'M0 30';
+for (let i = 0; i < 8; i++) pwm += ` H${i * 50 + 6} V8 H${i * 50 + 6 + 12 + i * 3.5} V30`;
+pwm += ' H400';
+---
+
+<div class="card p-4 sm:p-5" aria-hidden="true">
+  <div class="flex items-center justify-between border-b border-line pb-3">
+    <span class="flex items-center gap-2 font-mono text-[11px] font-semibold tracking-wide text-fg">
+      <span class="h-2 w-2 rounded-full bg-amber"></span>
+      {d.title}
+    </span>
+    <span class="label !text-[10px]">{d.tag}</span>
+  </div>
+
+  <div class="mt-4 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch">
+    {
+      d.blocks.map((b, i) => (
+        <>
+          {i > 0 && (
+            <div class="flex w-7 flex-col items-center justify-center sm:w-9">
+              <span class="font-mono text-[9px] text-dim">{b.link}</span>
+              <span class="mt-0.5 h-px w-full bg-line-strong" />
+            </div>
+          )}
+          <div
+            class:list={[
+              'flex flex-col items-center rounded-lg border px-2 py-3.5 text-center',
+              i === 1 ? 'border-[#c5d5f5] bg-tint' : 'border-line bg-page',
+            ]}
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5 text-mute" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round">
+              <path d={icons[b.icon]} />
+            </svg>
+            <span class="mt-2 text-[13px] font-semibold leading-tight text-fg">{b.name}</span>
+            <span class="mt-1 font-mono text-[10px] leading-tight text-dim">{b.sub}</span>
+          </div>
+        </>
+      ))
+    }
+  </div>
+
+  <div class="mt-3 rounded-lg border border-line bg-page px-3 py-2.5">
+    <div class="flex items-center justify-between font-mono text-[11px]">
+      <span class="text-mute">{d.waveLabel}</span>
+      <span class="font-semibold text-accent">{d.waveNote}</span>
+    </div>
+    <svg viewBox="0 0 400 38" class="mt-2 block w-full" fill="none" preserveAspectRatio="none">
+      <path d="M0 19 H400" stroke="var(--color-line)" stroke-dasharray="3 5"></path>
+      <path d={pwm} stroke="var(--color-accent)" stroke-width="1.75" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+    </svg>
+  </div>
+</div>

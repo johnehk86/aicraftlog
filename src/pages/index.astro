@@ -1,0 +1,214 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import PillarIcon from '../components/PillarIcon.astro';
+import VideoCard from '../components/VideoCard.astro';
+import BookCover from '../components/BookCover.astro';
+import Bench from '../components/Bench.astro';
+import Todo from '../components/Todo.astro';
+import site from '../data/site.json';
+import pillars from '../data/pillars.json';
+import booksData from '../data/books.json';
+import { getVideos, publicAsset } from '../lib/videos';
+
+const t = site.home;
+const latest = (await getVideos()).slice(0, 6);
+const { series, books } = booksData;
+const bundle = books.find((b) => b.type === 'bundle')!;
+const kindle = books.find((b) => b.type === 'kindle')!;
+const volumes = books.filter((b) => b.type === 'volume');
+const profile = publicAsset('profile.jpg') ?? publicAsset('profile.png') ?? publicAsset('logo.png');
+const ext = { target: '_blank', rel: 'noopener noreferrer' };
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+    description: site.description,
+    inLanguage: 'ko',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: site.author.name,
+    jobTitle: '임베디드 소프트웨어 엔지니어',
+    url: `${site.url}/about`,
+    sameAs: [site.links.youtube, site.links.instagram],
+  },
+];
+---
+
+<Base jsonLd={jsonLd}>
+  <!-- 1. Hero -->
+  <section class="border-b border-line bg-paper">
+    <div class="wrap grid items-center gap-10 py-12 md:py-20 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24">
+      <div>
+        <span class="tag">
+          <span class="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true"></span>
+          {t.hero.eyebrow}
+        </span>
+        <h1 class="mt-6 font-serif text-[2.4rem] font-medium leading-[1.25] tracking-tight text-fg sm:text-5xl sm:leading-[1.2] lg:text-[3.5rem]">
+          <span class="block">{t.hero.title[0]}</span>
+          <span class="block font-normal text-mute">{t.hero.title[1]}</span>
+        </h1>
+        <p class="mt-5 max-w-xl text-mute md:text-lg">{t.hero.subtitle}</p>
+        <div class="mt-8 flex flex-col gap-2.5 sm:flex-row">
+          <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-hero" class="btn btn-primary">
+            <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+              <path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3z"></path>
+            </svg>
+            {t.hero.primaryCta}
+          </a>
+          <a href="/books" data-track="books-hero" class="btn">{t.hero.secondaryCta}</a>
+        </div>
+      </div>
+      <Bench />
+    </div>
+  </section>
+
+  <!-- 2. 4개 기둥 -->
+  <section class="wrap pt-16 md:pt-24">
+    <SectionHead label={t.pillars.label} title={t.pillars.title} lead={t.pillars.lead} />
+    <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        pillars.map((p) => (
+          <li class="reveal">
+            <a
+              href={`/videos?category=${p.id}`}
+              class="card group flex h-full flex-col p-5 transition-colors hover:border-[var(--p)]"
+              style={`--p:${p.color}`}
+            >
+              <div class="flex items-center justify-between">
+                <span class="tag">
+                  {p.channel} · {p.name}
+                </span>
+                <PillarIcon icon={p.icon} class="h-5 w-10 text-[var(--p)] opacity-70" />
+              </div>
+              <h3 class="mt-4 text-[17px] font-semibold text-fg">{p.title}</h3>
+              <p class="mt-1.5 flex-1 text-sm leading-relaxed text-mute">{p.description}</p>
+              <p class="mt-5 flex items-center gap-1 border-t border-line pt-3 font-mono text-xs font-medium text-mute transition-colors group-hover:text-[var(--p)]">
+                영상 보기 <span aria-hidden="true">→</span>
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- 3. 최신 영상 -->
+  <section class="wrap pt-16 md:pt-24">
+    <SectionHead label={t.videos.label} title={t.videos.title} />
+    <ul class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {latest.map((v) => <li class="reveal"><VideoCard video={v} /></li>)}
+    </ul>
+    <div class="mt-6">
+      <a href="/videos" class="btn w-full sm:w-auto">{t.videos.more} <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- 4. 책 -->
+  <section class="wrap pt-16 md:pt-24">
+    <div class="card reveal grid gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+      <div>
+        <p class="label">도서 // {series.title}</p>
+        <div class="mt-4"><BookCover book={bundle} /></div>
+        <h2 class="mt-5 font-serif text-3xl font-medium leading-tight text-fg md:text-4xl">{bundle.title}</h2>
+        <p class="mt-2 font-semibold leading-snug text-fg">{bundle.tagline}</p>
+        <p class="mt-2 leading-relaxed text-mute">
+          {bundle.description}
+          <Todo when={bundle.todo} />
+        </p>
+        <div class="mt-6 grid gap-2.5 sm:grid-cols-2">
+          <a href={bundle.url} {...ext} data-track="book-bundle" class="btn btn-dark">
+            {bundle.store}에서 보기 <span aria-hidden="true">↗</span>
+          </a>
+          <a href={kindle.url} {...ext} data-track="book-kindle" class="btn">
+            {kindle.store} <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Vol.1~4 로드맵 -->
+      <div class="rounded-xl border border-line bg-page p-4">
+        <p class="label">{t.books.roadmapTitle}</p>
+        <ol class="mt-3 space-y-2">
+          {
+            volumes.map((b, i) => (
+              <li>
+                <a
+                  href={b.url}
+                  {...ext}
+                  data-track={`book-${b.id}`}
+                  class="group flex items-center gap-3.5 rounded-lg border border-line bg-paper p-2.5 transition-colors hover:border-line-strong"
+                >
+                  <span class="w-24 shrink-0 sm:w-28"><BookCover book={b} class="!rounded-md" /></span>
+                  <span class="min-w-0 flex-1">
+                    <span class="block font-mono text-[11px] font-semibold text-dim">Step {i + 1} · {b.step}</span>
+                    <span class="mt-0.5 block font-semibold leading-snug text-fg">
+                      {b.label} {b.title}
+                    </span>
+                    <span class="mt-0.5 hidden text-[13px] leading-snug text-mute sm:block">{b.tagline}</span>
+                  </span>
+                  <span class="pr-1.5 font-mono text-xs text-mute transition-colors group-hover:text-gold" aria-hidden="true">
+                    ↗
+                  </span>
+                  <span class="sr-only">({b.store}, 새 탭)</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+        <a href="/books" class="mt-4 inline-flex items-center gap-1 px-1 text-sm font-semibold text-fg hover:underline">
+          {t.books.more} <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. About 요약 -->
+  <section class="wrap pt-16 md:pt-24">
+    <div class="reveal rounded-[0.875rem] border border-[#d5e3fc] bg-tint p-5 sm:p-8">
+      <div class="flex items-center gap-4">
+        {
+          profile ? (
+            <img src={profile} alt="Toby" width="64" height="64" loading="lazy" class="h-16 w-16 shrink-0 rounded-full border border-line object-cover" />
+          ) : (
+            <div class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-navy font-mono text-xl font-bold" aria-hidden="true">
+              <span>
+                <span class="text-[#8fb4ff]">A</span>
+                <span class="text-[#34d399]">C</span>
+              </span>
+            </div>
+          )
+        }
+        <div>
+          <p class="label">{t.about.label}</p>
+          <h2 class="text-xl font-semibold text-fg md:text-2xl">{t.about.title}</h2>
+          <p class="text-sm text-mute">{site.author.role}</p>
+        </div>
+      </div>
+      <div class="mt-6 max-w-3xl space-y-2 border-l-2 border-[#9fb2d3] pl-4 font-serif text-lg leading-relaxed text-fg md:text-xl md:leading-relaxed">
+        {t.about.lines.map((line) => <p>{line}</p>)}
+      </div>
+      <a href="/about" class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-fg hover:underline">
+        {t.about.more} <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 6. 함께하기 -->
+  <section class="wrap pt-16 md:pt-24">
+    <div class="card reveal px-6 py-10 text-center md:py-14">
+      <p class="label">{t.join.label}</p>
+      <h2 class="mt-3 font-serif text-2xl font-medium text-fg md:text-4xl">{t.join.title}</h2>
+      <p class="mx-auto mt-3 max-w-xl text-mute">{t.join.lead}</p>
+      <div class="mt-7 flex flex-col justify-center gap-2.5 sm:flex-row">
+        <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-join" class="btn btn-dark">{t.join.youtube}</a>
+        <a href={site.links.instagram} {...ext} data-track="instagram-join" class="btn">{t.join.instagram}</a>
+      </div>
+    </div>
+  </section>
+</Base>

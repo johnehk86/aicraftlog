@@ -1,0 +1,77 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import VideoCard from '../components/VideoCard.astro';
+import site from '../data/site.json';
+import pillars from '../data/pillars.json';
+import { getVideos } from '../lib/videos';
+
+const t = site.videosPage;
+const videos = await getVideos();
+const tabs = [{ id: 'all', name: t.all, color: 'var(--color-fg)' }, ...pillars.map((p) => ({ id: p.id, name: p.name, color: p.color }))];
+---
+
+<Base title={t.title} description={`${site.name} 영상 모음 — ${pillars.map((p) => p.title).join(', ')}.`}>
+  <section class="wrap pt-12 md:pt-16">
+    <SectionHead as="h1" label="VIDEOS" title={t.title} lead={t.lead} />
+
+    <nav aria-label="주제별 필터" class="-mx-5 mt-8 overflow-x-auto px-5 md:mx-0 md:px-0">
+      <ul class="flex w-max gap-2 md:w-auto md:flex-wrap">
+        {
+          tabs.map((tab) => (
+            <li>
+              <a
+                href={tab.id === 'all' ? '/videos' : `/videos?category=${tab.id}`}
+                data-filter={tab.id}
+                aria-current={tab.id === 'all' ? 'true' : undefined}
+                style={`--p:${tab.color}`}
+                class="filter-tab inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper px-4 font-mono text-sm font-semibold text-mute transition-colors hover:text-fg aria-[current=true]:border-[var(--p)] aria-[current=true]:text-[var(--p)]"
+              >
+                {tab.name}
+                <span class="text-xs font-normal opacity-70">
+                  {tab.id === 'all' ? videos.length : videos.filter((v) => v.category === tab.id).length}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <ul id="video-grid" class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {videos.map((v, i) => <li data-category={v.category}><VideoCard video={v} eager={i < 3} /></li>)}
+    </ul>
+    <p id="video-empty" class="mt-8 text-mute" hidden>{t.empty}</p>
+  </section>
+</Base>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLAnchorElement>('.filter-tab');
+  const items = document.querySelectorAll<HTMLElement>('#video-grid > li');
+  const empty = document.getElementById('video-empty')!;
+  const valid = new Set([...tabs].map((t) => t.dataset.filter));
+
+  function apply(cat: string) {
+    if (!valid.has(cat)) cat = 'all';
+    let shown = 0;
+    items.forEach((li) => {
+      const show = cat === 'all' || li.dataset.category === cat;
+      li.hidden = !show;
+      if (show) shown++;
+    });
+    empty.hidden = shown > 0;
+    tabs.forEach((t) => {
+      if (t.dataset.filter === cat) t.setAttribute('aria-current', 'true');
+      else t.removeAttribute('aria-current');
+    });
+  }
+
+  tabs.forEach((t) =>
+    t.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      history.replaceState(null, '', t.href);
+      apply(t.dataset.filter!);
+    }),
+  );
+  apply(new URLSearchParams(location.search).get('category') ?? 'all');
+</script>

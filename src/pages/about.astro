@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import site from '../data/site.json';
+import { publicAsset } from '../lib/videos';
+
+const t = site.aboutPage;
+const profile = publicAsset('profile.jpg') ?? publicAsset('profile.png') ?? publicAsset('logo.png');
+const ext = { target: '_blank', rel: 'noopener noreferrer' };
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.author.name,
+  jobTitle: '임베디드 소프트웨어 엔지니어',
+  url: `${site.url}/about`,
+  sameAs: [site.links.youtube, site.links.instagram],
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: '연세대학교' },
+    { '@type': 'CollegeOrUniversity', name: '한양대학교' },
+  ],
+  knowsAbout: ['임베디드 소프트웨어', '자동차 ECU', 'AUTOSAR', 'CAN', '피지컬 AI'],
+};
+---
+
+<Base title={t.title} description={`${site.author.name} — ${site.author.role}. ${t.lead}`} jsonLd={jsonLd}>
+  <section class="wrap pt-12 md:pt-16">
+    <SectionHead as="h1" label="ABOUT" title={t.title} lead={t.lead} />
+
+    <div class="mt-10 flex items-center gap-5">
+      {
+        profile ? (
+          <img src={profile} alt="Toby" width="96" height="96" class="h-24 w-24 shrink-0 rounded-xl border border-line object-cover" />
+        ) : (
+          <div class="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-navy font-mono text-3xl font-bold" aria-hidden="true">
+            <span><span class="text-[#8fb4ff]">A</span><span class="text-[#34d399]">C</span></span>
+          </div>
+        )
+      }
+      <div>
+        <p class="text-2xl font-bold text-fg">{site.author.name}</p>
+        <p class="mt-1 text-sm text-mute">{site.author.role}</p>
+      </div>
+    </div>
+
+    <!-- 데이터시트의 스펙 표처럼: 왼쪽 항목명, 오른쪽 내용 -->
+    <dl class="mt-10 border-t border-line">
+      {
+        t.sections.map((s) => (
+          <div class="reveal grid gap-2 border-b border-line py-6 md:grid-cols-[14rem_1fr] md:gap-8 md:py-8">
+            <dt>
+              <span class="label">{s.label}</span>
+              <span class="mt-1 block font-serif text-2xl font-medium text-fg">{s.title}</span>
+            </dt>
+            <dd>
+              <ul class="space-y-2 text-mute md:text-lg">
+                {s.items.map((item) => (
+                  <li class="flex gap-3">
+                    <span class="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-about" class="btn btn-dark">{site.home.join.youtube}</a>
+      <a href={site.links.instagram} {...ext} data-track="instagram-about" class="btn">{site.home.join.instagram}</a>
+      <a href="/books" class="btn">{site.home.hero.secondaryCta}</a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,193 @@
+{
+  "name": "AI Craft Log",
+  "url": "https://aicraftlog.com",
+  "slogan": "We create value with AI.",
+  "description": "15년 차 임베디드 엔지니어 Toby가 피지컬 AI를 직접 만들고, 기록하고, 나누는 베이스캠프. 제작 기록 · 기술 정리 · 산업 분석.",
+  "author": {
+    "name": "Toby",
+    "role": "임베디드 SW 엔지니어 · 15년 차"
+  },
+  "links": {
+    "youtube": "https://www.youtube.com/@AI-Craft-p7f",
+    "youtubeSubscribe": "https://www.youtube.com/@AI-Craft-p7f?sub_confirmation=1",
+    "instagram": "https://www.instagram.com/toby_embedded/"
+  },
+  "youtube": {
+    "channelId": "UC8G70f-ZjICbvVG3HF3i9lg",
+    "defaultCategory": "trend"
+  },
+  "nav": [
+    {
+      "label": "영상",
+      "href": "/videos"
+    },
+    {
+      "label": "책",
+      "href": "/books"
+    },
+    {
+      "label": "소개",
+      "href": "/about"
+    }
+  ],
+  "home": {
+    "hero": {
+      "eyebrow": "AI CRAFT LOG — BASECAMP",
+      "title": [
+        "피지컬 AI,",
+        "직접 만들며 배웁니다"
+      ],
+      "subtitle": "15년 차 임베디드 엔지니어 Toby의 제작 기록 · 기술 정리 · 산업 분석",
+      "primaryCta": "유튜브 구독하기",
+      "secondaryCta": "책 보러 가기",
+      "diagram": {
+        "title": "RC CAR // BLOCK DIAGRAM",
+        "tag": "PHYSICAL AI",
+        "blocks": [
+          {
+            "icon": "eye",
+            "name": "카메라 · 센서",
+            "sub": "눈"
+          },
+          {
+            "icon": "brain",
+            "name": "라즈베리파이",
+            "sub": "AI 두뇌",
+            "link": "CAM"
+          },
+          {
+            "icon": "drive",
+            "name": "MCU",
+            "sub": "모터 제어",
+            "link": "UART"
+          }
+        ],
+        "waveLabel": "PWM · 모터 구동 신호",
+        "waveNote": "SoC가 보고, MCU가 달린다"
+      }
+    },
+    "pillars": {
+      "label": "CHANNELS",
+      "title": "네 가지 주제로 기록합니다",
+      "lead": "만들고, 벌어 보고, 정리하고, 흐름을 읽습니다. 관심 있는 주제부터 골라 보세요."
+    },
+    "videos": {
+      "label": "LATEST",
+      "title": "최신 영상",
+      "more": "영상 전체 보기"
+    },
+    "books": {
+      "label": "BOOKS",
+      "more": "책 자세히 보기",
+      "roadmapTitle": "학습 로드맵"
+    },
+    "about": {
+      "label": "ABOUT",
+      "title": "만드는 사람, Toby",
+      "lines": [
+        "15년 넘게 자동차 ECU 임베디드 소프트웨어를 개발해 온 엔지니어입니다.",
+        "지금은 RC카에 AI 두뇌와 눈, 목소리를 달아 보며 피지컬 AI를 직접 만들고 있습니다.",
+        "만든 과정은 유튜브 AI-Craft 채널과 「AI와 함께하는 임베디드 개발」 시리즈에 기록합니다."
+      ],
+      "more": "더 알아보기"
+    },
+    "join": {
+      "label": "FOLLOW",
+      "title": "다음 기록도 함께 보시겠어요?",
+      "lead": "새 제작기와 기술 정리는 유튜브에, 작업 뒷이야기는 인스타그램에 올립니다.",
+      "youtube": "유튜브 구독하기",
+      "instagram": "인스타그램 팔로우"
+    }
+  },
+  "videosPage": {
+    "title": "영상 모음",
+    "lead": "네 가지 주제별로 골라 볼 수 있습니다. 영상을 누르면 유튜브에서 열립니다.",
+    "all": "전체",
+    "empty": "이 주제의 영상이 아직 없습니다."
+  },
+  "booksPage": {
+    "title": "책",
+    "roadmapTitle": "학습 로드맵 — 순서대로 한 권씩",
+    "roadmapLead": "MCU 기초에서 시작해 자율추적 RC카까지, 네 권이 한 줄로 이어집니다.",
+    "bundleTitle": "한 번에 전부",
+    "kindleTitle": "해외 독자용",
+    "recommendLabel": "이런 분께 추천"
+  },
+  "aboutPage": {
+    "title": "Toby 소개",
+    "lead": "임베디드 × 피지컬 AI 분야의 기록자가 되고 싶은 엔지니어입니다.",
+    "sections": [
+      {
+        "label": "CAREER",
+        "title": "하는 일",
+        "items": [
+          "15년 이상 자동차 ECU 임베디드 소프트웨어 개발",
+          "CAN, AUTOSAR, Infineon AURIX 계열 MCU, BMS/OBC 등"
+        ]
+      },
+      {
+        "label": "EDUCATION",
+        "title": "배운 곳",
+        "items": [
+          "연세대학교 전기공학 학사",
+          "한양대학교 자동차공학 석사"
+        ]
+      },
+      {
+        "label": "WORKS",
+        "title": "만드는 것",
+        "items": [
+          "유튜브 AI-Craft 채널 운영",
+          "「AI와 함께하는 임베디드 개발」 시리즈 저자"
+        ]
+      },
+      {
+        "label": "GOAL",
+        "title": "꿈",
+        "items": [
+          "다음 세대 엔지니어에게 임베디드 소프트웨어를 가르치는 것",
+          "\"임베디드 × 피지컬 AI\" 분야의 기록자"
+        ]
+      }
+    ]
+  },
+  "linksPage": {
+    "title": "링크 모음",
+    "items": [
+      {
+        "label": "유튜브 채널",
+        "sub": "AI-Craft",
+        "href": "https://www.youtube.com/@AI-Craft-p7f",
+        "track": "youtube",
+        "primary": true
+      },
+      {
+        "label": "책 — 통합편",
+        "sub": "AI와 함께하는 임베디드 개발",
+        "href": "https://kmong.com/gig/793232",
+        "track": "book-bundle"
+      },
+      {
+        "label": "책 전체 보기",
+        "sub": "Vol.1 ~ Vol.4 · 통합편",
+        "href": "/books",
+        "track": "books"
+      },
+      {
+        "label": "아마존 킨들",
+        "sub": "Kindle Edition",
+        "href": "https://www.amazon.com/dp/B0HNM6Q746",
+        "track": "book-kindle"
+      },
+      {
+        "label": "홈페이지",
+        "sub": "aicraftlog.com",
+        "href": "/",
+        "track": "home"
+      }
+    ]
+  },
+  "footer": {
+    "copyright": "AI Craft Log. All rights reserved."
+  }
+}

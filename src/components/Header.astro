@@ -1,0 +1,34 @@
+---
+import site from '../data/site.json';
+import Logo from './Logo.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-paper/95 backdrop-blur-sm">
+  <div class="wrap flex h-14 items-center justify-between gap-3">
+    <Logo />
+    <nav aria-label="주요 메뉴" class="flex items-center gap-1 sm:gap-2">
+      {
+        site.nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={path === item.href ? 'page' : undefined}
+            class="whitespace-nowrap rounded-md px-2.5 py-2 text-sm font-medium text-mute transition-colors hover:text-fg aria-[current=page]:font-semibold aria-[current=page]:text-fg sm:px-3"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a
+        href={site.links.youtubeSubscribe}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-track="youtube-header"
+        class="ml-1 hidden whitespace-nowrap rounded-full bg-navy px-3.5 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-[#26314d] sm:inline-block"
+      >
+        구독
+      </a>
+    </nav>
+  </div>
+</header>

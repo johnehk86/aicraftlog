@@ -1,0 +1,60 @@
+---
+// 인스타그램 프로필에 거는 "링크 인 바이오" 페이지. 버튼 목록은 site.json 의 linksPage.items
+import Base from '../layouts/Base.astro';
+import site from '../data/site.json';
+import { publicAsset } from '../lib/videos';
+
+const t = site.linksPage;
+const logo = publicAsset('logo.png');
+---
+
+<Base title={t.title} description={`${site.name} — 유튜브, 책, 홈페이지 링크 모음.`} bare>
+  <div class="flex min-h-dvh flex-col items-center justify-center px-5 py-8">
+    <div class="w-full max-w-sm">
+      <div class="text-center">
+        {
+          logo ? (
+            <img src={logo} alt="" width="72" height="72" class="mx-auto h-18 w-18 rounded-xl object-contain" />
+          ) : (
+            <div class="mx-auto grid h-18 w-18 place-items-center rounded-2xl bg-navy font-mono text-2xl font-bold" aria-hidden="true">
+              <span><span class="text-[#8fb4ff]">A</span><span class="text-[#34d399]">C</span></span>
+            </div>
+          )
+        }
+        <h1 class="mt-4 font-serif text-2xl font-medium tracking-wide text-fg">AI CRAFT LOG</h1>
+        <p class="mt-1 text-sm text-mute">{site.author.name} · {site.author.role}</p>
+      </div>
+
+      <ul class="mt-7 space-y-3">
+        {
+          t.items.map((item) => {
+            const external = item.href.startsWith('http');
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  data-track={`links-${item.track}`}
+                  class:list={[
+                    'flex min-h-16 items-center justify-between gap-3 rounded-xl border px-5 py-3 transition-colors',
+                    item.primary
+                      ? 'border-amber bg-amber text-on-cta hover:bg-amber-deep'
+                      : 'border-line-strong bg-paper text-fg hover:border-mute hover:bg-tint',
+                  ]}
+                >
+                  <span>
+                    <span class="block text-base font-bold leading-tight">{item.label}</span>
+                    <span class:list={['mt-0.5 block font-mono text-xs', item.primary ? 'text-on-cta/75' : 'text-dim']}>{item.sub}</span>
+                  </span>
+                  <span aria-hidden="true" class="font-mono">{external ? '↗' : '→'}</span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+
+      <p class="mt-7 text-center font-mono text-xs text-dim">{site.slogan}</p>
+    </div>
+  </div>
+</Base>

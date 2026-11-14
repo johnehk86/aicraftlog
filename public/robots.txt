@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://aicraftlog.com/sitemap.xml
+
+Sitemap: https://aicraftlog.com/sitemap-index.xml

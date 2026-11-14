@@ -1,0 +1,79 @@
+[
+  {
+    "id": "build",
+    "channel": "CH1",
+    "name": "BUILD",
+    "title": "피지컬 AI 직접 만들기",
+    "description": "RC카에 AI 두뇌·눈·목소리를 달아 보는 실제 제작기",
+    "color": "#1d4ed8",
+    "icon": "square",
+    "keywords": [
+      "RC카",
+      "RC 카",
+      "만들",
+      "센서",
+      "자율주행",
+      "모터",
+      "라즈베리파이",
+      "RPi",
+      "피지컬 AI 만들"
+    ]
+  },
+  {
+    "id": "earn",
+    "channel": "CH2",
+    "name": "EARN",
+    "title": "AI로 수익화",
+    "description": "AI로 앱·콘텐츠를 만들어 수익을 내는 과정 공개",
+    "color": "#047857",
+    "icon": "stairs",
+    "keywords": [
+      "수익",
+      "광고",
+      "브랜드",
+      "부업",
+      "앱 만들"
+    ]
+  },
+  {
+    "id": "learn",
+    "channel": "CH3",
+    "name": "LEARN",
+    "title": "임베디드 기술 정리",
+    "description": "MCU, 회로, 필터 등 기초부터 실전까지",
+    "color": "#4338ca",
+    "icon": "sine",
+    "keywords": [
+      "기초회로",
+      "Em_Circuit",
+      "필터",
+      "트랜지스터",
+      "UART",
+      "Pull up",
+      "푸리에",
+      "완전 정복"
+    ]
+  },
+  {
+    "id": "trend",
+    "channel": "CH4",
+    "name": "TREND",
+    "title": "임베디드·피지컬 AI 산업 동향",
+    "description": "채용공고 분석, 반도체·AI 산업 흐름",
+    "color": "#b45309",
+    "icon": "trend",
+    "keywords": [
+      "엔비디아",
+      "반도체",
+      "채용",
+      "공고",
+      "HBM",
+      "램값",
+      "D램",
+      "TSMC",
+      "GPU",
+      "NPU",
+      "AI 시대"
+    ]
+  }
+]

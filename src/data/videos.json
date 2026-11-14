@@ -1,0 +1,413 @@
+{
+  "_안내": "영상 목록입니다. 새 영상은 빌드할 때 유튜브에서 자동으로 가져오므로 보통은 손댈 필요가 없습니다. 자동 분류가 틀렸을 때만 해당 영상을 여기에 추가하고 category 를 build / earn / learn / trend 중 하나로 적으세요. 숨기고 싶은 영상은 \"hide\": true 를 추가합니다.",
+  "videos": [
+    {
+      "id": "YGHEYMRr7qQ",
+      "title": "코딩 몰라도 AI로 앱 만들고 광고 수익 내기 (직접 해본 후기)",
+      "published": "2026-11-08T10:30:29.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "BpkesHQ1aRM",
+      "title": "엔비디아가 찾는 임베디드 엔지니어",
+      "published": "2026-10-31T05:06:47.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "aWfdmzXYTg0",
+      "title": "여러분 손목의 워치, 이미 AI가 판단하고 있었습니다",
+      "published": "2026-07-28T12:50:43.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "s_hfh73h3F0",
+      "title": "AI 반도체 숨은 지배자 | 엔비디아·TSMC·삼성전자·SK하이닉스 완벽정리",
+      "published": "2026-07-12T07:00:27.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "q8Qr2d2jrLI",
+      "title": "반도체 열풍 속 진짜 살아남는 엔지니어의 조건 | 15년차 현직이 말하는 AI 시대 진로",
+      "published": "2026-07-04T01:50:45.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "fXgORmpt4so",
+      "title": "램값 폭등이임베디드 개발자에게기회인 이유",
+      "published": "2026-06-30T13:20:21.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "QTSAsl0nm_c",
+      "title": "아이언맨 자비스를 RC카에 만들어봤습니다 feat. Claude AI",
+      "published": "2026-06-27T08:17:16.000Z",
+      "category": "build"
+    },
+    {
+      "id": "KvrUDEtquQQ",
+      "title": "배터리가 방전되면 부저가 울립니다 — RC 카 전압 측정 & 경고 설계 [임베디드]",
+      "published": "2026-06-25T07:00:17.000Z",
+      "category": "build"
+    },
+    {
+      "id": "9lzWLvq9Qko",
+      "title": "MCU가 모터를 직접 못 켜는 이유 — 트랜지스터와 Pull up/Pull down | Em_Circuit EP.05",
+      "published": "2026-06-23T09:00:01.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "ytKy72XbbhE",
+      "title": "자율주행차가 GPS만 안 쓰는 이유, RC카로 직접 증명했습니다",
+      "published": "2026-06-16T12:45:43.000Z",
+      "category": "build"
+    },
+    {
+      "id": "ha50zwSPLCk",
+      "title": "집에서 피지컬 AI 만들면 생기는 일 — SoC가 보고 MCU가 달린다",
+      "published": "2026-06-13T15:15:53.000Z",
+      "category": "build"
+    },
+    {
+      "id": "d5VNKChuc0g",
+      "title": "RC 필터 직접 설계해봤습니다 — fc 계산부터 시뮬레이션까지 | 임베디드 기초회로 EP.04",
+      "published": "2026-05-27T05:49:59.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "NP1Uxp8r6YI",
+      "title": "방향감각이 생겼다 — 자이로 센서로 직진 유지 (EP.22)",
+      "published": "2026-05-25T14:53:03.000Z",
+      "category": "build"
+    },
+    {
+      "id": "Rpn_NcmYEeE",
+      "title": "왜 RC 필터를 지나면 사각파가 둥글어질까? | 임베디드 기초회로 EP.03",
+      "published": "2026-05-15T22:00:21.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "6hlOe2jP6Bw",
+      "title": "차량용 MCU로 실제 차량 시스템처럼 데이터 수집/모니터링",
+      "published": "2026-05-13T07:06:27.000Z",
+      "category": "build"
+    },
+    {
+      "id": "RDMA-hxxfag",
+      "title": "노이즈는 왜 고주파일까? (푸리에 변환 쉽게 이해하기) | 임베디드 기초회로 EP.02",
+      "published": "2026-05-09T12:18:23.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "Nh0pNl9vDvQ",
+      "title": "눈이 3개 생겼다 — 초음파 센서로 전방 거리 측정 (EP.21)",
+      "published": "2026-05-06T09:30:08.000Z",
+      "category": "build"
+    },
+    {
+      "id": "leIEg7Fy98o",
+      "title": "눈이 생겼다 — 적외선 센서로 장애물 감지하기 (EP.20)",
+      "published": "2026-05-04T09:30:33.000Z",
+      "category": "build"
+    },
+    {
+      "id": "YxgoMdiu0Zw",
+      "title": "센서 값을 눈으로 본다 — 오실로스코프를 직접 만들었습니다 (UART)",
+      "published": "2026-05-02T09:30:26.000Z",
+      "category": "build"
+    },
+    {
+      "id": "UALHKR5-lzg",
+      "title": "AI가 짜줬는데 왜 안됨? (임베디드 기초회로 EP.01)",
+      "published": "2026-04-30T09:30:15.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "xKMHgmOMecs",
+      "title": "AI가 못 하는 딱 2가지 — 15년 개발자가 2달 직접 확인했습니다",
+      "published": "2026-04-28T09:26:57.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "SWgFRPi34Wk",
+      "title": "'a' 한 글자 보냈더니 MCU가 대답했다 (UART 실전)",
+      "published": "2026-04-27T05:40:01.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "nFub1LNh00A",
+      "title": "선 2개로 RPi5와 MCU가 대화합니다 — UART 완전 정복",
+      "published": "2026-04-25T21:34:27.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "G_L8tgfcBCw",
+      "title": "RC카로 동네에서 인싸 되는 법 (카메라 AI까지 붙였습니다)",
+      "published": "2026-04-23T09:30:07.000Z",
+      "category": "build"
+    },
+    {
+      "id": "RuUArM-LUZ0",
+      "title": "키보드 없앴다 — 이제 음성으로 RC카를 제어한다",
+      "published": "2026-04-20T15:00:49.000Z",
+      "category": "build"
+    },
+    {
+      "id": "g6U5olCczY0",
+      "title": "AI 시대, 개발자가 퍼스널 브랜드 만드는 법",
+      "published": "2026-04-19T07:37:10.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "2-dnAkJclBk",
+      "title": "라즈베리파이와 MCU가 처음 만났습니다 — 키보드로 RC카를 무선 조종합니다",
+      "published": "2026-04-17T09:30:02.000Z",
+      "category": "build"
+    },
+    {
+      "id": "DjDnlOiPkUw",
+      "title": "15달러 영상 하나로 AI가 90배 똑똑해졌습니다 (개발자 분석)",
+      "published": "2026-04-15T09:30:07.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "bx4Lig1hzgU",
+      "title": "10만원짜리 보드가 망가졌습니다 — 대신 RC카가 생겼습니다 | TC237 PWM 4륜 모터제어",
+      "published": "2026-04-13T09:30:20.000Z",
+      "category": "build"
+    },
+    {
+      "id": "20PzpbkuXH4",
+      "title": "ECU 개발자 15년 — AI 시대에 이 직업은 살아남을까",
+      "published": "2026-04-11T09:30:01.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "ZQ_SL-QFMIU",
+      "title": "고양이 AI 만들다가 축구 선수 나왔습니다 | YOLOv8 파인튜닝 시행착오 | SoC 피지컬 AI EP.07",
+      "published": "2026-04-09T09:30:15.000Z",
+      "category": "build"
+    },
+    {
+      "id": "Y_r9qUhdxLI",
+      "title": "내 버릇을 학습한 AI한테 게임에서 졌습니다",
+      "published": "2026-04-07T09:30:54.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "uMdj0INkVHc",
+      "title": "세계 최고 부자와 AI Claude가 같은 말을 했습니다 | 지금 우리가 해야 할 것",
+      "published": "2026-04-05T09:30:33.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "c3pA15fONmE",
+      "title": "AI가 너무 느려서 3번 모델을 바꿨습니다 | 고양이가 움직이면 카메라가 따라간다 | SoC 피지컬 AI EP.06",
+      "published": "2026-04-03T09:30:15.000Z",
+      "category": "build"
+    },
+    {
+      "id": "Tz8u2KhdHpI",
+      "title": "ASIL-D는 통과, 그런데 AI 추론은? | 자동차 MCU에 드디어 NPU가 들어왔다",
+      "published": "2026-04-02T09:30:31.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "XJ73AatFav0",
+      "title": "RC카를 뜯어서 AI 눈을 달았다 | 서보모터 + 색상 추적 | SoC 피지컬 AI EP.05",
+      "published": "2026-04-01T09:30:09.000Z",
+      "category": "build"
+    },
+    {
+      "id": "ft7sLrUIhQI",
+      "title": "자동차 SW 개발자로 입사했는데 1년째 코드를 못 짰습니다 | 부품사 vs 완성차 현실",
+      "published": "2026-03-31T09:30:28.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "Qauwgk6jd_c",
+      "title": "MCU는 0V와 5V밖에 모르는데, 어떻게 모터를 돌릴까? | PWM 완전 정복",
+      "published": "2026-03-30T05:52:39.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "ozqD9vc2Sz8",
+      "title": "말로만 설명했는데 AI가 CAN 코드를 다 짜줬다 | TC275 ↔ TC237 분산제어 실습",
+      "published": "2026-03-29T03:29:38.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "ds3GjHeF88k",
+      "title": "선은 딱 2가닥, 근데 ECU 수십 개가 동시에 대화한다 | CAN 통신 원리 완전 정복",
+      "published": "2026-03-28T04:30:29.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "gRMMNEhtz5Y",
+      "title": "AI가 짠 ADC 코드, 실제 보드에서 돌아갈까? | TC275 포텐시오미터 실습",
+      "published": "2026-03-27T04:30:30.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "tAfHwQrk_kQ",
+      "title": "칩 80%를 우주로? 머스크 TERAFAB 현업자가 뜯어봤다",
+      "published": "2026-03-26T02:11:42.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "5_2Avtft7ik",
+      "title": "건전지 하나로 ADC 완전 정복 | TC275 센서 데이터 읽는 원리",
+      "published": "2026-03-25T04:33:19.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "c_Slhbstinw",
+      "title": "ChatGPT보다 유저 20배 적은데 매출은 따라잡는다 | Anthropic의 비밀",
+      "published": "2026-03-25T00:00:53.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "sbi6pFDHCPQ",
+      "title": "20만원짜리 보드에서 AI가 실시간으로 고양이를 인식합니다 | SoC 피지컬 AI EP.04",
+      "published": "2026-03-24T01:56:22.000Z",
+      "category": "build"
+    },
+    {
+      "id": "6tVde-TmLnQ",
+      "title": "AI가 고양이를 알아보는 원리, 곱셈이었습니다 | SoC 피지컬 AI EP.03",
+      "published": "2026-03-23T03:58:21.000Z",
+      "category": "build"
+    },
+    {
+      "id": "IegKk0Q0ACY",
+      "title": "라즈베리파이 켰습니다. 근데 카메라가 안 맞았어요 😅 | SoC 피지컬 AI EP.02",
+      "published": "2026-03-20T08:05:57.000Z",
+      "category": "build"
+    },
+    {
+      "id": "9sesvIXDpDI",
+      "title": "MCU만 15년, 오늘 처음으로 라즈베리파이 켭니다 | SoC 피지컬 AI 시작",
+      "published": "2026-03-20T02:51:53.000Z",
+      "category": "build"
+    },
+    {
+      "id": "2mV0_m7u55E",
+      "title": "채용공고가 바뀌고 있다 — 임베디드 개발자가 알아야 할 것 | 현직 15년차 솔직 분석",
+      "published": "2026-03-19T04:37:44.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "RWa4gpG1PC0",
+      "title": "젠슨 황이 선언했다 \"자율주행의 ChatGPT 모멘트\" — 임베디드 개발자 시각 정리",
+      "published": "2026-03-18T07:52:56.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "LlKyFgvY1ZA",
+      "title": "젠슨 황이 선언했다 \"로보틱스의 ChatGPT 모멘트\" — 피지컬 AI 완전 정리",
+      "published": "2026-03-17T06:27:12.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "jxo5po73W5o",
+      "title": "1달러 MCU가 AI를 90배 빠르게 돌린다 — 하드웨어의 판이 바뀌고 있다",
+      "published": "2026-03-16T11:11:04.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "ggMohvNZEDk",
+      "title": "RAM이 뭔지도 모르고 AI한테 코드 맡겼나요? | TC275 메모리 Section 완전 정복",
+      "published": "2026-03-16T04:51:34.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "s8lBn1uKPg8",
+      "title": "일론 머스크가 AI 시대에 꼭 필요하다고 말한 것 2가지",
+      "published": "2026-03-14T14:04:13.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "KLL-eP1XXSo",
+      "title": "BMW 공장에 로봇이 들어왔다 | 임베디드 개발자가 본 AEON vs Atlas",
+      "published": "2026-03-13T08:43:00.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "6vtudVwUoHs",
+      "title": "MCU가 AI를 품기 시작했다 | Embedded World 2026 Arm 발표 완전 정리",
+      "published": "2026-03-13T04:32:02.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "j4NxZOZI9l8",
+      "title": "AI가 짠 임베디드 코드, 실제 보드에서 돌려봤다 | TC275 Timer + Interrupt 실전",
+      "published": "2026-03-12T07:47:34.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "RXcpKDxrhxQ",
+      "title": "코딩 어시스턴트가 뭔지 제대로 알고 쓰자 — Claude Code 동작 원리 | AI Tools #2",
+      "published": "2026-03-11T12:52:10.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "6ydjRhLK76A",
+      "title": "Timer와 Interrupt — 임베디드 SW의 심장박동을 만드는 법 | AI-Vehicle #5",
+      "published": "2026-03-11T04:31:59.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "ekzQnKVzj7s",
+      "title": "AI 시대에 내가 나아가야 할 방향 | 15년차 임베디드 개발자의 고민",
+      "published": "2026-03-10T11:35:50.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "A23dekVPoSY",
+      "title": "AI가 코드 다 짜줘도, 이것만큼은 — Clock과 PLL 개념편 | AI-Vehicle #4",
+      "published": "2026-03-10T06:30:12.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "D0i-k3uUiPY",
+      "title": "AI한테 임베디드 코드 맡겨봤다 — TC275 LED 제어 실전 | AI-Vehicle #3",
+      "published": "2026-03-09T06:01:54.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "GmtcbUJbsbg",
+      "title": "임베디드 AI 개발 (보드 구매 및 개발환경 세팅 완전 정복, Part2)",
+      "published": "2026-03-08T11:40:04.000Z",
+      "category": "learn"
+    },
+    {
+      "id": "80IglId4MA0",
+      "title": "AI 시대, 임베디드 개발자는 살아남을 수 있을까? | 임베디드 × Claude Code 프로젝트 시작",
+      "published": "2026-03-07T08:58:33.000Z",
+      "category": "trend"
+    },
+    {
+      "id": "CPCrp_TBhl8",
+      "title": "Claude Agent Teams로 슈퍼마리오 게임 15분만에 만들었습니다 (Agent Teams 사용법 공개)",
+      "published": "2026-03-06T05:57:49.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "_2xURKyThCo",
+      "title": "AI가 60초를 넘기지 못하도록 설계한 게임... 클리어 가능?",
+      "published": "2026-03-05T03:13:33.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "EpEDQgKzurs",
+      "title": "Claude Skill이 뭔지 5분만에 완벽 정리 | 이거 모르면 AI 반만 쓰는 겁니다",
+      "published": "2026-03-04T06:32:00.000Z",
+      "category": "earn"
+    },
+    {
+      "id": "J4vUiZFIwU4",
+      "title": "Claude Code로 1시간 만에 스노우 브라더스 만들기 🎮 코딩 1도 몰라도 됩니다",
+      "published": "2026-03-03T07:21:07.000Z",
+      "category": "earn"
+    }
+  ]
+}

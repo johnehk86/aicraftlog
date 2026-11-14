@@ -1,0 +1,24 @@
+# 하루 한 번 사이트를 다시 빌드해서 새 유튜브 영상이 반영되게 한다.
+# 호스팅(Cloudflare Pages 또는 Vercel)에서 "Deploy Hook" 주소를 만든 뒤,
+# GitHub 저장소 Settings → Secrets and variables → Actions 에 CF_DEPLOY_HOOK_URL 이름으로 저장하면 동작한다.
+# 자세한 방법: docs/DEPLOY.md
+name: Daily rebuild
+
+on:
+  schedule:
+    - cron: '0 21 * * *' # 매일 한국 시간 오전 6시
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deploy hook
+        env:
+          CF_DEPLOY_HOOK_URL: ${{ secrets.CF_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$CF_DEPLOY_HOOK_URL" ]; then
+            echo "CF_DEPLOY_HOOK_URL 시크릿이 아직 없습니다. docs/DEPLOY.md 를 참고하세요."
+            exit 0
+          fi
+          curl -fsS -X POST "$CF_DEPLOY_HOOK_URL"

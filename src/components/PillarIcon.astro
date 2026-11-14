@@ -1,0 +1,32 @@
+---
+// 기둥별 아이콘 = 오실로스코프 파형 한 조각. pillars.json 의 "icon" 값으로 고른다.
+interface Props {
+  icon: string;
+  class?: string;
+}
+const { icon, class: cls } = Astro.props;
+
+const paths: Record<string, string> = {
+  // PWM 구형파 — 모터를 돌리는 신호
+  square: 'M2 18 H10 V6 H20 V18 H28 V6 H38 V18 H46',
+  // 한 계단씩 올라가는 값
+  stairs: 'M2 20 H12 V15 H22 V10 H32 V5 H46',
+  // 사인파 — 기초 신호
+  sine: 'M2 12 C7 -2 13 -2 18 12 S29 26 34 12 S43 -2 46 6',
+  // 흔들리며 오르는 추세선
+  trend: 'M2 19 L10 15 L16 18 L24 10 L30 13 L38 5 L46 7',
+};
+---
+
+<svg
+  viewBox="0 0 48 24"
+  class={cls}
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+>
+  <path d={paths[icon] ?? paths.sine}></path>
+</svg>

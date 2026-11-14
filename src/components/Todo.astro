@@ -1,0 +1,15 @@
+---
+// 개발 화면(npm run dev)에서만 보이는 표시. 실제 배포된 사이트에는 나오지 않는다.
+interface Props {
+  when?: boolean;
+}
+const { when = true } = Astro.props;
+---
+
+{
+  import.meta.env.DEV && when && (
+    <span class="ml-2 inline-block rounded border border-dashed border-amber px-1.5 py-0.5 align-middle font-mono text-[10px] font-normal tracking-normal text-gold">
+      TODO: Toby 확인
+    </span>
+  )
+}

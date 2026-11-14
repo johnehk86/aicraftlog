@@ -1,0 +1,42 @@
+---
+import pillars from '../data/pillars.json';
+import { thumb, watchUrl, formatDate, type Video } from '../lib/videos';
+
+interface Props {
+  video: Video;
+  eager?: boolean;
+}
+const { video, eager = false } = Astro.props;
+const pillar = pillars.find((p) => p.id === video.category);
+---
+
+<a
+  href={watchUrl(video.id)}
+  target="_blank"
+  rel="noopener noreferrer"
+  data-track={`video-${video.category}`}
+  class="card group flex h-full flex-col p-3 transition-colors hover:border-line-strong"
+>
+  <div class="overflow-hidden rounded-lg bg-tint">
+    <img
+      src={thumb(video.id)}
+      alt=""
+      width="320"
+      height="180"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      class="aspect-video w-full object-cover"
+    />
+  </div>
+  <div class="mt-3 flex items-center gap-2 px-1">
+    {pillar && <span class="tag" style={`--p:${pillar.color}`}>{pillar.name}</span>}
+    <time datetime={video.published} class="font-mono text-[11px] text-dim">{formatDate(video.published)}</time>
+  </div>
+  <h3 class="mt-2 flex-1 px-1 text-[15px] font-semibold leading-snug text-fg">
+    {video.title}
+    <span class="sr-only"> (유튜브에서 새 탭으로 열림)</span>
+  </h3>
+  <p class="mt-3 flex items-center justify-end gap-1 px-1 pb-1 font-mono text-xs font-medium text-mute transition-colors group-hover:text-gold" aria-hidden="true">
+    영상 보기 <span>→</span>
+  </p>
+</a>
