@@ -27,7 +27,7 @@ git push -u origin main
 | Framework preset | Astro |
 | Build command | `npm run build` |
 | Output directory | `dist` |
-| Node.js 버전 | 20 이상 |
+| Node.js 버전 | 22 이상 (저장소의 `.node-version` 파일이 자동으로 지정) |
 
 ### Cloudflare Pages
 

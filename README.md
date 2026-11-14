@@ -6,7 +6,7 @@ Astro + Tailwind CSS로 만든 정적 사이트라서 서버가 필요 없습니
 
 ## 내 컴퓨터에서 보기
 
-Node.js 20 이상이 필요합니다.
+Node.js 22 이상이 필요합니다.
 
 ```bash
 npm install     # 처음 한 번만
