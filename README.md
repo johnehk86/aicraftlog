@@ -89,6 +89,10 @@ npm run preview # 생성된 사이트 미리 보기
 
 `src/styles/global.css` 맨 위 `@theme` 안에 모여 있습니다. 주제별 색은 `pillars.json`의 `color`입니다.
 
+## 게시판
+
+`/board` 게시판은 로그인·글·사진을 Supabase에 저장합니다. 연결하기 전에는 "준비하고 있습니다" 안내만 보입니다. 켜는 방법은 [docs/BOARD.md](docs/BOARD.md)에 있습니다. 화면의 문구와 분류 이름은 `src/data/site.json`의 `boardPage`에서 바꿉니다.
+
 ## 방문 분석 (선택)
 
 `.env.example`을 `.env`로 복사해서 값을 넣거나, 호스팅 서비스의 환경 변수에 넣으면 켜집니다. 비워 두면 아무것도 로드하지 않습니다.

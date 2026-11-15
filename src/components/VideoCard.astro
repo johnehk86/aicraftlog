@@ -30,13 +30,13 @@ const pillar = pillars.find((p) => p.id === video.category);
   </div>
   <div class="mt-3 flex items-center gap-2 px-1">
     {pillar && <span class="tag" style={`--p:${pillar.color}`}>{pillar.name}</span>}
-    <time datetime={video.published} class="font-mono text-[11px] text-dim">{formatDate(video.published)}</time>
+    <time datetime={video.published} class="text-[11px] text-dim">{formatDate(video.published)}</time>
   </div>
   <h3 class="mt-2 flex-1 px-1 text-[15px] font-semibold leading-snug text-fg">
     {video.title}
     <span class="sr-only"> (유튜브에서 새 탭으로 열림)</span>
   </h3>
-  <p class="mt-3 flex items-center justify-end gap-1 px-1 pb-1 font-mono text-xs font-medium text-mute transition-colors group-hover:text-gold" aria-hidden="true">
+  <p class="mt-3 flex items-center justify-end gap-1 px-1 pb-1 text-xs font-medium text-mute transition-colors group-hover:text-gold" aria-hidden="true">
     영상 보기 <span>→</span>
   </p>
 </a>

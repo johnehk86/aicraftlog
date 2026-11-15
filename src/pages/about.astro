@@ -32,7 +32,7 @@ const jsonLd = {
         profile ? (
           <img src={profile} alt="Toby" width="96" height="96" class="h-24 w-24 shrink-0 rounded-xl border border-line object-cover" />
         ) : (
-          <div class="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-navy font-mono text-3xl font-bold" aria-hidden="true">
+          <div class="grid h-24 w-24 shrink-0 place-items-center rounded-full bg-navy text-3xl font-bold" aria-hidden="true">
             <span><span class="text-[#8fb4ff]">A</span><span class="text-[#34d399]">C</span></span>
           </div>
         )
@@ -50,7 +50,7 @@ const jsonLd = {
           <div class="reveal grid gap-2 border-b border-line py-6 md:grid-cols-[14rem_1fr] md:gap-8 md:py-8">
             <dt>
               <span class="label">{s.label}</span>
-              <span class="mt-1 block font-serif text-2xl font-medium text-fg">{s.title}</span>
+              <span class="mt-1 block font-display text-2xl font-medium text-fg">{s.title}</span>
             </dt>
             <dd>
               <ul class="space-y-2 text-mute md:text-lg">

@@ -49,7 +49,7 @@ const jsonLd = [
           <span class="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true"></span>
           {t.hero.eyebrow}
         </span>
-        <h1 class="mt-6 font-serif text-[2.4rem] font-medium leading-[1.25] tracking-tight text-fg sm:text-5xl sm:leading-[1.2] lg:text-[3.5rem]">
+        <h1 class="mt-6 font-display text-[2.4rem] font-medium leading-[1.25] tracking-tight text-fg sm:text-5xl sm:leading-[1.2] lg:text-[3.5rem]">
           <span class="block">{t.hero.title[0]}</span>
           <span class="block font-normal text-mute">{t.hero.title[1]}</span>
         </h1>
@@ -88,7 +88,7 @@ const jsonLd = [
               </div>
               <h3 class="mt-4 text-[17px] font-semibold text-fg">{p.title}</h3>
               <p class="mt-1.5 flex-1 text-sm leading-relaxed text-mute">{p.description}</p>
-              <p class="mt-5 flex items-center gap-1 border-t border-line pt-3 font-mono text-xs font-medium text-mute transition-colors group-hover:text-[var(--p)]">
+              <p class="mt-5 flex items-center gap-1 border-t border-line pt-3 text-xs font-medium text-mute transition-colors group-hover:text-[var(--p)]">
                 영상 보기 <span aria-hidden="true">→</span>
               </p>
             </a>
@@ -115,7 +115,7 @@ const jsonLd = [
       <div>
         <p class="label">도서 // {series.title}</p>
         <div class="mt-4"><BookCover book={bundle} /></div>
-        <h2 class="mt-5 font-serif text-3xl font-medium leading-tight text-fg md:text-4xl">{bundle.title}</h2>
+        <h2 class="mt-5 font-display text-3xl font-medium leading-tight text-fg md:text-4xl">{bundle.title}</h2>
         <p class="mt-2 font-semibold leading-snug text-fg">{bundle.tagline}</p>
         <p class="mt-2 leading-relaxed text-mute">
           {bundle.description}
@@ -146,13 +146,13 @@ const jsonLd = [
                 >
                   <span class="w-24 shrink-0 sm:w-28"><BookCover book={b} class="!rounded-md" /></span>
                   <span class="min-w-0 flex-1">
-                    <span class="block font-mono text-[11px] font-semibold text-dim">Step {i + 1} · {b.step}</span>
+                    <span class="block text-[11px] font-semibold text-dim">Step {i + 1} · {b.step}</span>
                     <span class="mt-0.5 block font-semibold leading-snug text-fg">
                       {b.label} {b.title}
                     </span>
                     <span class="mt-0.5 hidden text-[13px] leading-snug text-mute sm:block">{b.tagline}</span>
                   </span>
-                  <span class="pr-1.5 font-mono text-xs text-mute transition-colors group-hover:text-gold" aria-hidden="true">
+                  <span class="pr-1.5 text-xs text-mute transition-colors group-hover:text-gold" aria-hidden="true">
                     ↗
                   </span>
                   <span class="sr-only">({b.store}, 새 탭)</span>
@@ -176,7 +176,7 @@ const jsonLd = [
           profile ? (
             <img src={profile} alt="Toby" width="64" height="64" loading="lazy" class="h-16 w-16 shrink-0 rounded-full border border-line object-cover" />
           ) : (
-            <div class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-navy font-mono text-xl font-bold" aria-hidden="true">
+            <div class="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-navy text-xl font-bold" aria-hidden="true">
               <span>
                 <span class="text-[#8fb4ff]">A</span>
                 <span class="text-[#34d399]">C</span>
@@ -190,7 +190,7 @@ const jsonLd = [
           <p class="text-sm text-mute">{site.author.role}</p>
         </div>
       </div>
-      <div class="mt-6 max-w-3xl space-y-2 border-l-2 border-[#9fb2d3] pl-4 font-serif text-lg leading-relaxed text-fg md:text-xl md:leading-relaxed">
+      <div class="mt-6 max-w-3xl space-y-2 border-l-2 border-[#9fb2d3] pl-4 font-display text-lg leading-relaxed text-fg md:text-xl md:leading-relaxed">
         {t.about.lines.map((line) => <p>{line}</p>)}
       </div>
       <a href="/about" class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-fg hover:underline">
@@ -203,11 +203,12 @@ const jsonLd = [
   <section class="wrap pt-16 md:pt-24">
     <div class="card reveal px-6 py-10 text-center md:py-14">
       <p class="label">{t.join.label}</p>
-      <h2 class="mt-3 font-serif text-2xl font-medium text-fg md:text-4xl">{t.join.title}</h2>
+      <h2 class="mt-3 font-display text-2xl font-medium text-fg md:text-4xl">{t.join.title}</h2>
       <p class="mx-auto mt-3 max-w-xl text-mute">{t.join.lead}</p>
       <div class="mt-7 flex flex-col justify-center gap-2.5 sm:flex-row">
         <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-join" class="btn btn-dark">{t.join.youtube}</a>
         <a href={site.links.instagram} {...ext} data-track="instagram-join" class="btn">{t.join.instagram}</a>
+        <a href="/board?write=collab" data-track="collab-join" class="btn">{t.join.collab}</a>
       </div>
     </div>
   </section>

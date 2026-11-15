@@ -25,7 +25,7 @@ const tabs = [{ id: 'all', name: t.all, color: 'var(--color-fg)' }, ...pillars.m
                 data-filter={tab.id}
                 aria-current={tab.id === 'all' ? 'true' : undefined}
                 style={`--p:${tab.color}`}
-                class="filter-tab inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper px-4 font-mono text-sm font-semibold text-mute transition-colors hover:text-fg aria-[current=true]:border-[var(--p)] aria-[current=true]:text-[var(--p)]"
+                class="filter-tab inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-paper px-4 text-sm font-semibold text-mute transition-colors hover:text-fg aria-[current=true]:border-[var(--p)] aria-[current=true]:text-[var(--p)]"
               >
                 {tab.name}
                 <span class="text-xs font-normal opacity-70">

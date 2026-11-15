@@ -16,12 +16,12 @@ const logo = publicAsset('logo.png');
           logo ? (
             <img src={logo} alt="" width="72" height="72" class="mx-auto h-18 w-18 rounded-xl object-contain" />
           ) : (
-            <div class="mx-auto grid h-18 w-18 place-items-center rounded-2xl bg-navy font-mono text-2xl font-bold" aria-hidden="true">
+            <div class="mx-auto grid h-18 w-18 place-items-center rounded-2xl bg-navy text-2xl font-bold" aria-hidden="true">
               <span><span class="text-[#8fb4ff]">A</span><span class="text-[#34d399]">C</span></span>
             </div>
           )
         }
-        <h1 class="mt-4 font-serif text-2xl font-medium tracking-wide text-fg">AI CRAFT LOG</h1>
+        <h1 class="mt-4 font-display text-2xl font-medium tracking-wide text-fg">AI CRAFT LOG</h1>
         <p class="mt-1 text-sm text-mute">{site.author.name} · {site.author.role}</p>
       </div>
 
@@ -44,9 +44,9 @@ const logo = publicAsset('logo.png');
                 >
                   <span>
                     <span class="block text-base font-bold leading-tight">{item.label}</span>
-                    <span class:list={['mt-0.5 block font-mono text-xs', item.primary ? 'text-on-cta/75' : 'text-dim']}>{item.sub}</span>
+                    <span class:list={['mt-0.5 block text-xs', item.primary ? 'text-on-cta/75' : 'text-dim']}>{item.sub}</span>
                   </span>
-                  <span aria-hidden="true" class="font-mono">{external ? '↗' : '→'}</span>
+                  <span aria-hidden="true" class="">{external ? '↗' : '→'}</span>
                 </a>
               </li>
             );
@@ -54,7 +54,7 @@ const logo = publicAsset('logo.png');
         }
       </ul>
 
-      <p class="mt-7 text-center font-mono text-xs text-dim">{site.slogan}</p>
+      <p class="mt-7 text-center text-xs text-dim">{site.slogan}</p>
     </div>
   </div>
 </Base>

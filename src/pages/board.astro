@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import SectionHead from '../components/SectionHead.astro';
+import site from '../data/site.json';
+
+const t = site.boardPage;
+---
+
+<Base title={t.title} description={t.lead}>
+  <section class="wrap pt-12 md:pt-16">
+    <SectionHead as="h1" label="BOARD" title={t.title} lead={t.lead} />
+    <div id="board" class="mt-8 max-w-3xl" data-copy={JSON.stringify(t)}>
+      <p class="text-mute">{t.loading}</p>
+    </div>
+    <noscript><p class="mt-4 text-mute">게시판을 보려면 브라우저의 자바스크립트를 켜 주세요.</p></noscript>
+  </section>
+</Base>
+
+<script>
+  import { initBoard } from '../lib/board';
+  initBoard();
+</script>

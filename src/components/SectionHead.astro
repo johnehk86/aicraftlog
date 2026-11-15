@@ -14,11 +14,11 @@ const { label, title, lead, as: Tag = 'h2' } = Astro.props;
     Tag === 'h1' ? (
       <>
         <span class="tag">{label}</span>
-        <h1 class="mt-4 font-serif text-[2.1rem] font-medium leading-tight text-fg md:text-5xl">{title}</h1>
+        <h1 class="mt-4 font-display text-[2.1rem] font-medium leading-tight text-fg md:text-5xl">{title}</h1>
       </>
     ) : (
       <div class="flex items-baseline justify-between gap-4 border-b border-line pb-3">
-        <h2 class="text-xl font-semibold text-fg md:text-2xl">{title}</h2>
+        <h2 class="font-display text-2xl text-fg md:text-[1.75rem]">{title}</h2>
         <span class="label shrink-0" aria-hidden="true">
           {label}
         </span>
