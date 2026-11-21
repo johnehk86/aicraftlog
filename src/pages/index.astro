@@ -35,7 +35,7 @@ const jsonLd = [
     name: site.author.name,
     jobTitle: '임베디드 소프트웨어 엔지니어',
     url: `${site.url}/about`,
-    sameAs: [site.links.youtube, site.links.instagram],
+    sameAs: [site.links.youtube, site.links.instagram, site.links.threads],
   },
 ];
 ---
@@ -208,6 +208,7 @@ const jsonLd = [
       <div class="mt-7 flex flex-col justify-center gap-2.5 sm:flex-row">
         <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-join" class="btn btn-dark">{t.join.youtube}</a>
         <a href={site.links.instagram} {...ext} data-track="instagram-join" class="btn">{t.join.instagram}</a>
+        <a href={site.links.threads} {...ext} data-track="threads-join" class="btn">{t.join.threads}</a>
         <a href="/board?write=collab" data-track="collab-join" class="btn">{t.join.collab}</a>
       </div>
     </div>

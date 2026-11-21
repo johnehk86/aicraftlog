@@ -10,7 +10,8 @@
   "links": {
     "youtube": "https://www.youtube.com/@AI-Craft-p7f",
     "youtubeSubscribe": "https://www.youtube.com/@AI-Craft-p7f?sub_confirmation=1",
-    "instagram": "https://www.instagram.com/toby_embedded/"
+    "instagram": "https://www.instagram.com/embedded_ai_toby/",
+    "threads": "https://www.threads.com/@embedded_ai_toby"
   },
   "youtube": {
     "channelId": "UC8G70f-ZjICbvVG3HF3i9lg",
@@ -98,10 +99,11 @@
     "join": {
       "label": "FOLLOW",
       "title": "다음 기록도 함께 보시겠어요?",
-      "lead": "새 제작기와 기술 정리는 유튜브에, 작업 뒷이야기는 인스타그램에 올립니다.",
+      "lead": "새 제작기와 기술 정리는 유튜브에, 작업 뒷이야기와 짧은 생각은 인스타그램과 스레드에 올립니다.",
       "youtube": "유튜브 구독하기",
       "instagram": "인스타그램 팔로우",
-      "collab": "협업 문의하기"
+      "collab": "협업 문의하기",
+      "threads": "스레드 팔로우"
     }
   },
   "videosPage": {
@@ -183,6 +185,18 @@
         "sub": "Kindle Edition",
         "href": "https://www.amazon.com/dp/B0HNM6Q746",
         "track": "book-kindle"
+      },
+      {
+        "label": "인스타그램",
+        "sub": "@embedded_ai_toby",
+        "href": "https://www.instagram.com/embedded_ai_toby/",
+        "track": "instagram"
+      },
+      {
+        "label": "스레드",
+        "sub": "@embedded_ai_toby",
+        "href": "https://www.threads.com/@embedded_ai_toby",
+        "track": "threads"
       },
       {
         "label": "홈페이지",

@@ -14,7 +14,7 @@ const jsonLd = {
   name: site.author.name,
   jobTitle: '임베디드 소프트웨어 엔지니어',
   url: `${site.url}/about`,
-  sameAs: [site.links.youtube, site.links.instagram],
+  sameAs: [site.links.youtube, site.links.instagram, site.links.threads],
   alumniOf: [
     { '@type': 'CollegeOrUniversity', name: '연세대학교' },
     { '@type': 'CollegeOrUniversity', name: '한양대학교' },
@@ -70,6 +70,7 @@ const jsonLd = {
     <div class="mt-10 flex flex-col gap-3 sm:flex-row">
       <a href={site.links.youtubeSubscribe} {...ext} data-track="youtube-about" class="btn btn-dark">{site.home.join.youtube}</a>
       <a href={site.links.instagram} {...ext} data-track="instagram-about" class="btn">{site.home.join.instagram}</a>
+      <a href={site.links.threads} {...ext} data-track="threads-about" class="btn">{site.home.join.threads}</a>
       <a href="/books" class="btn">{site.home.hero.secondaryCta}</a>
     </div>
   </section>
