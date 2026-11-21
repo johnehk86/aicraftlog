@@ -18,6 +18,7 @@
   "shortcuts": [
     { "name": "영상", "url": "/videos", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
     { "name": "책", "url": "/books", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "게시판", "url": "/board", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "노트", "url": "/notes", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "커뮤니티", "url": "/board", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }

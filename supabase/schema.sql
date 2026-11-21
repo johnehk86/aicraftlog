@@ -1,4 +1,4 @@
--- AI Craft Log 게시판 — Supabase 설정 SQL
+-- AI Craft Log 노트·커뮤니티·방문자 수 — Supabase 설정 SQL
 -- Supabase 대시보드 → SQL Editor 에 이 파일 전체를 붙여 넣고 Run 을 한 번 누르면 됩니다.
 -- (여러 번 실행해도 안전합니다.)
 
@@ -20,14 +20,35 @@ create table if not exists public.admins (
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
   author_id uuid not null default auth.uid() references public.profiles (id) on delete cascade,
-  category text not null check (category in ('free', 'question', 'collab')),
+  category text not null,
   title text not null check (char_length(btrim(title)) between 1 and 100),
-  body text not null check (char_length(btrim(body)) between 1 and 5000),
-  images text[] not null default '{}' check (cardinality(images) <= 4),
+  body text not null,
+  images text[] not null default '{}',
   is_public boolean not null default true,
   created_at timestamptz not null default now()
 );
 create index if not exists posts_created_at_idx on public.posts (created_at desc);
+
+-- 노트(Toby만 쓰는 글)와 커뮤니티(누구나 쓰는 게시판)를 한 표에 담는다.
+-- 예전 버전으로 이미 만든 경우에도 이 부분이 표를 새 규칙으로 바꿔 준다.
+alter table public.posts add column if not exists board text not null default 'community';
+alter table public.posts add column if not exists updated_at timestamptz;
+alter table public.posts drop constraint if exists posts_category_check;
+alter table public.posts drop constraint if exists posts_body_check;
+alter table public.posts drop constraint if exists posts_images_check;
+alter table public.posts drop constraint if exists posts_board_rules;
+alter table public.posts add constraint posts_board_rules check (
+  (board = 'community'
+    and category in ('free', 'question', 'brag', 'collab')
+    and char_length(btrim(body)) between 1 and 5000
+    and cardinality(images) <= 4)
+  or
+  (board = 'note'
+    and category in ('thought', 'ai', 'physical', 'embedded')
+    and char_length(btrim(body)) between 1 and 20000
+    and cardinality(images) <= 10)
+);
+create index if not exists posts_board_idx on public.posts (board, created_at desc);
 
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
@@ -59,7 +80,7 @@ alter table public.comments enable row level security;
 grant select on public.profiles, public.posts, public.comments to anon, authenticated;
 grant insert, update on public.profiles to authenticated;
 grant insert, delete on public.posts, public.comments to authenticated;
-grant update (is_public, images) on public.posts to authenticated;
+grant update (title, body, category, is_public, images, updated_at) on public.posts to authenticated;
 grant execute on function public.is_admin(), public.admin_ids() to anon, authenticated;
 
 drop policy if exists "profiles read" on public.profiles;
@@ -75,7 +96,9 @@ drop policy if exists "posts read" on public.posts;
 create policy "posts read" on public.posts for select
   using (is_public or author_id = auth.uid() or public.is_admin());
 drop policy if exists "posts insert own" on public.posts;
-create policy "posts insert own" on public.posts for insert to authenticated with check (author_id = auth.uid());
+-- 노트는 운영자만 쓸 수 있음
+create policy "posts insert own" on public.posts for insert to authenticated
+  with check (author_id = auth.uid() and (board = 'community' or public.is_admin()));
 drop policy if exists "posts update own" on public.posts;
 create policy "posts update own" on public.posts for update to authenticated
   using (author_id = auth.uid()) with check (author_id = auth.uid());

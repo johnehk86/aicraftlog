@@ -1,15 +1,18 @@
-// 게시판 (브라우저에서만 실행). 데이터·로그인·사진은 Supabase가 맡고, 권한은 supabase/schema.sql 의 RLS가 지킨다.
-// 사용자가 쓴 글은 항상 textContent 로만 넣는다 (HTML로 해석하지 않음).
+// 노트(/notes)와 커뮤니티(/board) 화면. 브라우저에서만 실행된다.
+// 데이터·로그인·사진은 Supabase가 맡고, 누가 무엇을 할 수 있는지는 supabase/schema.sql 의 규칙(RLS)이 지킨다.
+// 사용자가 쓴 글은 항상 텍스트로만 넣는다 (HTML로 해석하지 않음).
 import type { SupabaseClient, User } from '@supabase/supabase-js';
 
 interface Post {
   id: string;
+  board: string;
   category: string;
   title: string;
   body?: string;
   images: string[];
   is_public: boolean;
   created_at: string;
+  updated_at: string | null;
   author_id: string;
   profiles: { nickname: string } | null;
 }
@@ -22,22 +25,21 @@ interface Comment {
 }
 
 const PAGE = 20;
-const MAX_IMAGES = 4;
-const COLORS: Record<string, string> = {
-  free: 'var(--color-blue)',
-  question: 'var(--color-accent)',
-  collab: 'var(--color-gold)',
-};
+const POST_FIELDS = 'id,board,category,title,images,is_public,created_at,updated_at,author_id,profiles(nickname)';
 const FIELD =
   'w-full rounded-[0.625rem] border border-line-strong bg-paper px-3.5 py-2.5 text-[15px] text-fg placeholder:text-dim';
 
 let sb: SupabaseClient;
 let root: HTMLElement;
 let t: any;
+let BOARD: 'note' | 'community';
+let BASE: string;
 let user: User | null = null;
 let nickname: string | null = null;
 let admins = new Set<string>();
 let renderId = 0;
+
+// ───────────────────────── 작은 도구 ─────────────────────────
 
 type Child = Node | string | null | undefined | false | Child[];
 function h(tag: string, attrs: Record<string, any> = {}, ...children: Child[]): HTMLElement {
@@ -58,12 +60,13 @@ function h(tag: string, attrs: Record<string, any> = {}, ...children: Child[]): 
 
 const fmt = (iso: string) =>
   new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' }).format(new Date(iso));
-const catName = (id: string) => t.categories.find((c: any) => c.id === id)?.name ?? id;
+const category = (id: string) => t.categories.find((c: any) => c.id === id);
 const isAdmin = () => !!user && admins.has(user.id);
+const canWrite = () => !!user && !!nickname && (BOARD === 'community' || isAdmin());
 
 function go(params: Record<string, string> = {}) {
   const qs = new URLSearchParams(params).toString();
-  history.pushState(null, '', qs ? `/board?${qs}` : '/board');
+  history.pushState(null, '', qs ? `${BASE}?${qs}` : BASE);
   render();
   window.scrollTo({ top: 0 });
 }
@@ -73,7 +76,7 @@ function link(params: Record<string, string>, attrs: Record<string, any>, ...chi
   return h(
     'a',
     {
-      href: qs ? `/board?${qs}` : '/board',
+      href: qs ? `${BASE}?${qs}` : BASE,
       ...attrs,
       onclick: (e: MouseEvent) => {
         if (e.metaKey || e.ctrlKey || e.shiftKey) return;
@@ -84,6 +87,8 @@ function link(params: Record<string, string>, attrs: Record<string, any>, ...chi
     ...children,
   );
 }
+const backLink = () =>
+  link({}, { class: 'inline-flex items-center gap-1 text-sm font-semibold text-mute hover:text-fg' }, h('span', { 'aria-hidden': 'true' }, '←'), t.back);
 
 const notice = (text: string) => h('p', { class: 'card px-5 py-10 text-center text-mute' }, text);
 const alertBox = () => h('p', { class: 'mt-3 hidden text-sm font-medium text-[#b42318]', role: 'alert' });
@@ -92,9 +97,23 @@ function showError(box: HTMLElement, text: string) {
   box.classList.toggle('hidden', !text);
 }
 
+/** 글 속 http(s) 주소만 링크로 바꾼다. 나머지는 그대로 텍스트. */
+function linkify(text: string) {
+  const frag = document.createDocumentFragment();
+  let last = 0;
+  for (const m of text.matchAll(/https?:\/\/[^\s<>"']*[^\s<>"'.,;:!?)\]]/g)) {
+    frag.append(text.slice(last, m.index));
+    frag.append(h('a', { href: m[0], target: '_blank', rel: 'noopener noreferrer nofollow ugc', class: 'break-all text-blue underline underline-offset-2' }, m[0]));
+    last = m.index! + m[0].length;
+  }
+  frag.append(text.slice(last));
+  return frag;
+}
+
 function tags(p: Post) {
+  const c = category(p.category);
   return [
-    h('span', { class: 'tag', style: `--p:${COLORS[p.category] ?? ''}` }, catName(p.category)),
+    h('span', { class: 'tag', style: `--p:${c?.color ?? ''}` }, c?.name ?? p.category),
     !p.is_public && h('span', { class: 'tag' }, lockIcon(), t.privateBadge),
   ];
 }
@@ -110,8 +129,18 @@ function author(row: { author_id: string; profiles: { nickname: string } | null 
     admins.has(row.author_id) && h('span', { class: 'tag ml-1.5', style: '--p:var(--color-blue)' }, t.adminBadge),
   ];
 }
+const sep = () => h('span', { 'aria-hidden': 'true' }, '·');
 
-// ───────────────────────── 로그인 영역 ─────────────────────────
+/** 비공개 저장소의 사진 주소를 1시간짜리 서명 주소로 바꾼다 */
+async function signed(paths: string[]): Promise<Map<string, string>> {
+  const out = new Map<string, string>();
+  if (!paths.length) return out;
+  const { data } = await sb.storage.from('board').createSignedUrls(paths, 3600);
+  for (const u of data ?? []) if (u.signedUrl && u.path) out.set(u.path, u.signedUrl);
+  return out;
+}
+
+// ───────────────────────── 로그인 ─────────────────────────
 
 async function setUser(u: User | null) {
   user = u;
@@ -122,81 +151,36 @@ async function setUser(u: User | null) {
   }
 }
 
-function authBar() {
-  const bar = h('div', { class: 'card mb-6 p-4 sm:p-5' });
-
-  if (user && nickname) {
-    bar.append(
-      h(
-        'div',
-        { class: 'flex flex-wrap items-center justify-between gap-3' },
-        h('p', { class: 'text-[15px] text-fg' }, h('strong', {}, nickname), t.greeting),
-        h(
-          'div',
-          { class: 'flex gap-2' },
-          link({ write: '1' }, { class: 'btn btn-dark !min-h-10 !py-2' }, t.write),
-          h('button', { type: 'button', class: 'btn !min-h-10 !py-2', onclick: () => sb.auth.signOut() }, t.logout),
-        ),
-      ),
-    );
-    return bar;
-  }
-
-  if (user) {
-    // 첫 로그인: 닉네임 정하기
-    const err = alertBox();
-    const input = h('input', { class: FIELD, name: 'nickname', required: true, minlength: 2, maxlength: 20, autocomplete: 'nickname', placeholder: t.nicknamePlaceholder, 'aria-label': t.nicknameLabel });
-    bar.append(
-      h('p', { class: 'font-semibold text-fg' }, t.nicknameTitle),
-      h('p', { class: 'mt-1 text-sm text-mute' }, t.nicknameLead),
-      h(
-        'form',
-        {
-          class: 'mt-3 flex flex-col gap-2 sm:flex-row',
-          onsubmit: async (e: SubmitEvent) => {
-            e.preventDefault();
-            const value = (input as HTMLInputElement).value.trim();
-            const { error } = await sb.from('profiles').upsert({ id: user!.id, nickname: value });
-            if (error) return showError(err, error.code === '23505' ? t.nicknameTaken : t.error);
-            nickname = value;
-            render();
-          },
-        },
-        input,
-        h('button', { class: 'btn btn-dark shrink-0' }, t.nicknameSave),
-        h('button', { type: 'button', class: 'btn shrink-0', onclick: () => sb.auth.signOut() }, t.logout),
-      ),
-      err,
-    );
-    return bar;
-  }
-
-  // 로그인 전
+/** 로그인 버튼 + 펼쳐지는 로그인 방법 */
+function loginBox(lead: string) {
   const err = alertBox();
   const info = h('p', { class: 'mt-3 hidden text-sm font-medium text-accent', role: 'status' });
-  const redirectTo = `${location.origin}/board`;
+  // 로그인 후 지금 보던 페이지로 돌아온다
+  const redirectTo = location.origin + location.pathname + location.search;
   const email = h('input', { class: FIELD, type: 'email', name: 'email', required: true, autocomplete: 'email', placeholder: t.emailPlaceholder, 'aria-label': t.emailLabel });
+  const panelId = `login-${Math.random().toString(36).slice(2, 8)}`;
   const panel = h(
     'div',
-    { class: 'mt-4 hidden border-t border-line pt-4', id: 'login-panel' },
-    h(
-      'div',
-      { class: 'grid gap-2 sm:grid-cols-2' },
-      t.providers.map((p: any) =>
-        h(
-          'button',
-          {
-            type: 'button',
-            class: 'btn',
-            onclick: async () => {
-              const { error } = await sb.auth.signInWithOAuth({ provider: p.id, options: { redirectTo } });
-              if (error) showError(err, t.error);
+    { class: 'mt-4 hidden border-t border-line pt-4', id: panelId },
+    t.providers.length > 0 &&
+      h(
+        'div',
+        { class: 'grid gap-2 sm:grid-cols-2' },
+        t.providers.map((p: any) =>
+          h(
+            'button',
+            {
+              type: 'button',
+              class: 'btn',
+              onclick: async () => {
+                const { error } = await sb.auth.signInWithOAuth({ provider: p.id, options: { redirectTo } });
+                if (error) showError(err, t.error);
+              },
             },
-          },
-          p.label,
+            p.label,
+          ),
         ),
       ),
-    ),
     t.emailLogin &&
       h(
         'form',
@@ -227,49 +211,148 @@ function authBar() {
       type: 'button',
       class: 'btn btn-dark !min-h-10 !py-2',
       'aria-expanded': 'false',
-      'aria-controls': 'login-panel',
+      'aria-controls': panelId,
       onclick: () => {
         const open = panel.classList.toggle('hidden') === false;
         toggle.setAttribute('aria-expanded', String(open));
-        if (open) (email as HTMLInputElement).focus?.();
       },
     },
     t.login,
   );
-  bar.append(
-    h('div', { class: 'flex flex-wrap items-center justify-between gap-3' }, h('p', { class: 'text-[15px] text-mute' }, t.loginLead), toggle),
+  return h(
+    'div',
+    {},
+    h('div', { class: 'flex flex-wrap items-center justify-between gap-3' }, h('p', { class: 'text-[15px] text-mute' }, lead), toggle),
     panel,
   );
-  return bar;
+}
+
+function nicknameForm() {
+  const err = alertBox();
+  const input = h('input', { class: FIELD, name: 'nickname', required: true, minlength: 2, maxlength: 20, autocomplete: 'nickname', placeholder: t.nicknamePlaceholder, 'aria-label': t.nicknameLabel }) as HTMLInputElement;
+  return h(
+    'div',
+    {},
+    h('p', { class: 'font-semibold text-fg' }, t.nicknameTitle),
+    h('p', { class: 'mt-1 text-sm text-mute' }, t.nicknameLead),
+    h(
+      'form',
+      {
+        class: 'mt-3 flex flex-col gap-2 sm:flex-row',
+        onsubmit: async (e: SubmitEvent) => {
+          e.preventDefault();
+          const value = input.value.trim();
+          const { error } = await sb.from('profiles').upsert({ id: user!.id, nickname: value });
+          if (error) return showError(err, error.code === '23505' ? t.nicknameTaken : t.error);
+          nickname = value;
+          render();
+        },
+      },
+      input,
+      h('button', { class: 'btn btn-dark shrink-0' }, t.nicknameSave),
+      h('button', { type: 'button', class: 'btn shrink-0', onclick: () => sb.auth.signOut() }, t.logout),
+    ),
+    err,
+  );
+}
+
+/** 맨 위 상자: 로그인 상태와 글쓰기 버튼. 노트에서는 로그인한 경우에만 보인다. */
+function authBar(): HTMLElement | null {
+  if (user && !nickname) return h('div', { class: 'card mb-6 p-4 sm:p-5' }, nicknameForm());
+  if (user) {
+    return h(
+      'div',
+      { class: 'card mb-6 flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5' },
+      h('p', { class: 'text-[15px] text-fg' }, h('strong', {}, nickname!), t.greeting),
+      h(
+        'div',
+        { class: 'flex gap-2' },
+        canWrite() && link({ write: '1' }, { class: 'btn btn-dark !min-h-10 !py-2' }, t.write),
+        h('button', { type: 'button', class: 'btn !min-h-10 !py-2', onclick: () => sb.auth.signOut() }, t.logout),
+      ),
+    );
+  }
+  if (BOARD === 'note') return null;
+  return h('div', { class: 'card mb-6 p-4 sm:p-5' }, loginBox(t.loginLead));
 }
 
 // ───────────────────────── 목록 ─────────────────────────
 
-async function listView(box: HTMLElement, category: string | null, id: number) {
-  const tabs = h(
+function categoryTabs(current: string | null) {
+  return h(
     'div',
-    { class: 'flex flex-wrap gap-1.5', role: 'group', 'aria-label': t.categoryLabel },
+    { class: 'mb-4 flex flex-wrap gap-1.5', role: 'group', 'aria-label': t.categoryLabel },
     [{ id: '', name: t.all }, ...t.categories].map((c: any) => {
-      const on = (category ?? '') === c.id;
-      return link(c.id ? { category: c.id } : {}, {
-        class: `rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors ${on ? 'border-navy bg-navy text-white' : 'border-line-strong bg-paper text-mute hover:text-fg'}`,
-        'aria-current': on ? 'true' : null,
-      }, c.name);
+      const on = (current ?? '') === c.id;
+      return link(
+        c.id ? { category: c.id } : {},
+        {
+          class: `rounded-full border px-3.5 py-1.5 text-sm font-semibold transition-colors ${on ? 'border-navy bg-navy text-white' : 'border-line-strong bg-paper text-mute hover:text-fg'}`,
+          'aria-current': on ? 'true' : null,
+        },
+        c.name,
+      );
     }),
   );
-  const list = h('ul', { class: 'mt-4 space-y-2.5' });
+}
+
+function communityRow(p: Post) {
+  return h(
+    'li',
+    {},
+    link(
+      { post: p.id },
+      { class: 'card block p-4 transition-colors hover:border-line-strong sm:p-5' },
+      h('span', { class: 'flex flex-wrap items-center gap-1.5' }, tags(p)),
+      h('span', { class: 'mt-2 block text-[17px] font-semibold leading-snug text-fg' }, p.title),
+      h(
+        'span',
+        { class: 'mt-1.5 flex flex-wrap items-center gap-x-2 text-[13px] text-dim' },
+        h('span', { class: 'flex items-center' }, author(p)),
+        sep(),
+        fmt(p.created_at),
+        p.images.length > 0 && [sep(), t.photoCount.replace('{n}', String(p.images.length))],
+      ),
+    ),
+  );
+}
+
+function noteRow(p: Post, thumbs: Map<string, string>) {
+  const thumb = p.images[0] && thumbs.get(p.images[0]);
+  const excerpt = (p.body ?? '').replace(/\s+/g, ' ').trim().slice(0, 140);
+  return h(
+    'li',
+    {},
+    link(
+      { post: p.id },
+      { class: 'card group flex gap-4 p-4 transition-colors hover:border-line-strong sm:gap-5 sm:p-5' },
+      h(
+        'span',
+        { class: 'min-w-0 flex-1' },
+        h('span', { class: 'flex flex-wrap items-center gap-1.5' }, tags(p), h('span', { class: 'ml-1 text-[13px] text-dim' }, fmt(p.created_at))),
+        h('span', { class: 'mt-2 block font-display text-xl leading-snug text-fg group-hover:underline group-hover:underline-offset-4 sm:text-[22px]' }, p.title),
+        excerpt && h('span', { class: 'mt-1.5 line-clamp-2 block text-[15px] leading-relaxed text-mute' }, excerpt),
+      ),
+      thumb && h('img', { src: thumb, alt: '', loading: 'lazy', class: 'h-20 w-20 shrink-0 rounded-lg border border-line object-cover sm:h-24 sm:w-32' }),
+    ),
+  );
+}
+
+async function listView(box: HTMLElement, cat: string | null, id: number) {
+  const list = h('ul', { class: 'space-y-2.5' });
   const more = h('button', { type: 'button', class: 'btn mt-4 hidden w-full sm:w-auto' }, t.more);
   const status = h('p', { class: 'mt-4 text-mute' }, t.loading);
-  box.append(tabs, list, status, more);
+  box.append(categoryTabs(cat), list, status, more);
 
   let from = 0;
   const load = async () => {
     let q = sb
       .from('posts')
-      .select('id,category,title,images,is_public,created_at,author_id,profiles(nickname)')
+      .select(BOARD === 'note' ? `${POST_FIELDS},body` : POST_FIELDS)
+      .eq('board', BOARD)
       .order('created_at', { ascending: false })
       .range(from, from + PAGE - 1);
-    if (category) q = q.eq('category', category);
+    if (cat) q = q.eq('category', cat);
     const { data, error } = await q;
     if (id !== renderId) return;
     if (error) {
@@ -277,28 +360,9 @@ async function listView(box: HTMLElement, category: string | null, id: number) {
       return;
     }
     const rows = (data ?? []) as unknown as Post[];
-    for (const p of rows) {
-      list.append(
-        h(
-          'li',
-          {},
-          link(
-            { post: p.id },
-            { class: 'card block p-4 transition-colors hover:border-line-strong sm:p-5' },
-            h('span', { class: 'flex flex-wrap items-center gap-1.5' }, tags(p)),
-            h('span', { class: 'mt-2 block text-[17px] font-semibold leading-snug text-fg' }, p.title),
-            h(
-              'span',
-              { class: 'mt-1.5 flex flex-wrap items-center gap-x-2 text-[13px] text-dim' },
-              h('span', { class: 'flex items-center' }, author(p)),
-              h('span', { 'aria-hidden': 'true' }, '·'),
-              fmt(p.created_at),
-              p.images.length > 0 && [h('span', { 'aria-hidden': 'true' }, '·'), t.photoCount.replace('{n}', String(p.images.length))],
-            ),
-          ),
-        ),
-      );
-    }
+    const thumbs = BOARD === 'note' ? await signed(rows.map((p) => p.images[0]).filter(Boolean)) : new Map();
+    if (id !== renderId) return;
+    list.append(...rows.map((p) => (BOARD === 'note' ? noteRow(p, thumbs) : communityRow(p))));
     from += rows.length;
     status.textContent = from === 0 ? t.empty : '';
     status.classList.toggle('hidden', from !== 0);
@@ -310,20 +374,20 @@ async function listView(box: HTMLElement, category: string | null, id: number) {
 
 // ───────────────────────── 글 보기 ─────────────────────────
 
+async function fetchPost(postId: string) {
+  const { data } = await sb.from('posts').select(`${POST_FIELDS},body`).eq('id', postId).eq('board', BOARD).maybeSingle();
+  return data as unknown as Post | null;
+}
+
 async function detailView(box: HTMLElement, postId: string, id: number) {
   box.append(h('p', { class: 'text-mute' }, t.loading));
-  const { data } = await sb
-    .from('posts')
-    .select('id,category,title,body,images,is_public,created_at,author_id,profiles(nickname)')
-    .eq('id', postId)
-    .maybeSingle();
+  const p = await fetchPost(postId);
   if (id !== renderId) return;
-  const back = link({}, { class: 'inline-flex items-center gap-1 text-sm font-semibold text-mute hover:text-fg' }, h('span', { 'aria-hidden': 'true' }, '←'), t.back);
-  const p = data as unknown as Post | null;
   if (!p) {
-    box.replaceChildren(back, h('div', { class: 'mt-4' }, notice(t.notFound)));
+    box.replaceChildren(backLink(), h('div', { class: 'mt-4' }, notice(t.notFound)));
     return;
   }
+  document.title = `${p.title} | ${t.title} | AI Craft Log`;
 
   const mine = user?.id === p.author_id;
   const err = alertBox();
@@ -331,25 +395,30 @@ async function detailView(box: HTMLElement, postId: string, id: number) {
     'article',
     { class: 'card mt-4 p-5 sm:p-8' },
     h('div', { class: 'flex flex-wrap items-center gap-1.5' }, tags(p)),
-    h('h2', { class: 'mt-3 font-display text-2xl leading-snug text-fg md:text-3xl' }, p.title),
-    h('p', { class: 'mt-2 flex flex-wrap items-center gap-x-2 text-sm text-dim' }, h('span', { class: 'flex items-center' }, author(p)), h('span', { 'aria-hidden': 'true' }, '·'), fmt(p.created_at)),
-    h('p', { class: 'mt-6 whitespace-pre-wrap border-t border-line pt-6 leading-[1.8] text-fg' }, p.body ?? ''),
+    h('h2', { class: 'mt-3 font-display text-2xl leading-snug text-fg md:text-[2rem]' }, p.title),
+    h(
+      'p',
+      { class: 'mt-2 flex flex-wrap items-center gap-x-2 text-sm text-dim' },
+      h('span', { class: 'flex items-center' }, author(p)),
+      sep(),
+      fmt(p.created_at),
+      p.updated_at && [sep(), t.edited],
+    ),
+    h('div', { class: 'mt-6 whitespace-pre-wrap border-t border-line pt-6 text-[16px] leading-[1.85] text-fg' }, linkify(p.body ?? '')),
   );
 
   if (p.images.length) {
-    const grid = h('div', { class: 'mt-6 grid gap-3 sm:grid-cols-2' });
+    const grid = h('div', { class: BOARD === 'note' ? 'mt-8 space-y-4' : 'mt-6 grid gap-3 sm:grid-cols-2' });
     article.append(grid);
-    sb.storage
-      .from('board')
-      .createSignedUrls(p.images, 3600)
-      .then(({ data: urls }) => {
-        for (const u of urls ?? []) {
-          if (!u.signedUrl) continue;
-          grid.append(
-            h('a', { href: u.signedUrl, target: '_blank', rel: 'noopener noreferrer' }, h('img', { src: u.signedUrl, alt: t.photoAlt, loading: 'lazy', class: 'w-full rounded-lg border border-line' })),
-          );
-        }
-      });
+    signed(p.images).then((urls) => {
+      for (const path of p.images) {
+        const url = urls.get(path);
+        if (!url) continue;
+        grid.append(
+          h('a', { href: url, target: '_blank', rel: 'noopener noreferrer', class: 'block' }, h('img', { src: url, alt: t.photoAlt, loading: 'lazy', class: 'w-full rounded-lg border border-line' })),
+        );
+      }
+    });
   }
 
   if (mine || isAdmin()) {
@@ -357,6 +426,7 @@ async function detailView(box: HTMLElement, postId: string, id: number) {
       h(
         'div',
         { class: 'mt-8 flex flex-wrap gap-2 border-t border-line pt-5' },
+        mine && link({ edit: p.id }, { class: 'btn !min-h-10 !py-2' }, t.edit),
         mine &&
           h(
             'button',
@@ -391,10 +461,13 @@ async function detailView(box: HTMLElement, postId: string, id: number) {
     );
   }
 
-  // 댓글
+  box.replaceChildren(backLink(), article, commentsSection(p, id));
+}
+
+function commentsSection(p: Post, id: number) {
   const list = h('ul', { class: 'mt-3 divide-y divide-line' });
   const section = h('section', { class: 'card mt-4 p-5 sm:p-8' }, h('h3', { class: 'text-lg font-semibold text-fg' }, t.comments), list);
-  const loadComments = async () => {
+  const load = async () => {
     const { data: rows } = await sb.from('comments').select('id,body,created_at,author_id,profiles(nickname)').eq('post_id', p.id).order('created_at');
     if (id !== renderId) return;
     const items = ((rows ?? []) as unknown as Comment[]).map((c) =>
@@ -415,19 +488,20 @@ async function detailView(box: HTMLElement, postId: string, id: number) {
                 onclick: async () => {
                   if (!confirm(t.deleteCommentConfirm)) return;
                   await sb.from('comments').delete().eq('id', c.id);
-                  loadComments();
+                  load();
                 },
               },
               t.delete,
             ),
         ),
-        h('p', { class: 'mt-1 whitespace-pre-wrap text-[15px] text-fg' }, c.body),
+        h('p', { class: 'mt-1 whitespace-pre-wrap text-[15px] text-fg' }, linkify(c.body)),
       ),
     );
     list.replaceChildren(...(items.length ? items : [h('li', { class: 'py-3 text-sm text-mute' }, t.noComments)]));
   };
+
   if (user && nickname) {
-    const cErr = alertBox();
+    const err = alertBox();
     const ta = h('textarea', { class: FIELD, rows: 3, required: true, maxlength: 1000, placeholder: t.commentPlaceholder, 'aria-label': t.commentPlaceholder }) as HTMLTextAreaElement;
     section.append(
       h(
@@ -439,26 +513,27 @@ async function detailView(box: HTMLElement, postId: string, id: number) {
             const body = ta.value.trim();
             if (!body) return;
             const { error } = await sb.from('comments').insert({ post_id: p.id, body });
-            if (error) return showError(cErr, t.error);
+            if (error) return showError(err, t.error);
             ta.value = '';
-            showError(cErr, '');
-            loadComments();
+            showError(err, '');
+            load();
           },
         },
         ta,
         h('button', { class: 'btn btn-dark mt-2 !min-h-10 !py-2' }, t.commentSubmit),
-        cErr,
+        err,
       ),
     );
+  } else if (user) {
+    section.append(h('div', { class: 'mt-4 border-t border-line pt-4' }, nicknameForm()));
   } else {
-    section.append(h('p', { class: 'mt-3 text-sm text-mute' }, t.commentLogin));
+    section.append(h('div', { class: 'mt-4 border-t border-line pt-4' }, loginBox(t.commentLogin)));
   }
-
-  box.replaceChildren(back, article, section);
-  loadComments();
+  load();
+  return section;
 }
 
-// ───────────────────────── 글쓰기 ─────────────────────────
+// ───────────────────────── 글쓰기 · 고치기 ─────────────────────────
 
 /** 사진을 긴 변 1600px 이하의 WebP(안 되면 JPEG)로 줄인다 */
 async function shrink(file: File): Promise<Blob> {
@@ -475,64 +550,120 @@ async function shrink(file: File): Promise<Blob> {
   return out;
 }
 
-function writeView(box: HTMLElement, preset: string | null) {
-  const back = link({}, { class: 'inline-flex items-center gap-1 text-sm font-semibold text-mute hover:text-fg' }, h('span', { 'aria-hidden': 'true' }, '←'), t.back);
-  if (!user || !nickname) {
-    box.append(back, h('div', { class: 'mt-4' }, notice(t.writeLogin)));
+async function writeView(box: HTMLElement, preset: string | null, editId: string | null, id: number) {
+  if (!canWrite()) {
+    box.append(backLink(), h('div', { class: 'mt-4' }, notice(user && nickname ? t.notAllowed : t.writeLogin)));
     return;
   }
-  const start = t.categories.some((c: any) => c.id === preset) ? preset! : t.categories[0].id;
-  const err = alertBox();
-  const label = (text: string, ...children: Child[]) => h('label', { class: 'block' }, h('span', { class: 'mb-1.5 block text-sm font-semibold text-fg' }, text), ...children);
-
-  const category = h('select', { class: FIELD, name: 'category' }, t.categories.map((c: any) => h('option', { value: c.id, selected: c.id === start }, c.name))) as HTMLSelectElement;
-  const title = h('input', { class: FIELD, name: 'title', required: true, maxlength: 100, placeholder: t.titlePlaceholder }) as HTMLInputElement;
-  const body = h('textarea', { class: FIELD, name: 'body', rows: 10, required: true, maxlength: 5000, placeholder: t.bodyPlaceholder }) as HTMLTextAreaElement;
-  const files = h('input', { type: 'file', name: 'photos', accept: 'image/*', multiple: true, class: 'block w-full text-sm text-mute file:mr-3 file:rounded-lg file:border file:border-line-strong file:bg-paper file:px-3.5 file:py-2 file:font-semibold file:text-fg' }) as HTMLInputElement;
-  const previews = h('div', { class: 'mt-3 flex flex-wrap gap-2' });
-  files.addEventListener('change', () => {
-    previews.replaceChildren();
-    const picked = [...(files.files ?? [])];
-    showError(err, picked.length > MAX_IMAGES ? t.tooManyPhotos : '');
-    for (const f of picked.slice(0, MAX_IMAGES)) {
-      const img = h('img', { src: URL.createObjectURL(f), alt: f.name, class: 'h-20 w-20 rounded-lg border border-line object-cover' }) as HTMLImageElement;
-      img.onload = () => URL.revokeObjectURL(img.src);
-      previews.append(img);
+  let post: Post | null = null;
+  if (editId) {
+    post = await fetchPost(editId);
+    if (id !== renderId) return;
+    if (!post || post.author_id !== user!.id) {
+      box.append(backLink(), h('div', { class: 'mt-4' }, notice(t.notFound)));
+      return;
     }
+  }
+
+  const max = t.maxImages as number;
+  const start = post?.category ?? (t.categories.some((c: any) => c.id === preset) ? preset! : t.categories[0].id);
+  const err = alertBox();
+  const label = (text: string, ...children: Child[]) =>
+    h('label', { class: 'block' }, h('span', { class: 'mb-1.5 block text-sm font-semibold text-fg' }, text), ...children);
+
+  const cat = h('select', { class: FIELD, name: 'category' }, t.categories.map((c: any) => h('option', { value: c.id, selected: c.id === start }, c.name))) as HTMLSelectElement;
+  const title = h('input', { class: FIELD, name: 'title', required: true, maxlength: 100, placeholder: t.titlePlaceholder }) as HTMLInputElement;
+  const body = h('textarea', { class: `${FIELD} leading-relaxed`, name: 'body', rows: BOARD === 'note' ? 18 : 10, required: true, maxlength: t.maxBody, placeholder: t.bodyPlaceholder }) as HTMLTextAreaElement;
+  if (post) {
+    title.value = post.title;
+    body.value = post.body ?? '';
+  }
+
+  // 사진: 이미 올린 것(고칠 때) + 새로 고른 것
+  let kept = [...(post?.images ?? [])];
+  const removed: string[] = [];
+  let picked: File[] = [];
+  const photoHelp = () => t.photoHelp.replace('{n}', String(max));
+  const previews = h('div', { class: 'mt-3 flex flex-wrap gap-2' });
+  const files = h('input', { type: 'file', name: 'photos', accept: 'image/*', multiple: true, class: 'block w-full text-sm text-mute file:mr-3 file:rounded-lg file:border file:border-line-strong file:bg-paper file:px-3.5 file:py-2 file:font-semibold file:text-fg' }) as HTMLInputElement;
+  const thumbBox = (src: string, onRemove: () => void) =>
+    h(
+      'div',
+      { class: 'relative' },
+      h('img', { src, alt: '', class: 'h-20 w-20 rounded-lg border border-line object-cover' }),
+      h('button', { type: 'button', class: 'absolute -right-1.5 -top-1.5 grid h-6 w-6 place-items-center rounded-full bg-navy text-xs font-bold text-white', 'aria-label': t.photoRemove, onclick: onRemove }, '×'),
+    );
+  const drawPreviews = async () => {
+    const urls = await signed(kept);
+    previews.replaceChildren(
+      ...kept.map((path) =>
+        thumbBox(urls.get(path) ?? '', () => {
+          kept = kept.filter((k) => k !== path);
+          removed.push(path);
+          drawPreviews();
+        }),
+      ),
+      ...picked.map((f, i) => {
+        const src = URL.createObjectURL(f);
+        return thumbBox(src, () => {
+          picked.splice(i, 1);
+          drawPreviews();
+        });
+      }),
+    );
+    showError(err, kept.length + picked.length > max ? t.tooManyPhotos.replace('{n}', String(max)) : '');
+  };
+  files.addEventListener('change', () => {
+    picked = [...picked, ...(files.files ?? [])];
+    files.value = '';
+    drawPreviews();
   });
+  if (kept.length) drawPreviews();
 
   // 공개 / 비공개 — 협업 문의는 비공개를 기본으로 하되, 직접 고르면 그 선택을 따른다
-  let touched = false;
+  let touched = !!post;
   const radio = (value: string, name: string, desc: string) => {
     const input = h('input', { type: 'radio', name: 'visibility', value, class: 'mt-1 accent-[#131b2e]', onchange: () => (touched = true) }) as HTMLInputElement;
-    return { input, el: h('label', { class: 'flex cursor-pointer gap-2.5 rounded-[0.625rem] border border-line-strong bg-paper p-3.5 has-[:checked]:border-navy has-[:checked]:bg-tint' }, input, h('span', {}, h('span', { class: 'block font-semibold text-fg' }, name), h('span', { class: 'block text-[13px] leading-snug text-mute' }, desc))) };
+    return {
+      input,
+      el: h(
+        'label',
+        { class: 'flex cursor-pointer gap-2.5 rounded-[0.625rem] border border-line-strong bg-paper p-3.5 has-[:checked]:border-navy has-[:checked]:bg-tint' },
+        input,
+        h('span', {}, h('span', { class: 'block font-semibold text-fg' }, name), h('span', { class: 'block text-[13px] leading-snug text-mute' }, desc)),
+      ),
+    };
   };
   const pub = radio('public', t.publicName, t.publicDesc);
   const priv = radio('private', t.privateName, t.privateDesc);
+  if (post) {
+    pub.input.checked = post.is_public;
+    priv.input.checked = !post.is_public;
+  }
   const syncVisibility = () => {
     if (touched) return;
-    priv.input.checked = category.value === 'collab';
+    priv.input.checked = cat.value === 'collab';
     pub.input.checked = !priv.input.checked;
   };
-  category.addEventListener('change', syncVisibility);
+  cat.addEventListener('change', syncVisibility);
   syncVisibility();
 
-  const submit = h('button', { class: 'btn btn-primary w-full sm:w-auto' }, t.submit) as HTMLButtonElement;
+  const submitLabel = post ? t.save : t.submit;
+  const submit = h('button', { class: 'btn btn-primary w-full sm:w-auto' }, submitLabel) as HTMLButtonElement;
   const form = h(
     'form',
     {
       class: 'card mt-4 space-y-5 p-5 sm:p-8',
       onsubmit: async (e: SubmitEvent) => {
         e.preventDefault();
-        const picked = [...(files.files ?? [])];
-        if (picked.length > MAX_IMAGES) return showError(err, t.tooManyPhotos);
+        if (kept.length + picked.length > max) return showError(err, t.tooManyPhotos.replace('{n}', String(max)));
         submit.disabled = true;
         submit.textContent = t.submitting;
         showError(err, '');
         const fail = (text: string) => {
           showError(err, text);
           submit.disabled = false;
-          submit.textContent = t.submit;
+          submit.textContent = submitLabel;
         };
 
         let blobs: Blob[];
@@ -541,33 +672,41 @@ function writeView(box: HTMLElement, preset: string | null) {
         } catch {
           return fail(t.photoError);
         }
-        const { data: post, error } = await sb
-          .from('posts')
-          .insert({ category: category.value, title: title.value.trim(), body: body.value.trim(), is_public: pub.input.checked })
-          .select('id')
-          .single();
-        if (error || !post) return fail(t.error);
-
-        const paths: string[] = [];
-        for (const [i, blob] of blobs.entries()) {
-          const path = `${user!.id}/${post.id}/${i}-${crypto.randomUUID().slice(0, 8)}.${blob.type === 'image/webp' ? 'webp' : 'jpg'}`;
-          const up = await sb.storage.from('board').upload(path, blob, { contentType: blob.type });
-          if (!up.error) paths.push(path);
+        const fields = { category: cat.value, title: title.value.trim(), body: body.value.trim(), is_public: pub.input.checked };
+        let postId = post?.id;
+        if (!postId) {
+          const { data, error } = await sb.from('posts').insert({ ...fields, board: BOARD }).select('id').single();
+          if (error || !data) return fail(t.error);
+          postId = data.id as string;
         }
-        if (paths.length) await sb.from('posts').update({ images: paths }).eq('id', post.id);
-        if (paths.length < blobs.length) alert(t.photoPartial);
-        go({ post: post.id });
+
+        const uploaded: string[] = [];
+        for (const blob of blobs) {
+          const path = `${user!.id}/${postId}/${crypto.randomUUID().slice(0, 12)}.${blob.type === 'image/webp' ? 'webp' : 'jpg'}`;
+          const up = await sb.storage.from('board').upload(path, blob, { contentType: blob.type });
+          if (!up.error) uploaded.push(path);
+        }
+        const images = [...kept, ...uploaded];
+        const { error } = post
+          ? await sb.from('posts').update({ ...fields, images, updated_at: new Date().toISOString() }).eq('id', postId)
+          : uploaded.length
+            ? await sb.from('posts').update({ images }).eq('id', postId)
+            : { error: null };
+        if (error) return fail(t.error);
+        if (removed.length) await sb.storage.from('board').remove(removed);
+        if (uploaded.length < blobs.length) alert(t.photoPartial);
+        go({ post: postId });
       },
     },
-    h('h2', { class: 'font-display text-2xl text-fg' }, t.writeTitle),
-    label(t.categoryLabel, category),
+    h('h2', { class: 'font-display text-2xl text-fg' }, post ? t.editTitle : t.writeTitle),
+    label(t.categoryLabel, cat),
     label(t.titleLabel, title),
     label(t.bodyLabel, body),
-    h('div', {}, label(t.photoLabel, files), h('p', { class: 'mt-1.5 text-[13px] text-dim' }, t.photoHelp), previews),
+    h('div', {}, label(t.photoLabel, files), h('p', { class: 'mt-1.5 text-[13px] text-dim' }, photoHelp()), previews),
     h('fieldset', {}, h('legend', { class: 'mb-1.5 text-sm font-semibold text-fg' }, t.visibilityLabel), h('div', { class: 'grid gap-2 sm:grid-cols-2' }, pub.el, priv.el)),
     h('div', {}, submit, err),
   );
-  box.append(back, form);
+  box.append(backLink(), form);
 }
 
 // ───────────────────────── 시작 ─────────────────────────
@@ -576,15 +715,21 @@ function render() {
   const id = ++renderId;
   const q = new URLSearchParams(location.search);
   const box = h('div', {});
-  root.replaceChildren(authBar(), box);
-  if (q.has('write')) writeView(box, q.get('write'));
+  root.replaceChildren(...[authBar(), box].filter(Boolean) as HTMLElement[]);
+  if (q.has('write') || q.has('edit')) writeView(box, q.get('write'), q.get('edit'), id);
   else if (q.get('post')) detailView(box, q.get('post')!, id);
-  else listView(box, q.get('category'), id);
+  else {
+    document.title = root.dataset.title ?? document.title;
+    listView(box, q.get('category'), id);
+  }
 }
 
 export async function initBoard() {
   root = document.getElementById('board')!;
   t = JSON.parse(root.dataset.copy!);
+  BOARD = root.dataset.board === 'note' ? 'note' : 'community';
+  BASE = location.pathname;
+  root.dataset.title = document.title;
   const url = import.meta.env.PUBLIC_SUPABASE_URL;
   const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) {

@@ -4,6 +4,8 @@ import { publicAsset } from '../lib/videos';
 
 // public/logo.png 가 있으면 그 파일을, 없으면 텍스트 로고를 쓴다
 const logo = publicAsset('logo.png');
+// compact: 좁은 화면에서는 글자를 숨기고 아이콘만 (헤더용)
+const { compact = false } = Astro.props as { compact?: boolean };
 ---
 
 <a href="/" class="inline-flex shrink-0 items-center gap-2.5">
@@ -21,5 +23,5 @@ const logo = publicAsset('logo.png');
       </span>
     )
   }
-  <span class="whitespace-nowrap text-[15px] font-bold tracking-[0.08em] text-fg">AI CRAFT LOG<span class="sr-only"> 홈</span></span>
+  <span class:list={['whitespace-nowrap text-[15px] font-bold tracking-[0.08em] text-fg', compact && 'max-[520px]:sr-only']}>AI CRAFT LOG<span class="sr-only"> 홈</span></span>
 </a>

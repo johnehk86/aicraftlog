@@ -27,12 +27,16 @@
       "href": "/books"
     },
     {
-      "label": "소개",
-      "href": "/about"
+      "label": "노트",
+      "href": "/notes"
     },
     {
-      "label": "게시판",
+      "label": "커뮤니티",
       "href": "/board"
+    },
+    {
+      "label": "소개",
+      "href": "/about"
     }
   ],
   "home": {
@@ -105,6 +109,11 @@
       "collab": "협업 문의하기",
       "threads": "스레드 팔로우",
       "app": "앱으로 설치하기"
+    },
+    "notes": {
+      "label": "NOTES",
+      "title": "최근 노트",
+      "more": "노트 전체 보기"
     }
   },
   "videosPage": {
@@ -208,9 +217,9 @@
     "copyright": "AI Craft Log. All rights reserved."
   },
   "boardPage": {
-    "title": "게시판",
-    "lead": "질문, 만든 것 자랑, 협업 문의까지 편하게 남겨 주세요. 글마다 공개·비공개를 직접 고를 수 있습니다.",
-    "notReady": "게시판을 준비하고 있습니다. 곧 열립니다.",
+    "title": "커뮤니티",
+    "lead": "누구나 읽을 수 있고, 로그인하면 글을 쓸 수 있습니다. 질문, 만든 것 자랑, 사는 이야기 모두 환영합니다.",
+    "notReady": "커뮤니티를 준비하고 있습니다. 곧 열립니다.",
     "loading": "불러오는 중…",
     "error": "문제가 생겼습니다. 잠시 뒤 다시 시도해 주세요.",
     "providers": [
@@ -241,15 +250,23 @@
     "categories": [
       {
         "id": "free",
-        "name": "자유"
+        "name": "자유",
+        "color": "var(--color-blue)"
       },
       {
         "id": "question",
-        "name": "질문"
+        "name": "질문",
+        "color": "var(--color-accent)"
+      },
+      {
+        "id": "brag",
+        "name": "만든 것 자랑",
+        "color": "#be185d"
       },
       {
         "id": "collab",
-        "name": "협업 문의"
+        "name": "협업 문의",
+        "color": "var(--color-gold)"
       }
     ],
     "privateBadge": "비공개",
@@ -279,8 +296,8 @@
     "bodyLabel": "내용",
     "bodyPlaceholder": "내용을 적어 주세요",
     "photoLabel": "사진 (선택)",
-    "photoHelp": "최대 4장. 큰 사진은 자동으로 줄여서 올립니다.",
-    "tooManyPhotos": "사진은 4장까지 올릴 수 있습니다.",
+    "photoHelp": "최대 {n}장. 큰 사진은 자동으로 줄여서 올립니다.",
+    "tooManyPhotos": "사진은 {n}장까지 올릴 수 있습니다.",
     "photoError": "사진을 읽지 못했습니다. 다른 사진으로 시도해 주세요.",
     "photoPartial": "글은 올라갔지만 일부 사진을 올리지 못했습니다.",
     "visibilityLabel": "공개 범위",
@@ -289,7 +306,15 @@
     "privateName": "비공개",
     "privateDesc": "나와 운영자(Toby)만 볼 수 있습니다.",
     "submit": "등록하기",
-    "submitting": "올리는 중…"
+    "submitting": "올리는 중…",
+    "maxImages": 4,
+    "maxBody": 5000,
+    "photoRemove": "이 사진 빼기",
+    "edit": "고치기",
+    "editTitle": "글 고치기",
+    "save": "저장하기",
+    "edited": "수정됨",
+    "notAllowed": "여기에는 운영자만 글을 쓸 수 있습니다."
   },
   "appPage": {
     "title": "앱으로 설치하기",
@@ -349,5 +374,44 @@
       }
     ],
     "note": "이 앱은 홈페이지를 그대로 앱처럼 띄우는 방식(웹 앱)이라 따로 업데이트할 필요가 없습니다. 지우고 싶을 때는 다른 앱처럼 아이콘을 길게 눌러 삭제하면 됩니다."
+  },
+  "notesPage": {
+    "title": "Toby 노트",
+    "lead": "AI, 피지컬 AI, 임베디드의 흐름과 그에 대한 제 생각을 정리합니다.",
+    "notReady": "노트를 준비하고 있습니다. 곧 열립니다.",
+    "categories": [
+      {
+        "id": "thought",
+        "name": "내 생각",
+        "color": "#4338ca"
+      },
+      {
+        "id": "ai",
+        "name": "AI 동향",
+        "color": "#b45309"
+      },
+      {
+        "id": "physical",
+        "name": "피지컬 AI",
+        "color": "#1d4ed8"
+      },
+      {
+        "id": "embedded",
+        "name": "임베디드",
+        "color": "#047857"
+      }
+    ],
+    "maxImages": 10,
+    "maxBody": 20000,
+    "empty": "아직 노트가 없습니다. 곧 첫 글이 올라옵니다.",
+    "write": "노트 쓰기",
+    "writeTitle": "새 노트 쓰기",
+    "editTitle": "노트 고치기",
+    "bodyPlaceholder": "생각을 자유롭게 적어 주세요. 링크(https://…)는 자동으로 연결됩니다.",
+    "privateName": "비공개 (임시 저장)",
+    "privateDesc": "나만 볼 수 있습니다. 다 쓴 뒤 공개로 바꾸세요.",
+    "publicDesc": "누구나 볼 수 있습니다.",
+    "deleteConfirm": "이 노트를 삭제할까요? 되돌릴 수 없습니다.",
+    "notFound": "노트가 없거나, 아직 공개되지 않았습니다."
   }
 }

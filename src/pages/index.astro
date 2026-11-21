@@ -113,6 +113,15 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- 3-1. 최근 노트: Supabase 가 연결되어 있고 공개 노트가 있을 때만 보인다 -->
+  <section id="home-notes" hidden class="wrap pt-16 md:pt-24" data-cats={JSON.stringify(site.notesPage.categories)}>
+    <SectionHead label={t.notes.label} title={t.notes.title} />
+    <ul class="mt-6 grid gap-3 md:grid-cols-3" data-list></ul>
+    <div class="mt-6">
+      <a href="/notes" class="btn w-full sm:w-auto">{t.notes.more} <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
   <!-- 4. 책 -->
   <section class="wrap pt-16 md:pt-24">
     <div class="card reveal grid gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
@@ -224,3 +233,48 @@ const jsonLd = [
     </div>
   </section>
 </Base>
+
+<script>
+  // 최근 공개 노트 3개 (supabase-js 없이 바로 읽는다)
+  const box = document.getElementById('home-notes');
+  const url = import.meta.env.PUBLIC_SUPABASE_URL;
+  const key = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  if (box && url && key) {
+    const cats: { id: string; name: string; color: string }[] = JSON.parse(box.dataset.cats ?? '[]');
+    const fmt = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'short', day: 'numeric' });
+    const q = 'select=id,category,title,body,created_at&board=eq.note&is_public=eq.true&order=created_at.desc&limit=3';
+    fetch(`${url}/rest/v1/posts?${q}`, {
+      headers: { apikey: key },
+    })
+      .then((r) => (r.ok ? r.json() : []))
+      .then((rows: { id: string; category: string; title: string; body: string; created_at: string }[]) => {
+        if (!rows.length) return;
+        const list = box.querySelector('[data-list]')!;
+        for (const p of rows) {
+          const cat = cats.find((c) => c.id === p.category);
+          const a = document.createElement('a');
+          a.href = `/notes?post=${p.id}`;
+          a.className = 'card group flex h-full flex-col p-5 transition-colors hover:border-line-strong';
+          const top = document.createElement('span');
+          top.className = 'flex items-center gap-2 text-[13px] text-dim';
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.style.setProperty('--p', cat?.color ?? '');
+          tag.textContent = cat?.name ?? p.category;
+          top.append(tag, fmt.format(new Date(p.created_at)));
+          const title = document.createElement('span');
+          title.className = 'mt-3 block font-display text-xl leading-snug text-fg group-hover:underline group-hover:underline-offset-4';
+          title.textContent = p.title;
+          const ex = document.createElement('span');
+          ex.className = 'mt-2 line-clamp-3 block text-sm leading-relaxed text-mute';
+          ex.textContent = p.body.replace(/\s+/g, ' ').trim().slice(0, 160);
+          a.append(top, title, ex);
+          const li = document.createElement('li');
+          li.append(a);
+          list.append(li);
+        }
+        box.hidden = false;
+      })
+      .catch(() => {});
+  }
+</script>
