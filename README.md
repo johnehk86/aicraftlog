@@ -93,6 +93,14 @@ npm run preview # 생성된 사이트 미리 보기
 
 `/board` 게시판은 로그인·글·사진을 Supabase에 저장합니다. 연결하기 전에는 "준비하고 있습니다" 안내만 보입니다. 켜는 방법은 [docs/BOARD.md](docs/BOARD.md)에 있습니다. 화면의 문구와 분류 이름은 `src/data/site.json`의 `boardPage`에서 바꿉니다.
 
+## 앱으로 설치 (웹 앱)
+
+사이트는 휴대폰 홈 화면이나 PC에 앱처럼 설치할 수 있습니다. 설치 안내는 `/app` 페이지에 있고, 문구는 `src/data/site.json`의 `appPage`에서 바꿉니다.
+
+- 앱 정보: `public/manifest.webmanifest` (이름, 색, 바로가기)
+- 아이콘: `public/icons/` (192·512px, 마스커블 512px, 아이폰용 180px)
+- 오프라인 저장: `public/sw.js`. 페이지는 항상 새로 받아 오므로 평소에는 손댈 필요가 없습니다. 저장 방식을 바꿨을 때만 맨 위 `CACHE` 이름의 숫자를 올리세요.
+
 ## 방문 분석 (선택)
 
 `.env.example`을 `.env`로 복사해서 값을 넣거나, 호스팅 서비스의 환경 변수에 넣으면 켜집니다. 비워 두면 아무것도 로드하지 않습니다.

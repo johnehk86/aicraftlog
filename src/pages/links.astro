@@ -35,6 +35,7 @@ const logo = publicAsset('logo.png');
                   href={item.href}
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                   data-track={`links-${item.track}`}
+                  data-install={item.track === 'app' ? '' : undefined}
                   class:list={[
                     'flex min-h-16 items-center justify-between gap-3 rounded-xl border px-5 py-3 transition-colors',
                     item.primary

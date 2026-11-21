@@ -9,7 +9,11 @@ const ext = { target: '_blank', rel: 'noopener noreferrer' };
 const groups = [
   {
     title: 'SITE',
-    links: [...site.nav, { label: '링크 모음', href: '/links' }].map((l) => ({ ...l, attrs: {} })),
+    links: [
+      ...site.nav.map((l) => ({ ...l, attrs: {} })),
+      { label: '앱 설치', href: '/app', attrs: { 'data-install': '', 'data-track': 'app-footer' } },
+      { label: '링크 모음', href: '/links', attrs: {} },
+    ],
   },
   {
     title: 'CHANNELS',

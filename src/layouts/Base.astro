@@ -32,6 +32,11 @@ const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AI Craft Log" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#f8f9ff" />
 
     <meta property="og:type" content="website" />
@@ -52,6 +57,8 @@ const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
 
     <script is:inline>
       document.documentElement.classList.add('js');
+      // 앱으로 설치해서 열었으면 표시 (설치 버튼 숨김용)
+      if (matchMedia('(display-mode: standalone)').matches || navigator.standalone) document.documentElement.classList.add('app');
     </script>
 
     {
@@ -110,6 +117,32 @@ const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
       } else {
         els.forEach((el) => el.classList.add('in'));
       }
+
+      // 앱 설치: 서비스 워커 등록 + 설치 버튼
+      // data-install 버튼은 평소엔 /app 안내 페이지로 가는 링크이고, 브라우저가 바로 설치를 지원하면(안드로이드·PC 크롬/엣지) 설치 창을 띄운다.
+      if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+      let installPrompt: any = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        installPrompt = e;
+        document.documentElement.classList.add('can-install');
+      });
+      window.addEventListener('appinstalled', () => {
+        installPrompt = null;
+        document.documentElement.classList.remove('can-install');
+        document.documentElement.classList.add('installed');
+        (window as any).gtag?.('event', 'app_installed');
+      });
+      document.addEventListener('click', async (ev) => {
+        const el = (ev.target as Element | null)?.closest('[data-install]');
+        if (!el || !installPrompt) return;
+        ev.preventDefault();
+        installPrompt.prompt();
+        const { outcome } = await installPrompt.userChoice;
+        if (outcome === 'accepted') installPrompt = null;
+      });
 
       // 버튼 클릭 추적: data-track="youtube" 같은 속성이 붙은 링크 클릭을 GA4 이벤트로 보낸다 (GA가 켜져 있을 때만)
       document.addEventListener('click', (ev) => {
