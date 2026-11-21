@@ -91,7 +91,7 @@ npm run preview # 생성된 사이트 미리 보기
 
 ## 게시판
 
-`/board` 게시판은 로그인·글·사진을 Supabase에 저장합니다. 연결하기 전에는 "준비하고 있습니다" 안내만 보입니다. 켜는 방법은 [docs/BOARD.md](docs/BOARD.md)에 있습니다. 화면의 문구와 분류 이름은 `src/data/site.json`의 `boardPage`에서 바꿉니다.
+`/board` 게시판(로그인·글·사진)과 푸터의 방문자 수(오늘 / 누적)는 Supabase에 저장합니다. 연결하기 전에는 "준비하고 있습니다" 안내만 보입니다. 켜는 방법은 [docs/BOARD.md](docs/BOARD.md)에 있습니다. 화면의 문구와 분류 이름은 `src/data/site.json`의 `boardPage`에서 바꿉니다.
 
 ## 앱으로 설치 (웹 앱)
 

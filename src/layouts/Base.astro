@@ -99,6 +99,8 @@ const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
     {!bare && <Footer />}
 
     <script>
+      import { trackVisit } from '../lib/visits';
+
       // 스크롤 등장
       const els = document.querySelectorAll('.reveal');
       if ('IntersectionObserver' in window) {
@@ -143,6 +145,9 @@ const cfToken = import.meta.env.PUBLIC_CF_BEACON_TOKEN;
         const { outcome } = await installPrompt.userChoice;
         if (outcome === 'accepted') installPrompt = null;
       });
+
+      // 방문자 수 (오늘 / 누적). 브라우저마다 무작위 ID 하나로 하루 한 번만 센다. 2분 동안은 저장해 둔 숫자를 쓴다.
+      trackVisit();
 
       // 버튼 클릭 추적: data-track="youtube" 같은 속성이 붙은 링크 클릭을 GA4 이벤트로 보낸다 (GA가 켜져 있을 때만)
       document.addEventListener('click', (ev) => {

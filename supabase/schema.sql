@@ -127,3 +127,43 @@ create policy "board images delete own or admin" on storage.objects for delete t
 --   insert into public.admins (user_id)
 --   select id from auth.users where email = '내 로그인 이메일'
 --   on conflict do nothing;
+
+-- ───────────────────────── 방문자 수 (오늘 / 누적) ─────────────────────────
+-- 브라우저마다 무작위 ID 하나를 만들어, 같은 브라우저는 하루에 한 번만 셉니다. 이름·이메일·IP는 저장하지 않습니다.
+-- 날짜는 한국 시간 기준. 날짜별 방문자 수는 Table Editor 의 visit_daily 표에서 볼 수 있습니다.
+
+create table if not exists public.visit_log (
+  day date not null,
+  visitor uuid not null,
+  primary key (day, visitor)
+);
+create table if not exists public.visit_daily (
+  day date primary key,
+  visitors integer not null default 0
+);
+alter table public.visit_log enable row level security;   -- 정책 없음: 직접 읽기·쓰기 불가
+alter table public.visit_daily enable row level security; -- 정책 없음: 아래 함수로만 접근
+
+create or replace function public.track_visit(visitor uuid)
+returns table (today integer, total bigint)
+language plpgsql volatile security definer set search_path = ''
+as $$
+declare
+  d date := (now() at time zone 'Asia/Seoul')::date;
+begin
+  if visitor is not null then
+    insert into public.visit_log (day, visitor) values (d, visitor) on conflict do nothing;
+    if found then
+      insert into public.visit_daily (day, visitors) values (d, 1)
+      on conflict (day) do update set visitors = public.visit_daily.visitors + 1;
+      -- 중복 확인용 기록은 이틀치만 남긴다
+      delete from public.visit_log where day < d - 1;
+    end if;
+  end if;
+  return query
+    select coalesce((select v.visitors from public.visit_daily v where v.day = d), 0),
+           coalesce((select sum(v.visitors) from public.visit_daily v), 0)::bigint;
+end;
+$$;
+revoke all on function public.track_visit(uuid) from public;
+grant execute on function public.track_visit(uuid) to anon, authenticated;

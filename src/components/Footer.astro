@@ -38,6 +38,12 @@ const groups = [
     <div>
       <Logo />
       <p class="mt-4 text-sm text-mute">{site.slogan}</p>
+      <!-- 방문자 수: Supabase 가 연결되어 있을 때만 스크립트가 채워서 보여 준다 -->
+      <p data-visits hidden class="mt-5 inline-flex items-center gap-3 rounded-full border border-line bg-page px-3.5 py-1.5 text-[13px] text-mute">
+        <span>오늘 <strong data-visits-today class="font-semibold tabular-nums text-fg"></strong></span>
+        <span class="h-3 w-px bg-line-strong" aria-hidden="true"></span>
+        <span>누적 <strong data-visits-total class="font-semibold tabular-nums text-fg"></strong></span>
+      </p>
     </div>
     <div class="grid grid-cols-2 gap-8 sm:grid-cols-3">
       {
